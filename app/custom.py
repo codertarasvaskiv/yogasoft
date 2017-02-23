@@ -1,12 +1,12 @@
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-LOGIN_PAGE = 'app:login_page'
-ACCESS_REQUIRED_PAGE = 'app:access_required_page'
-APP_NAME = "app"
+LOGIN_PAGE = 'app:login_page'  # Where to redirect if user is not login
+ACCESS_REQUIRED_PAGE = 'app:access_required_page'  # Where to redirect if user is not permitted to access this  page
+APP_NAME = "app"  # Application name
 
 
-def user_in_group(user, group_list):    # Returns true if user is one of specified groups
+def user_in_group(user, group_list):    # Returns true if user is in the one of specified groups (accepts list)
     if user.is_authenticated():
         user_groups = user.groups.values_list('name', flat=True)
         for group in group_list:
@@ -16,7 +16,7 @@ def user_in_group(user, group_list):    # Returns true if user is one of specifi
     return False
 
 
-def user_can(user, permission_list):   # Returns true if user has one of specified permissions
+def user_can(user, permission_list):   # Returns true if user has one of specified permissions (accepts list)
     if user.is_authenticated():
         user_permissions = user.user_permissions.values_list('codename', flat=True)
         for permission in permission_list:
@@ -25,16 +25,16 @@ def user_can(user, permission_list):   # Returns true if user has one of specifi
     return False
 
 
-def user_groups(user):
+def user_groups(user):  # Returns user groups list
     return user.groups.values_list('name', flat=True)
 
 
-def user_permissions(user):
+def user_permissions(user):  # Returns user permissions list
     return user.user_permissions.values_list('codename', flat=True)
 
 
-def in_group_decorator(group_list,  optional_redirect=None):
-    def decorator(func):
+def in_group_decorator(group_list,  optional_redirect=None):  # Checks if user is logined and in specified group
+    def decorator(func):                                      # accepts list
         def inner(request, *args, **kwargs):
             if request.user.is_authenticated():
                 user_groups = request.user.groups.values_list('name', flat=True)
@@ -52,8 +52,8 @@ def in_group_decorator(group_list,  optional_redirect=None):
     return decorator
 
 
-def user_can_decorator(permission_list,  optional_redirect=None):
-    def decorator(func):
+def user_can_decorator(permission_list,  optional_redirect=None):  # Checks if user is logined and has permissions
+    def decorator(func):                                           # accepts list
         def inner(request, *args, **kwargs):
             if request.user.is_authenticated():
                 user_permissions = request.user.user_permissions.values_list('codename', flat=True)

@@ -6,9 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 
-#@method_decorator(login_required, name='dispatch')
-#@method_decorator(in_group_decorator(['admin']), name='dispatch')
-@method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')
+#@method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')  # Decorator use example
 class MainPage(TemplateView):
     template_name = 'base.html'
 

@@ -2,7 +2,7 @@ from django.db import models
 # Create your models here.
 
 
-class CustomPermission(models.Model):
+class CustomPermission(models.Model):  # Abstract model to add custom permissions
     class Meta:
         permissions = (
             ("custom_permission_1", "Custom permission_1"),
