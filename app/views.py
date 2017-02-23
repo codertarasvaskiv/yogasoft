@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView, ListView, DetailView, FormView
-from os.path import join
+from os.path import join, abspath
 from datetime import date
 from os import mkdir
 from .forms import *
@@ -22,15 +22,23 @@ class StartProjectView(FormView):
         if form.is_valid():
             data = form.cleaned_data
             pth = join('stor', str(date.today()) + '-' + data['first_name'] + '-' + data['last_name'])
-            mkdir(pth)
+            try:
+                mkdir(pth)
+            except FileExistsError:
+                pass
+            form.cleaned_data['file'] = abspath(pth)
             for f in files:
                 with open(join(pth, str(f)), 'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
-            return self.form_valid(form)
+            return self.form_valid(form, abspath(pth))
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
-        form.save()
+    def form_valid(self, form, pth):
+
+        a = form.save(commit=False)
+        a.file = pth
+        a.save()
+
         return super(StartProjectView, self).form_valid(form)

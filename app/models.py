@@ -8,4 +8,4 @@ class StartProject(models.Model):
     last_name = models.CharField(max_length=20)
     email = models.EmailField()
     query = models.TextField()
-    file = models.FileField()
+    file = models.CharField(max_length=255)
