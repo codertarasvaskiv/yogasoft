@@ -15,13 +15,16 @@ class StartProjectView(FormView):
     success_url = "/app/"
 
     def post(self, request, *args, **kwargs):
+        print("post inside project")
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         files = request.FILES.getlist('file')
 
         if form.is_valid():
             data = form.cleaned_data
+            # в мене цей рядок не працює маю переписати щоб запрацював
             pth = join('stor', str(date.today()) + '-' + data['first_name'] + '-' + data['last_name'])
+            pth = r"C:\Users\Vas.Tar\PycharmProjects\yogasoft\storage\stor3"
             try:
                 mkdir(pth)
             except FileExistsError:
@@ -36,6 +39,7 @@ class StartProjectView(FormView):
             return self.form_invalid(form)
 
     def form_valid(self, form, pth):
+        print("form valid")
 
         a = form.save(commit=False)
         a.file = pth
