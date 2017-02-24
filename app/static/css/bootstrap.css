@@ -1585,6 +1585,7 @@ pre code {
   overflow-y: scroll;
 }
 .container {
+  background: url("../images/Зняток екрану з 2017-02-23 23-32-05.png") repeat 0 0;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;

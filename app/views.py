@@ -26,7 +26,6 @@ class StartProjectView(FormView):
     success_url = "/app/"
 
     def post(self, request, *args, **kwargs):
-        print("post inside project")
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         files = request.FILES.getlist('file')
@@ -50,7 +49,6 @@ class StartProjectView(FormView):
             return self.form_invalid(form)
 
     def form_valid(self, form, pth):
-        print("form valid")
 
         a = form.save(commit=False)
         a.file = pth
