@@ -38,7 +38,7 @@ class UserYoga(models.Model):
 
 
 class PortfolioContent(models.Model):
-    name = models.CharField(unique=True)
+    name = models.CharField(max_length=40, unique=True)
     description = models.TextField()
     tags = models.ManyToManyField(Tag)
     technologies = models.CharField(max_length=250)

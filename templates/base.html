@@ -59,7 +59,8 @@
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                  <li><a href="{% url 'app:main_page' %}">Portfolio</a></li>
+                  <li><a href="{% url 'app:main_page' %}">Home</a></li>
+                  <li><a href="#">Portfolio</a></li>
                   <li><a href="{% url 'app:start_project' %}" onclick='overlay()'>Start Project</a></li>
                   <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -73,9 +74,6 @@
                         <li><a href="#">One more separated link</a></li>
                       </ul>
                 </li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle=""
-                  </li>
 
               </ul>
 
@@ -85,6 +83,8 @@
 
 
  {%  block container %}
+
+ {%  endblock  %}
     <h1 aria-busy="true"> Hello, world!</h1>
 
       <div class="overlay">
@@ -96,7 +96,7 @@
           </form>
       </div>
      </div>
-      {%  endblock  %}
+
 
   </div>
 
