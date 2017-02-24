@@ -1,13 +1,24 @@
+
 from django.views.generic import TemplateView, ListView, DetailView, FormView
+from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from os.path import join, abspath
 from datetime import date
 from os import mkdir
 from .forms import *
 
-
+#@method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')  # Decorator use example
 class MainPage(TemplateView):
     template_name = 'base.html'
 
+
+class LoginPage(TemplateView):
+    template_name = 'login_page.html'
+
+
+class AccessRequired(TemplateView):
+    template_name = 'access_required_page.html'
 
 class StartProjectView(FormView):
     template_name = "base.html"
@@ -23,8 +34,8 @@ class StartProjectView(FormView):
         if form.is_valid():
             data = form.cleaned_data
             # в мене цей рядок не працює маю переписати щоб запрацював
-            pth = join('stor', str(date.today()) + '-' + data['first_name'] + '-' + data['last_name'])
-            pth = r"C:\Users\Vas.Tar\PycharmProjects\yogasoft\storage\stor3"
+            #pth = join('stor', str(date.today()) + '-' + data['first_name'] + '-' + data['last_name'])
+            pth = r"C:\Users\Gus.Ol\projects"
             try:
                 mkdir(pth)
             except FileExistsError:
@@ -46,3 +57,4 @@ class StartProjectView(FormView):
         a.save()
 
         return super(StartProjectView, self).form_valid(form)
+
