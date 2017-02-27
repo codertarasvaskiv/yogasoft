@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+    <img src="{{ MEDIA_URL }}{{ images.0 }}">
+
+    <br>
+    <h3 style="color: white">{{ object.name }}</h3>
+    <br>
+    <p style="color: white">Date: {{ object.date }} Tags:
+    {% for i in tags %}
+        <a href="/tag/{#{{ url "app:tag" }}#}{{ i.pk }}">{{ i }}</a>
+    {% endfor %}</p>
+
+    <br>
+    <p style="color: white">{{ object.text }}</p>
+    <br><br><br>
+
+    {% for i in comments %}
+        <p style="color: white">{{ i.author_name }} {{ i.time }}</p>
+        <br><p style="color: white">{{ i.message }}</p>
+        <br>
+
+    {% endfor %}
+
+{% endblock %}

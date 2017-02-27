@@ -12,7 +12,11 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
       <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
-
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+              integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
+      <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 {#      навіщо цей javascript#}
@@ -21,6 +25,13 @@
               el = document.getElementById("overlay");
               el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
           }
+
+          jQuery(document).on('click', '#ov', function (event) {
+              event.preventDefault();
+              window.location.replace = "/start_project/";
+              overlay();
+          });
+
       </script>
   </head>
 
@@ -44,8 +55,6 @@
         </div>
 
 
-
-
      <nav class="navbar navbar-inverse ">
       <div class="container-fluid">
           <div class="navbar-header">
@@ -60,7 +69,7 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                   <li><a href="{% url 'app:main_page' %}">Portfolio</a></li>
-                  <li><a href="{% url 'app:start_project' %}" onclick='overlay()'>Start Project</a></li>
+                  <li><a href="{% url 'app:start_project' %}" id="ov">Start Project</a></li>
                   <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                       <ul class="dropdown-menu">
@@ -74,7 +83,7 @@
                       </ul>
                 </li>
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle=""
+                    <a href="#" class="dropdown-toggle" data-toggle=""></a>
                   </li>
 
               </ul>
@@ -83,29 +92,21 @@
       </div>
   </nav>
 
-
  {%  block container %}
-    <h1 aria-busy="true"> Hello, world!</h1>
-
-      <div class="overlay">
-      <div>
-          <form method="post" action="/app/start_project/#" enctype="multipart/form-data">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <input  class="btn waves-effect waves-light" type="submit" value="Send">
-          </form>
-      </div>
+    <h1 aria-busy="true"> Hello, world!</h1><div id="overlay">
+         <div>
+             <form method="post" action="/app/#" enctype="multipart/form-data">
+                 {% csrf_token %}
+                 {{ form.as_p }}
+                 <input  class="btn waves-effect waves-light" type="submit" value="Send">
+             </form>
+         </div>
      </div>
-      {%  endblock  %}
+ {%  endblock  %}
 
+  {% block content %}
+  {%  endblock  %}
   </div>
 
-
-  <br>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
-  <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
   </body>
 </html>
