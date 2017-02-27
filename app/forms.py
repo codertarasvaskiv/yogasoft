@@ -1,5 +1,5 @@
 from django import forms
-from .models import *
+from .models import Project, Comment
 
 
 class StartProjectForm(forms.ModelForm):
@@ -9,3 +9,4 @@ class StartProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         exclude = ['when']
+

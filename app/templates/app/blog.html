@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load staticfiles %}
-    <img src="{{ MEDIA_URL }}{{ images.0 }}">
-
+    <img src="{{ object.blogpostimage_set.all.0.image.url }}">
     <br>
     <h3 style="color: white">{{ object.name }}</h3>
     <br>
@@ -15,11 +14,22 @@
     <p style="color: white">{{ object.text }}</p>
     <br><br><br>
 
-    {% for i in comments %}
-        <p style="color: white">{{ i.author_name }} {{ i.time }}</p>
-        <br><p style="color: white">{{ i.message }}</p>
-        <br>
 
+    {% for i in comments.items %}
+        <p style="color: white">{{ i.0.author_name }} {{ i.0.time }}</p>
+        <br><p style="color: white">{{ i.0.message }}</p>
+        <br>
+        {% for q in i.1 %}
+        <p style="color: white">&emsp;&emsp;{{ q.author_name }} {{ q.time }}</p>
+            <br><p style="color: white">&emsp;&emsp;{{ q.message }}</p>
+            <br>
+        {% endfor %}
     {% endfor %}
 
+
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+        <input  class="btn waves-effect waves-light" type="submit" value="Send">
+    </form>
 {% endblock %}
