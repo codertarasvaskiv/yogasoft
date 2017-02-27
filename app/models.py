@@ -22,8 +22,12 @@ class Project(models.Model):
     query = models.TextField()
     file = models.CharField(max_length=255)
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class Technology(models.Model):
@@ -38,7 +42,7 @@ class UserYoga(models.Model):
 
 
 class PortfolioContent(models.Model):
-    name = models.CharField(unique=True)
+    name = models.CharField(max_length=250, unique=True)
     description = models.TextField()
     tags = models.ManyToManyField(Tag)
     technologies = models.CharField(max_length=250)
@@ -62,6 +66,9 @@ class BlogPost(models.Model):
 class BlogPostImage(models.Model):
     image = models.ImageField(upload_to='content_images')
     content = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.content.name)
 
 
 class Testimonial(models.Model):
@@ -87,6 +94,3 @@ class CommentSecondLevel(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     is_moderated = models.BooleanField(default=False)
     father_comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-
-
-
