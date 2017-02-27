@@ -7,5 +7,5 @@ class StartProjectForm(forms.ModelForm):
     success_url = '/app/'
 
     class Meta:
-        model = StartProject
+        model = Project
         exclude = ['when']

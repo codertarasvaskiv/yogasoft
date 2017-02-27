@@ -8,9 +8,15 @@ from os import mkdir
 from django.conf import settings
 from .forms import *
 
+
 #@method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')  # Decorator use example
 class MainPage(TemplateView):
     template_name = 'base.html'
+
+
+class MainPage2(TemplateView):
+    template_name = 'app/index.html'
+
 
 
 class LoginPage(TemplateView):
@@ -19,6 +25,7 @@ class LoginPage(TemplateView):
 
 class AccessRequired(TemplateView):
     template_name = 'access_required_page.html'
+
 
 class StartProjectView(FormView):
     template_name = "base.html"

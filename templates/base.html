@@ -26,12 +26,24 @@
 
   <body>
 
+{#   here starts main container#}
   <div class="container theme-showcase" role="main">
+        <div class="container-fluid">
+             <address class="pull-right">
+            <strong>YogaSoft Company, Inc.</strong><br>
+             007 street<br>
+             New York City, State XXXXX<br>
+                 <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    </div>
+              </form>
+        </address>
+        </div>
 
 
      <nav class="navbar navbar-inverse ">
       <div class="container-fluid">
-
           <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
@@ -42,63 +54,54 @@
 
             <a class="navbar-brand" href="#">YogaSoft</a>
           </div>
-
-
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                   <li><a href="{% url 'app:main_page' %}">Portfolio</a></li>
                   <li><a href="{% url 'app:start_project' %}" onclick='overlay()'>Start Project</a></li>
 
-                  <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                      </ul>
-                </li>
+
               </ul>
-              <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit Button</button>
-              </form>
+
           </div>
 
 
-
-      </div>
+          </div>
   </nav>
 
+
+
+ {%  block container %}
+      {%  endblock  %}
     <h1 aria-busy="true"> Hello, world!</h1>
-      <div>
-          <form method="post" action="/app/start_project/#" enctype="multipart/form-data">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <input  class="btn waves-effect waves-light" type="submit" value="Send">
-          </form>
-      </div>
+      <div class="overlay">
+          <div>
+              <form method="post" action="/app/start_project/#" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <input  class="btn waves-effect waves-light" type="submit" value="Send">
+              </form>
+          </div>
+     </div>
+
+
+
+
 
   </div>
-ls
+
+{#  here starts footer#}
+  <div id="footer" class="container theme-showcase" role="banner">
+      <div class="ro"
+  </div>
 
 
 
-  <!--<div id="overlay">--><br>
-
-
-
+  <br>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
   <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
-
 
   </body>
 </html>
