@@ -56,7 +56,8 @@
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                  <li><a href="{% url 'app:main_page' %}">Portfolio</a></li>
+                  <li><a href="{% url 'app:main_page' %}">Home</a></li>
+                  <li><a href="#">Portfolio</a></li>
                   <li><a href="{% url 'app:start_project' %}" onclick='overlay()'>Start Project</a></li>
 
 
@@ -72,6 +73,7 @@
 
  {%  block container %}
       {%  endblock  %}
+
     <h1 aria-busy="true"> Hello, world!</h1>
       <div class="overlay">
           <div>
@@ -87,11 +89,12 @@
 
 
 
+
   </div>
 
 {#  here starts footer#}
   <div id="footer" class="container theme-showcase" role="banner">
-      <div class="ro"
+      <div class="row">Copyraight 2017</div>
   </div>
 
 

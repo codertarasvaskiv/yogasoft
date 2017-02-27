@@ -10,8 +10,10 @@ from .forms import *
 
 
 #@method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')  # Decorator use example
+
+
 class MainPage(TemplateView):
-    template_name = 'base.html'
+    template_name = 'index.html'
 
 
 class MainPage2(TemplateView):

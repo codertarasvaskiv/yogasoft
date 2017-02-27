@@ -41,7 +41,8 @@ class UserYoga(models.Model):
 
 class PortfolioContent(models.Model):
     """ this class represents examples of sites our company has done"""
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=40, unique=True)
+
     description = models.TextField()
     tags = models.ManyToManyField(Tag)
     technologies = models.CharField(max_length=250)  # why not many to many with Technology ?
