@@ -10,3 +10,9 @@ class StartProjectForm(forms.ModelForm):
         model = Project
         exclude = ['when']
 
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        exclude = ['is_moderated', 'blog']

@@ -27,7 +27,7 @@
     {% endfor %}
 
 
-    <form method="post" action="">
+    <form method="post" action="add_comment/">
         {% csrf_token %}
         {{ form }}
         <input  class="btn waves-effect waves-light" type="submit" value="Send">

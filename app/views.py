@@ -3,6 +3,8 @@ from .custom import user_in_group, user_can, in_group_decorator, user_can_decora
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from os.path import join, abspath
+from django.urls import reverse
+from django.shortcuts import redirect
 from django.conf import settings
 from datetime import date
 from os import mkdir
@@ -76,10 +78,23 @@ class BlogDetailView(DetailView):
         for i in comments:
             if i.is_moderated:
                 context['comments'][i] = list(CommentSecondLevel.objects.filter(father_comment=i))
-
+        context['form'] = CommentForm()
+        print(context['form'])
         context.pop('blogpost')
 
         return context
+
+
+def AddComment(request, pk):
+    data = request.POST
+    q = Comment()
+    q.author_email = data['author_email']
+    q.author_name = data['author_name']
+    q.message = data['message']
+    q.blog = BlogPost.objects.get(pk=pk)
+    q.save(q)
+    print(data)
+    return redirect('app:blog_detail_view', pk)
 
 
 class BlogListView(ListView):
