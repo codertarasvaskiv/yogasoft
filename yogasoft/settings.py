@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
     'app',
     'bootstrap3',
+    'social_django',
+
 ]
 
 MIDDLEWARE = [
@@ -49,6 +52,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # taras added 28.02.2017 to facebook login
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'yogasoft.urls'
@@ -64,6 +70,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # taras added 28.02.2017 to facebook login
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+
+
             ],
         },
     },
@@ -102,6 +114,18 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# 28.02.2017 added to social network authentication
+AUTHENTICATION_BACKENDS = (
+   'social.backends.facebook.FacebookOAuth2',
+   'social.backends.google.GoogleOAuth2',
+   'social.backends.twitter.TwitterOAuth',
+
+    # taras added 28.02.2017 to facebook login
+   'django.contrib.auth.backends.ModelBackend',
+)
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -118,6 +142,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'ru_RU',
+  'fields': 'id, name, email, age_range'
+}
+SOCIAL_AUTH_FACEBOOK_KEY = '385897935124843'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'fe4425688ac4c45417ddb8f5fb382b03'
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'app/'
+
+
+
 
 
 STATIC_URL = '/static/'

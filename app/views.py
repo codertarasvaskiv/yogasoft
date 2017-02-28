@@ -1,7 +1,9 @@
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
+from django.http import HttpResponseRedirect
 from os.path import join, abspath
 from django.conf import settings
 from datetime import date
@@ -39,9 +41,7 @@ class StartProjectView(FormView):
 
         if form.is_valid():
             data = form.cleaned_data
-            # в мене цей рядок не працює маю переписати щоб запрацював
             pth = join('stor', str(date.today()) + '-' + data['first_name'] + '-' + data['last_name'])
-            #pth = r"C:\Users\Gus.Ol\projects"
             try:
                 mkdir(pth)
             except FileExistsError:
@@ -86,3 +86,15 @@ class BlogDetailView(DetailView):
         return context
 
 
+class Test(TemplateView):
+    template_name = 'app/test.html'
+
+
+def login(request):
+    pass
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/rango/index')

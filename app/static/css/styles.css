@@ -17,11 +17,16 @@
             text-align:center;
         }
 
-#footer {
+#first_footer {
+
+    background-color: #3a3a3a;
+    height: 40px;
+}
+
+#second_footer {
 
     background-color: #0f0f0f;
-    height: inherit;
-    border: double;
+    height: 40px;
 }
 #test {
     background-color: #1b6d85;
@@ -30,8 +35,9 @@
 }
 
 .myclas{
-    background-color: #1b6d85;
-    display: inline-block;
+    font-size: initial;
+    color: honeydew;
+
 }
 
 .buttons{

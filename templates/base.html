@@ -51,10 +51,10 @@
 
         <div class="container-fluid">
              <address class="pull-right">
-            <strong>YogaSoft Company, Inc.</strong><br>
-             007 street<br>
-             New York City, State XXXXX<br>
-                 <form class="navbar-form navbar-right" role="search">
+            <strong>YogaSoft Agency.</strong><br>
+                 <span class="glyphicon glyphicon-envelope"></span>
+              yagosoft@gmail.com<br>
+                 <form  role="search">
                     <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                     </div>
@@ -125,11 +125,17 @@
  {% block content %}
  {%  endblock  %}
 
-{#        here starts footer#}
-       <div id="footer" class="row-fluid">
-           <div class="myclas">  Copyright, YogaSoft 2017  Ternopil </div>
-           <div class="myclas">  Menu here here        </div>
 
+
+{#  here starts first footer#}
+        <div id="first_footer" class="row-fluid">
+           <div class="myclas">  sssssssss </div>
+        </div>
+
+
+{#        here starts last footer#}
+       <div id="second_footer" class="row-fluid">
+           <div class="myclas">  Copyright, YogaSoft 2017 </div>
        </div>
 
 
@@ -144,6 +150,7 @@
               crossorigin="anonymous"></script>
       <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
       <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
+      <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
 
   </body>
 </html>
