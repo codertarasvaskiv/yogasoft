@@ -15,6 +15,10 @@ class MainPage(TemplateView):
     template_name = 'base.html'
 
 
+class IndexPage(TemplateView):
+    template_name = 'app/index.html'
+
+
 class LoginPage(TemplateView):
     template_name = 'login_page.html'
 

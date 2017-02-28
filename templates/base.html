@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load staticfiles %}
+{% load static %}
 
   <head>
     <meta charset="utf-8">
@@ -8,16 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>YogaSoft</title>
 
-      <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
       <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-              integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+              integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+              crossorigin="anonymous"></script>
       <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
       <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 {#      навіщо цей javascript#}
       <script type="text/javascript">
@@ -31,7 +35,6 @@
               window.location.replace = "/start_project/";
               overlay();
           });
-
       </script>
   </head>
 
@@ -49,7 +52,6 @@
                     <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                     </div>
-    {#                <button type="submit"  class="btn btn-default">Submit Button</button>#}
               </form>
         </address>
         </div>
@@ -68,45 +70,73 @@
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
+                  <li><a href="{% url 'app:index_page' %}">Home</a></li>
+                  <li><a href="#">Blog</a></li>
                   <li><a href="{% url 'app:main_page' %}">Portfolio</a></li>
-                  <li><a href="{% url 'app:start_project' %}" id="ov">Start Project</a></li>
-                  <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                      </ul>
-                </li>
+                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">Testemonials</a></li>
+                  <li><a href="#" id="ov">Contact us</a></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle=""></a>
                   </li>
-
               </ul>
+           {% if user.is_authenticated %}
+              <ul class="nav navbar-nav pull-right">
+                  <li> <li><a href="#">Logout</a></li></li>
+              </ul>
+          {% else %}
+               <ul class="nav navbar-nav pull-right">
+                <li  class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Login<b class="caret"></b></a>
+                    <div  class="dropdown-menu pull-right">
+                        <form id="loggind_div"   method="post" action="#" enctype="multipart/form-data">
+                            {% csrf_token %}
+                              <div >
+                                <input type="text"  id="inputEmail" name="username" placeholder="Username">
+                              </div>
+                              <div >
+                                <input type="password"  id="inputPassword" name="password" placeholder="Password">
+                              </div>
+                              <div >
+                                <label class="checkbox text-center">
+                                <input type="checkbox"> Remember me
+                                </label>
+                                  <div class="text-center"><a href="#">Registration</a></div>
+                                <button type="submit" class="shopBtn btn-block">Sign in</button>
+                              </div>
+                        </form>
+                    </div>
+
+                </li>
+               </ul>
+
+           {% endif %}
 
           </div>
       </div>
-  </nav>
+    </nav>
 
- {%  block container %}
-    <h1 aria-busy="true"> Hello, world!</h1><div id="overlay">
-         <div>
-             <form method="post" action="/app/#" enctype="multipart/form-data">
-                 {% csrf_token %}
-                 {{ form.as_p }}
-                 <input  class="btn waves-effect waves-light" type="submit" value="Send">
-             </form>
-         </div>
-     </div>
+ {% block content %}
  {%  endblock  %}
+   </div>
 
-  {% block content %}
-  {%  endblock  %}
+{#        here starts footer#}
+      <div id="footer" class="container-fluid">
+          Copyright, YogaSoft 2017  Ternopil
+      </div>
+
   </div>
+  <div class="container theme-showcase ">
+
+  </div>
+
+
+
+
+{#  <script src="{% static 'assets/js/jquery.js' %}"></script>#}
+{#	<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>#}
+{#	<script src="{% static 'assets/js/jquery.easing-1.3.min.js' %}"></script>#}
+{#    <script src="{% static 'assets/js/jquery.scrollTo-1.4.3.1-min.js' %}"></script>#}
 
   </body>
 </html>
