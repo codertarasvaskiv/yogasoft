@@ -84,3 +84,5 @@ class BlogDetailView(DetailView):
                 context['comments'].append(i)
         context.pop('blogpost')
         return context
+
+

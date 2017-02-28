@@ -44,21 +44,28 @@
 
 
 
-    <div class="container-fluid">
-        <div>
-            <form method="post" action="#" enctype="multipart/form-data">
-                 {% csrf_token %}
-                 {{ form.as_p }}
-                 <input  class="btn waves-effect waves-light" type="submit" value="View Portfolio">
-             </form>
-        </div>
+    <div class="container-fluid divparent">
+            <div class="buttonsdiv">
+                <form method="post" action="#" enctype="multipart/form-data">
+                     {% csrf_token %}
+                     {{ form.as_p }}
+                     <input  class="btn waves-effect waves-light buttons" type="submit" value="View Portfolio">
+                 </form>
+            </div>
 
-            <div>
-             <form method="post" action="#" enctype="multipart/form-data">
-                 {% csrf_token %}
-                 {{ form.as_p }}
-                 <input  class="btn waves-effect waves-light" type="submit" value="Start Project">
-             </form>
-                </div>
+                <div class="buttonsdiv">
+                 <form method="post" action="#" enctype="multipart/form-data">
+                     {% csrf_token %}
+                     {{ form.as_p }}
+                     <input  class="btn waves-effect waves-light buttons" type="submit" value="Start Project">
+                 </form>
+                    </div>
          </div>
+
+    <br>
+    <div class="container-fluid divparent">
+    <img src="{% static "images/tech.png" %}" alt="Technologies">
+    </div>
+    <br>
+
   {%  endblock  %}
