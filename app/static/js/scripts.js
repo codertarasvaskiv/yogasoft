@@ -25,3 +25,14 @@ $(document).ready(function() {
 		$('.carousel-caption p').animate({	marginRight: 0, fontSize: "15px", opacity: 0.8 }, 600);
 	})
 });
+
+function overlay() {
+          el = document.getElementById("overlay");
+          el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+      }
+
+      jQuery(document).on('click', '#ov', function (event) {
+          event.preventDefault();
+          window.location.replace = "/start_project/";
+          overlay();
+      });

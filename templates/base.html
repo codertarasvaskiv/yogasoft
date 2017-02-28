@@ -29,19 +29,7 @@
 
 
 
-{#      навіщо цей javascript#}
-      <script type="text/javascript">
-          function overlay() {
-              el = document.getElementById("overlay");
-              el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
-          }
-
-          jQuery(document).on('click', '#ov', function (event) {
-              event.preventDefault();
-              window.location.replace = "/start_project/";
-              overlay();
-          });
-      </script>
+{#      навіщо цей javascript #}
   </head>
 
   <body>
@@ -51,10 +39,12 @@
 
         <div class="container-fluid">
              <address class="pull-right">
-            <strong>YogaSoft Agency.</strong><br>
+
+            <strong>YogaSoft Agency, Inc.</strong><br>
                  <span class="glyphicon glyphicon-envelope"></span>
               yagosoft@gmail.com<br>
                  <form  role="search">
+
                     <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                     </div>
@@ -78,7 +68,7 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                   <li><a href="{% url 'app:index_page' %}">Home</a></li>
-                  <li><a href="#">Blog</a></li>
+                  <li><a href="{% url 'app:blog_list_view' %}">Blog</a></li>
                   <li><a href="{% url 'app:main_page' %}">Portfolio</a></li>
                   <li><a href="#">Testimonials</a></li>
                   <li><a href="#" id="ov">Contact us</a></li>
@@ -151,6 +141,7 @@
       <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
       <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
       <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+
 
   </body>
 </html>

@@ -5,10 +5,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from os.path import join, abspath
+from django.urls import reverse
+from django.shortcuts import redirect
 from django.conf import settings
 from datetime import date
 from os import mkdir
 from .forms import *
+from .models import *
 
 
 # @method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')  # Decorator use example
@@ -56,12 +59,9 @@ class StartProjectView(FormView):
             return self.form_invalid(form)
 
     def form_valid(self, form, pth):
-        print("form valid")
-
         a = form.save(commit=False)
         a.file = pth
         a.save()
-
         return super(StartProjectView, self).form_valid(form)
 
 
@@ -72,20 +72,56 @@ class BlogDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(BlogDetailView, self).get_context_data(**kwargs)
         blog_post = context['object']
-        context['images'] = BlogPostImage.objects.filter(content__name__exact=blog_post.name)
-        context['images'] = list(map(lambda x: join(settings.MEDIA_URL,
-                                                    str(x.image.file).split('yogasoft')[1]).replace('\\', '/'),
-                                     context['images']))
         context['tags'] = blog_post.tags.all()
         comments = blog_post.comment_set.all()
-        context['comments'] = []
+        context['comments'] = {}
         for i in comments:
             if i.is_moderated:
-                context['comments'].append(i)
+                context['comments'][i] = list(CommentSecondLevel.objects.filter(father_comment=i))
+        context['form'] = CommentForm()
         context.pop('blogpost')
+
         return context
 
 
+def AddComment(request, pk):
+    data = request.POST
+    q = Comment()
+    q.author_email = data['author_email']
+    q.author_name = data['author_name']
+    q.message = data['message']
+    q.blog = BlogPost.objects.get(pk=pk)
+    q.save(q)
+    return redirect('app:blog_detail_view', pk)
+
+
+def add_second_comment(request, pk, comm_pk):
+    data = request.POST
+    q = CommentSecondLevel()
+    q.author_email = data['author_email']
+    q.author_name = data['author_name']
+    q.message = data['message']
+    q.father_comment = Comment.objects.get(pk=comm_pk)
+    q.save(q)
+    return redirect('app:blog_detail_view', pk)
+
+
+class BlogListView(ListView):
+    model = BlogPost
+    template_name = 'app/BlogList.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogListView, self).get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self):
+        if 'tag' in self.kwargs:
+            return Tag.objects.get(name__exact=self.kwargs['tag']).blogpost_set.all()
+        else:
+            return BlogPost.objects.all()
+
+
+# just testing need to delete later Taras
 class Test(TemplateView):
     template_name = 'app/test.html'
 
@@ -97,4 +133,4 @@ def login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/rango/index')
+    return HttpResponseRedirect('#')

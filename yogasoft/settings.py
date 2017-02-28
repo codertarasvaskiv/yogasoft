@@ -161,5 +161,5 @@ LOGIN_REDIRECT_URL = 'app/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR)
-MEDIA_URL = 'stor/'
+MEDIA_URL = '/stor/'
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
