@@ -3,25 +3,25 @@
 {% load staticfiles %}
     <img src="{{ object.blogpostimage_set.all.0.image.url }}">
     <br>
-    <h3 style="color: white">{{ object.name }}</h3>
+    <h3>{{ object.name }}</h3>
     <br>
-    <p style="color: white">Date: {{ object.date }} Tags:
+    <p>Date: {{ object.date }} Tags:
     {% for i in tags %}
         <a href="/tag/{#{{ url "app:tag" }}#}{{ i.pk }}">{{ i }}</a>
     {% endfor %}</p>
 
     <br>
-    <p style="color: white">{{ object.text }}</p>
+    <p>{{ object.text }}</p>
     <br><br><br>
 
 
     {% for i in comments.items %}
-        <p style="color: white">{{ i.0.author_name }} {{ i.0.time }}</p>
-        <br><p style="color: white">{{ i.0.message }}</p>
+        <p>{{ i.0.author_name }} {{ i.0.time }}</p>
+        <br><p>{{ i.0.message }}</p>
         <br>
         {% for q in i.1 %}
-        <p style="color: white">&emsp;&emsp;{{ q.author_name }} {{ q.time }}</p>
-            <br><p style="color: white">&emsp;&emsp;{{ q.message }}</p>
+        <p>&emsp;&emsp;{{ q.author_name }} {{ q.time }}</p>
+            <br><p>&emsp;&emsp;{{ q.message }}</p>
             <br>
         {% endfor %}
     {% endfor %}

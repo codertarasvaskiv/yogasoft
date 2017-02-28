@@ -3,7 +3,7 @@
 {% block content %}
     {% for i in object_list %}
         <img src="{{ i.blogpostimage_set.all.0.image.url }}"><br>
-    <a href="{{ i.id }}">{{ i.name }}</a>
+    <a href="{% url 'app:blog_detail_view' i.id %}">{{ i.name }}</a>
     {{ i.author }}<br>{{ i.date }}
     {% endfor %}
 {% endblock %}
