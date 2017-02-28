@@ -89,3 +89,5 @@ class BlogListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(BlogListView, self).get_context_data(**kwargs)
         return context
+
+

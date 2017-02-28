@@ -18,6 +18,36 @@
         }
 
 #footer {
+
     background-color: #0f0f0f;
+    height: inherit;
+    border: double;
+}
+#test {
+    background-color: #1b6d85;
+    height: inherit;
+    border: double;
 }
 
+.myclas{
+    background-color: #1b6d85;
+    display: inline-block;
+}
+
+.buttons{
+    background-color: #0e90d2;
+    display: inline-block ;
+    text-align: center;
+}
+
+.buttonsdiv{
+    background-color: #942a25;
+    display: inline-block ;
+    text-align: center;
+
+}
+
+.divparent{
+    display: flex;
+    justify-content: space-between;
+}
