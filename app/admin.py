@@ -15,12 +15,11 @@ class TagView(admin.ModelAdmin):
 
 
 class CommentView(admin.ModelAdmin):
-    list_display = ['author_name', 'blog', 'time']
-
+    list_display = ['author_name', 'time']
 
 
 admin.site.register(models.Comment, CommentView)
-#admin.site.register(models.CommentSecondLevel, CommentView)
+admin.site.register(models.CommentSecondLevel, CommentView)
 admin.site.register(models.BlogPostImage)
 admin.site.register(models.Tag, TagView)
 admin.site.register(models.BlogPost, BlogsView)
