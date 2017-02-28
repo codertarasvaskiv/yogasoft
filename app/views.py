@@ -79,7 +79,6 @@ class BlogDetailView(DetailView):
             if i.is_moderated:
                 context['comments'][i] = list(CommentSecondLevel.objects.filter(father_comment=i))
         context['form'] = CommentForm()
-        print(context['form'])
         context.pop('blogpost')
 
         return context
@@ -93,7 +92,17 @@ def AddComment(request, pk):
     q.message = data['message']
     q.blog = BlogPost.objects.get(pk=pk)
     q.save(q)
-    print(data)
+    return redirect('app:blog_detail_view', pk)
+
+
+def add_second_comment(request, pk, comm_pk):
+    data = request.POST
+    q = CommentSecondLevel()
+    q.author_email = data['author_email']
+    q.author_name = data['author_name']
+    q.message = data['message']
+    q.father_comment = Comment.objects.get(pk=comm_pk)
+    q.save(q)
     return redirect('app:blog_detail_view', pk)
 
 
@@ -105,4 +114,17 @@ class BlogListView(ListView):
         context = super(BlogListView, self).get_context_data(**kwargs)
         return context
 
+    def get_queryset(self):
+        if 'tag' in self.kwargs:
+            return Tag.objects.get(name__exact=self.kwargs['tag']).blogpost_set.all()
+        else:
+            return BlogPost.objects.all()
 
+
+def tag_view(request, tag):
+    query = Tag.objects.get(pk=tag).blogpost_set.all()
+    view = BlogListView.get_queryset(query).as_manager()
+    BlogListView.get_queryset()
+
+    print(view)
+    return view

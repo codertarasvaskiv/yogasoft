@@ -62,6 +62,9 @@ class BlogPost(models.Model):
     text = models.TextField()
     tags = models.ManyToManyField(Tag)
 
+    def __str__(self):
+        return str(self.author) + '/' + self.name
+
 
 class BlogPostImage(models.Model):
     image = models.ImageField(upload_to='content_images')

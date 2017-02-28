@@ -3,7 +3,13 @@
 {% block content %}
     {% for i in object_list %}
         <img src="{{ i.blogpostimage_set.all.0.image.url }}"><br>
-    <a href="{% url 'app:blog_detail_view' i.id %}">{{ i.name }}</a>
-    {{ i.author }}<br>{{ i.date }}
+        <a href="{% url 'app:blog_detail_view' i.id %}">{{ i.name }}</a>
+        {{ i.author }} Tags:
+        {% for tag in i.tags.all %}
+            <a href="{% url 'app:blog_list_view_tag' tag=tag.name %}">{{ tag }}</a>
+        {% endfor %}
+        <br>
+        {{ i.date }}
+        <hr>
     {% endfor %}
 {% endblock %}
