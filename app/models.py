@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 
 class CustomPermission(models.Model):  # Abstract model to add custom permissions
@@ -33,13 +34,23 @@ class Technology(models.Model):
     image = models.ImageField(upload_to='tech_images')
 
 
-class UserYoga(models.Model):
-    user = models.OneToOneField(User)
-    extra_data = models.CharField(max_length=200)
+class UserYoga(models.Model):  # Extends base user model
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_admin = models.BooleanField(default=False)  # Is site administrator
+    auth_by_sn = models.BooleanField(default=True)  # Authenticated by social network
+    extra_data = models.CharField(max_length=200, blank=True)
+
+
+def create_profile(sender, **kwargs):  # Function that synchronizes extended user model creation with base model
+    user = kwargs["instance"]
+    if kwargs["created"]:
+        user_profile = UserYoga(user=user)
+        user_profile.save()
+post_save.connect(create_profile, sender=User)
 
 
 class PortfolioContent(models.Model):
-    name = models.CharField(max_length=250, unique=True)
+    name = models.CharField(unique=True, max_length=250)
     description = models.TextField()
     tags = models.ManyToManyField(Tag)
     technologies = models.CharField(max_length=250)
@@ -76,6 +87,7 @@ class Testimonial(models.Model):
     author_email = models.EmailField()
     message = models.TextField()
     is_moderated = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
 
 
 class Comment(models.Model):

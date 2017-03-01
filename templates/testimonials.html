@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+    {% if page_obj.has_previous %}
+    <a href="{% url 'app:testimonials' %}?page={{ page_obj.previous_page_number }}">попередня</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="{% url 'app:testimonials' %}?page={{ page_obj.next_page_number }}">наступна</a>
+    {% endif %}
+
+
+    <ol>
+        {% for tstm in testimonials %}
+            <li>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.message }} - {{ tstm.date}}</li>
+        {% endfor %}
+    </ol>
+
+    <form action="{% url 'app:testimonials' %}" method="POST" onsubmit="return confirm('Зберегти відгук?')">
+    {% csrf_token %}
+    <table>
+    <tr>
+        <td>Імя</td>
+        <td><input type="text" name="author_name" maxlength="30" required></td>
+    </tr>
+     <tr>
+        <td>Імейл</td>
+        <td><input type="email" name="author_email" maxlength="30" required></td>
+    </tr>
+     <tr>
+        <td>Текст</td>
+         <td><textarea name="message" maxlength="400" required></textarea>></td>
+    </tr>
+
+    <tr>
+        <td><input type="submit" value="Зберегти" name="save"></td>
+    </tr>
+    </table>
+</form>
+
+
+{% endblock %}

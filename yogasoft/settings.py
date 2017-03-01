@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     #'social.apps.django_app.default',
     'app',
     'bootstrap3',
-    'social_django',
-
+    'social_django',  # Lib for social networks auth
 ]
 
 MIDDLEWARE = [
@@ -70,12 +69,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
+                'social_django.context_processors.backends',  # For social auth
+                'social_django.context_processors.login_redirect',  # For social auth
                 # taras added 28.02.2017 to facebook login
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
-
-
             ],
         },
     },
@@ -105,14 +101,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# 28.02.2017 added to social network authentication
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = (  # For social auth
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '739662959092-6gqlfgaclighdek8keutj6snvk1tekho.apps.googleusercontent.com'  # For auth in google +
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'GpA2L4geq9GkMf0CiC3dD1gw'
 
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'ru_RU',
+  'fields': 'id, name, email, age_range'
+}
+SOCIAL_AUTH_FACEBOOK_KEY = '385897935124843'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'fe4425688ac4c45417ddb8f5fb382b03'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -131,21 +138,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-  'locale': 'ru_RU',
-  'fields': 'id, name, email, age_range'
-}
-SOCIAL_AUTH_FACEBOOK_KEY = '385897935124843'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'fe4425688ac4c45417ddb8f5fb382b03'
-
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'  # Redirect page after successful login
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/'
-
-
-
-
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR)
