@@ -9,3 +9,5 @@ class ProjectsView(admin.ModelAdmin):
 admin.site.register(models.Project, ProjectsView)
 
 # Register your models here.
+admin.site.register(models.Testimonial)
+admin.site.register(models.UserYoga)

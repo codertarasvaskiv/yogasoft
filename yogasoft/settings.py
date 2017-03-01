@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'bootstrap3',
+    'social_django',  # Lib for social networks auth
 ]
 
 MIDDLEWARE = [
@@ -65,6 +66,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # For social auth
+                'social_django.context_processors.login_redirect',  # For social auth
             ],
         },
     },
@@ -102,6 +105,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (  # For social auth
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '739662959092-6gqlfgaclighdek8keutj6snvk1tekho.apps.googleusercontent.com'  # For auth in google +
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'GpA2L4geq9GkMf0CiC3dD1gw'
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/login'  # Redirect page after successful login
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
