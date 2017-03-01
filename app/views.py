@@ -6,7 +6,8 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from os.path import join, abspath
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
+from django.template import RequestContext
 from django.conf import settings
 from datetime import date
 from os import mkdir
@@ -126,11 +127,26 @@ class Test(TemplateView):
     template_name = 'app/test.html'
 
 
-def login(request):
-    pass
-
-
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('#')
+    return HttpResponseRedirect('/')
+
+
+def user_login(request):
+    context = RequestContext(request)
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return render(request, '#', {}, context)
+            else:
+                return render(request, '#', {}, context)
+        else:
+            print("Invalid login details: {}, {}".format(username, password))
+            return render(request, '#', {})
+    else:
+        return render(request, '#', {}, context)

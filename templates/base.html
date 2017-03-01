@@ -78,14 +78,15 @@
               </ul>
            {% if user.is_authenticated %}
               <ul class="nav navbar-nav pull-right">
-                  <li> <li><a href="#">Logout</a></li></li>
+                  <li> <li><a href="/logout">Logout {{ user.username }}</a></li></li>
+
               </ul>
           {% else %}
                <ul class="nav navbar-nav pull-right">
                 <li  class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">Login<b class="caret"></b></a>
                     <div  class="dropdown-menu pull-right">
-                        <form id="loggind_div"   method="post" action="#" enctype="multipart/form-data">
+                        <form id="loggind_div"   method="post" action="/login" enctype="multipart/form-data">
                             {% csrf_token %}
                               <div >
                                 <input type="text"  id="inputEmail" name="username" placeholder="Username">
@@ -98,6 +99,9 @@
                                 <input type="checkbox"> Remember me
                                 </label>
                                   <div class="text-center"><a href="#">Registration</a></div>
+                                  <a href="{% url 'social:begin' 'facebook' %}">
+                                      <span class="glyphicon icon-facebook"></span>
+                                  </a>
                                 <button type="submit" class="shopBtn btn-block">Sign in</button>
                               </div>
                         </form>
