@@ -83,7 +83,7 @@
               </ul>
           {% else %}
                <ul class="nav navbar-nav navbar-right ">
-                       <li  class="dropdown open">
+                       <li  class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
                             <ul id="login-dp" class="dropdown-menu">
                         <li>
@@ -132,7 +132,32 @@
                     </ul>
                 </li>
                </ul>
-
+{#               <ul class="nav navbar-nav pull-right">#}
+{#                <li  class="dropdown">#}
+{#                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Login<b class="caret"></b></a>#}
+{#                    <div  class="dropdown-menu pull-right">#}
+{#                        <form id="loggind_div"   method="post" action="/login" enctype="multipart/form-data">#}
+{#                            {% csrf_token %}#}
+{#                              <div >#}
+{#                                <input type="text"  id="inputEmail" name="username" placeholder="Username">#}
+{#                              </div>#}
+{#                              <div >#}
+{#                                <input type="password"  id="inputPassword" name="password" placeholder="Password">#}
+{#                              </div>#}
+{#                              <div >#}
+{#                                <label class="checkbox text-center">#}
+{#                                <input type="checkbox"> Remember me#}
+{#                                </label>#}
+{#                                  <div class="text-center"><a href="#">Registration</a></div>#}
+{#                                  <a href="{% url 'social:begin' 'facebook' %}">#}
+{#                                      <span class="glyphicon icon-facebook"></span>#}
+{#                                  </a>#}
+{#                                <button type="submit" class="shopBtn btn-block">Sign in</button>#}
+{#                              </div>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </li>#}
+{#               </ul>#}
            {% endif %}
 
           </div>
@@ -161,9 +186,9 @@
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
   </body>
 </html>
