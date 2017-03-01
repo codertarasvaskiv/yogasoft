@@ -20,16 +20,13 @@
 
 	    <link href="{% static 'assets/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
 		<!--[if IE 7]>
-			<link href="{% static 'css/font-awesome-ie7.min.css' %}" rel="stylesheet">
+			<link href="{% static 'assets/font-awesome/css/font-awesome-ie7.css' %}" rel="stylesheet">
 		<![endif]-->
 
 		<!--[if lt IE 9]>
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-
-
-{#      навіщо цей javascript #}
   </head>
 
   <body>
@@ -78,7 +75,7 @@
               </ul>
            {% if user.is_authenticated %}
               <ul class="nav navbar-nav pull-right">
-                  <li> <li><a href="#">Logout</a></li></li>
+                  <li><a href="#">Logout</a></li>
               </ul>
           {% else %}
                <ul class="nav navbar-nav pull-right">
@@ -132,12 +129,8 @@
 
    </div>
 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-              integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-              crossorigin="anonymous"></script>
       <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
       <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
       <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>

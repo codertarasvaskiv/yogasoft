@@ -19,22 +19,10 @@ class MainPage(TemplateView):
     template_name = 'base.html'
 
 
-class IndexPage(TemplateView):
+class IndexPage(FormView):
     template_name = 'app/index.html'
-
-
-class LoginPage(TemplateView):
-    template_name = 'login_page.html'
-
-
-class AccessRequired(TemplateView):
-    template_name = 'access_required_page.html'
-
-
-class StartProjectView(FormView):
-    template_name = "base.html"
     form_class = StartProjectForm
-    success_url = "/app/"
+    success_url = '/'
 
     def post(self, request, *args, **kwargs):
         print("post inside project")
@@ -62,7 +50,15 @@ class StartProjectView(FormView):
         a = form.save(commit=False)
         a.file = pth
         a.save()
-        return super(StartProjectView, self).form_valid(form)
+        return super(IndexPage, self).form_valid(form)
+
+
+class LoginPage(TemplateView):
+    template_name = 'login_page.html'
+
+
+class AccessRequired(TemplateView):
+    template_name = 'access_required_page.html'
 
 
 class BlogDetailView(DetailView):
