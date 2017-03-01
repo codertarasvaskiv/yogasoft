@@ -24,6 +24,9 @@ class Project(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 class Technology(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
@@ -67,10 +70,16 @@ class BlogPost(models.Model):
     text = models.TextField()
     tags = models.ManyToManyField(Tag)
 
+    def __str__(self):
+        return str(self.author) + '/' + self.name
+
 
 class BlogPostImage(models.Model):
     image = models.ImageField(upload_to='content_images')
     content = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.content.name)
 
 
 class Testimonial(models.Model):
@@ -89,6 +98,9 @@ class Comment(models.Model):
     is_moderated = models.BooleanField(default=False)
     blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
 
+    def __str__(self):  # just for debug, remove later
+        return self.message
+
 
 class CommentSecondLevel(models.Model):
     author_name = models.CharField(max_length=100)
@@ -98,5 +110,5 @@ class CommentSecondLevel(models.Model):
     is_moderated = models.BooleanField(default=False)
     father_comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
-
-
+    def __str__(self):  # just for debug, remove later
+        return self.message

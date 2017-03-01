@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+    <img src="{{ object.blogpostimage_set.all.0.image.url }}">
+    <br>
+    <h3>{{ object.name }}</h3>
+    <br>
+    <p>Date: {{ object.date }} Tags:
+    {% for i in tags %}
+        <a href="{% url 'app:blog_list_view_tag' tag=i.name %}">{{ i }}</a>
+    {% endfor %}</p>
+
+    <br>
+    <p>{{ object.text }}</p>
+    <br><br><br>
+
+    {% for i in comments.items %}
+        <p>{{ i.0.author_name }} {{ i.0.time }}<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button>
+        <br><p>{{ i.0.message }}</p>
+        <hr>
+        <div id="sec_com{{ i.0.pk }}" class="collapse">
+        <form id="sec_com{{ i.0.pk }}" method="post" action="{% url "app:add_second_level_comment" pk=object.pk comm_pk=i.0.pk %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input  class="btn waves-effect waves-light" type="submit" value="Add comment">
+        </form>
+            <hr>
+        </div>
+        {% for q in i.1 %}
+        <p>&emsp;&emsp;{{ q.author_name }} {{ q.time }}</p>
+            <br><p>&emsp;&emsp;{{ q.message }}</p>
+            <hr>
+        {% endfor %}
+    {% endfor %}
+
+    <form method="post" action="{% url "app:add_comment" pk=object.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input  class="btn waves-effect waves-light" type="submit" value="Add comment">
+    </form>
+{% endblock %}

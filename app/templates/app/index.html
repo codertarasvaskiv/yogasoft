@@ -1,10 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% load static %}
+
+{% block content %}
+
+{#    here is a slider#}
+	<div class="well np">
+		<div id="myCarousel" class="carousel slide homCar">
+
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+            </ol>
+
+
+            <div class="carousel-inner">
+			  <div class="item">
+                <img style="width:100%" src="{% static "images/Screenshot_1.png" %}" alt="First">
+                <div class="carousel-caption">
+                      <h4>Bootstrap shopping cart</h4>
+                      <p><span>Very clean simple to use</span></p>
+                </div>
+              </div>
+			  <div class="item">
+                <img style="width:100%" src="{% static "images/Screenshot_2.png" %}" alt="Second">
+                <div class="carousel-caption">
+                      <h4>Bootstrap Ecommerce template</h4>
+                      <p><span>Highly Google seo friendly</span></p>
+                </div>
+              </div>
+			  <div class="item active">
+                <img style="width:100%" src="{% static "images/Screenshot_3.png" %}" alt="Third">
+                <div class="carousel-caption">
+                      <h4>Twitter Bootstrap cart</h4>
+                      <p><span>Very easy to integrate and expand.</span></p>
+                </div>
+              </div>
+              <div class="item">
+                <img style="width:100%" src="{% static "images/Screenshot_2.png" %}" alt="bootstrap templates">
+                <div class="carousel-caption">
+                      <h4>Bootstrap templates integration</h4>
+                      <p><span>Compitable to many more opensource cart</span></p>
+                </div>
+              </div>
+            </div>
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+          </div>
+        </div>
+
+
+
+    <div class="container-fluid divparent">
+            <div class="buttonsdiv">
+                <input  class="btn waves-effect waves-light buttons" type="submit" value="View Portfolio">
+            </div>
+
+            <div class="buttonsdiv">
+                <input  class="btn waves-effect waves-light buttons" type="button" value="Start Project" data-toggle="modal" data-target="#myModal">
+            </div>
+    </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Start project</h4>
+                </div>
+                <form method="post" enctype="multipart/form-data" action="#">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Send</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <br>
+    <div class="container-fluid divparent">
+    <img src="{% static "images/tech.png" %}" alt="Technologies">
+    </div>
+    <br>
+
+  {%  endblock  %}
