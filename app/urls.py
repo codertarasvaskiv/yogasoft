@@ -9,7 +9,6 @@ urlpatterns = [
 
 
     # just testing need to delete later Taras
-    url(r'^test', views.Test.as_view(), name="test"),
     url(r'^logout/$', views.user_logout, name='logout'),
 
 
