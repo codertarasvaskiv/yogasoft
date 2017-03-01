@@ -55,22 +55,37 @@
 
     <div class="container-fluid divparent">
             <div class="buttonsdiv">
-                <form method="post" action="#" enctype="multipart/form-data">
-                     {% csrf_token %}
-                     {{ form.as_p }}
-                     <input  class="btn waves-effect waves-light buttons" type="submit" value="View Portfolio">
-                 </form>
+                <input  class="btn waves-effect waves-light buttons" type="submit" value="View Portfolio">
             </div>
 
-                <div class="buttonsdiv">
-                 <form method="post" action="#" enctype="multipart/form-data">
-                     {% csrf_token %}
-                     {{ form.as_p }}
-                     <input  class="btn waves-effect waves-light buttons" type="submit" value="Start Project">
-                 </form>
-                    </div>
-         </div>
+            <div class="buttonsdiv">
+                <input  class="btn waves-effect waves-light buttons" type="button" value="Start Project" data-toggle="modal" data-target="#myModal">
+            </div>
+    </div>
 
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Start project</h4>
+                </div>
+                <form method="post" enctype="multipart/form-data" action="#">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Send</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
     <br>
     <div class="container-fluid divparent">
     <img src="{% static "images/tech.png" %}" alt="Technologies">
