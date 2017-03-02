@@ -24,5 +24,5 @@ admin.site.register(models.BlogPostImage)
 admin.site.register(models.Tag, TagView)
 admin.site.register(models.BlogPost, BlogsView)
 admin.site.register(models.Project, ProjectsView)
-
+admin.site.register(models.ContactUsModel)
 # Register your models here.
