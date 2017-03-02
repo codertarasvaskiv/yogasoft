@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+     <div class="row-fluid">
+
+     <div class="container">
+     <div class="row paddingleft"><h1>{{ portfoliocontent.name }}</h1></div>
+        <div class="col-md-7">
+            <img class="image" src={{ portfoliocontent.imagecontentclass_set.all.0.image.url }}>
+        </div>
+         <div class="col-md-5">
+             <div class="row"><strong>Client: </strong>{{ portfoliocontent.client }}</div>
+             <div class="row"><strong>Tags: </strong>
+                 {% for tag in portfoliocontent.tags.all %}
+                     {{ tag.name }}
+                 {% endfor %}
+
+
+
+             </div>
+             <div class="row"><strong>Visit website: </strong>
+                 <a href="{{ portfoliocontent.link }}">{{ portfoliocontent.link }}</a></div>
+                <hr>
+             <div class="row paddingright">{{ portfoliocontent.description }}</div>
+
+             </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+        </div>
+{%  endblock  %}

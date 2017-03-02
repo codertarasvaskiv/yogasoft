@@ -7,7 +7,10 @@ app_name = 'app'
 urlpatterns = [
     url(r'^$', views.MainPage.as_view(), name="main_page"),
 
-    # just testing need to delete later Taras
+    url(r'^portfolio$', views.PortfolioListView.as_view(), name="portfolio"),
+    url(r'^portfolio/(?P<pk>\d+)', views.PortfolioDetailView.as_view(), name="portfolio_detail"),
+
+
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^index$', views.IndexPage.as_view(), name="index_page"),
     url(r'^access_required/$', views.AccessRequired.as_view(), name='access_required_page'),
