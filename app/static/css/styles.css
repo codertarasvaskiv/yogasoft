@@ -61,3 +61,38 @@
     display: flex;
     justify-content: space-between;
 }
+
+#login-dp{
+    background-color: #333;
+}
+.navbar-nav>li>.dropdown-menu {
+    margin-top: 3px !important;
+}
+
+.form-group{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+}
+.inline{
+    display: inline-block;
+
+}
+.inline2{
+    display: inline-block;
+   margin-left:5%;
+
+}
+.dropdown-menu{
+    min-width: 200px !important;
+}
+
+#sizeofa{
+    font-size: 10px;
+    display: block;
+    text-align: left;
+}
+
+.divparent2{
+    display: flex;
+}
