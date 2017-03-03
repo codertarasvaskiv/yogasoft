@@ -43,7 +43,6 @@ class IndexPage(FormView):
     success_url = '/'
 
     def post(self, request, *args, **kwargs):
-        print("post inside project")
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         files = request.FILES.getlist('file')
@@ -211,7 +210,22 @@ class Test(TemplateView):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('#')
+
+
+class ContactUsView(FormView):
+    template_name = 'app/contact_us.html'
+    form_class = ContactUsForm
+    success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        q = ContactUsModel()
+        q.author_email = data['author_email']
+        q.author_name = data['author_name']
+        q.message = data['message']
+        q.save(q)
+        return redirect("app:index_page")
 
 
 def user_login(request):
