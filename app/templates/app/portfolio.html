@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="row-fluid">
+    <h3>Our Portfolio </h3>
+
+        {% if portfoliocontent_list %}
+            <div class="container-fluid divparentportfolio">
+            {% for item in portfoliocontent_list %}
+
+                <div class="portfoliodiv">
+                    <div><a href="{% url 'app:portfolio_detail' item.id %}">
+                        <img class="image" href="{% url 'app:portfolio_detail' item.id %}"
+                             src={{ item.imagecontentclass_set.all.0.image.url }}></a></div>
+                    <div><a href="{% url 'app:portfolio_detail' item.id %}">{{ item.name }}</a></div>
+                </div>
+                {% if forloop.counter|divisibleby:2 %}
+                    </div>
+                     <div class="container-fluid divparentportfolio">
+                {% endif %}
+                {% if forloop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+
+		    {% else %}
+                <div class="row-fluid">
+                <strong>There is no objects inside portfolio.</strong>
+                </div>
+		    {% endif %}
+     </div>
+        {%  endblock  %}
+

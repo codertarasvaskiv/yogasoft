@@ -18,6 +18,18 @@ class CommentView(admin.ModelAdmin):
     list_display = ['author_name', 'time']
 
 
+class PortfolioContentView(admin.ModelAdmin):
+    list_display = ['name', 'description', 'link', 'client']
+
+
+class ImageContentView(admin.ModelAdmin):
+    list_display = ['content', 'image']
+
+
+
+# Register your models here.
+admin.site.register(models.PortfolioContent, PortfolioContentView)
+admin.site.register(models.ImageContentClass, ImageContentView)
 admin.site.register(models.Comment, CommentView)
 admin.site.register(models.CommentSecondLevel, CommentView)
 admin.site.register(models.BlogPostImage)
@@ -25,6 +37,5 @@ admin.site.register(models.Tag, TagView)
 admin.site.register(models.BlogPost, BlogsView)
 admin.site.register(models.Project, ProjectsView)
 admin.site.register(models.ContactUsModel)
-# Register your models here.
 admin.site.register(models.Testimonial)
 admin.site.register(models.UserYoga)
