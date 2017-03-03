@@ -1,4 +1,4 @@
-
+from django.contrib.auth.models import User
 from django.views.generic import TemplateView, ListView, DetailView, FormView, View
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
 from django.contrib.auth.decorators import login_required
@@ -15,6 +15,7 @@ from datetime import date
 from os import mkdir
 from .forms import *
 from .models import *
+
 
 TESTIMONIALS_ON_PAGE = 8
 TESTIMONIALS_ON_ADMIN_PAGE = 8
@@ -159,6 +160,9 @@ class BlogDetailView(DetailView):
         for i in comments:
             if i.is_moderated:
                 context['comments'][i] = list(CommentSecondLevel.objects.filter(father_comment=i))
+                for j in context['comments'][i]:
+                    if not j.is_moderated:
+                        context['comments'][i].pop(context['comments'][i].index(j))
         context['form'] = CommentForm()
         context.pop('blogpost')
 
@@ -167,9 +171,10 @@ class BlogDetailView(DetailView):
 
 def AddComment(request, pk):
     data = request.POST
-    q = Comment()
-    q.author_email = data['author_email']
-    q.author_name = data['author_name']
+    if request.user.is_authenticated():
+        q = Comment(author_email=request.user.email, author_name=request.user)
+    else:
+        q = Comment(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.blog = BlogPost.objects.get(pk=pk)
     q.save(q)
@@ -178,9 +183,11 @@ def AddComment(request, pk):
 
 def add_second_comment(request, pk, comm_pk):
     data = request.POST
-    q = CommentSecondLevel()
-    q.author_email = data['author_email']
-    q.author_name = data['author_name']
+    print(request.user)
+    if request.user.is_authenticated():
+        q = CommentSecondLevel(author_email=request.user.email, author_name=request.user)
+    else:
+        q = CommentSecondLevel(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.father_comment = Comment.objects.get(pk=comm_pk)
     q.save(q)
