@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block container %}
+{% block content %}
 
     {% if page_obj.has_previous %}
     <a href="{% url 'app:testimonials' %}?page={{ page_obj.previous_page_number }}">попередня</a>

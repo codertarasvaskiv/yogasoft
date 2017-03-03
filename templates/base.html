@@ -36,8 +36,7 @@
 
         <div class="container-fluid">
              <address class="pull-right">
-
-            <strong>YogaSoft Agency, Inc.</strong><br>
+                <strong>YogaSoft Agency, Inc.</strong><br>
                  <span class="glyphicon glyphicon-envelope"></span>
               yagosoft@gmail.com<br>
                  <form  role="search">
@@ -67,7 +66,7 @@
                   <li><a href="{% url 'app:index_page' %}">Home</a></li>
                   <li><a href="{% url 'app:blog_list_view' %}">Blog</a></li>
                   <li><a href="{% url 'app:main_page' %}">Portfolio</a></li>
-                  <li><a href="#">Testimonials</a></li>
+                  <li><a href="{% url 'app:testimonials' %}">Testimonials</a></li>
                   <li><a href="#" id="ov">Contact us</a></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle=""></a>
@@ -75,8 +74,11 @@
               </ul>
            {% if user.is_authenticated %}
               <ul class="nav navbar-nav pull-right">
-                  <li> <li><a href="/logout">Logout {{ user.username }}</a></li></li>
-
+                  <li>  {% if user.useryoga.is_admin or user.is_superuser %}
+                        <li><a href="{% url "app:site_admin" %}">Administration</a></li>
+                        {% endif %}
+                        <li><a href="/logout">Logout {{ user.username }}</a></li>
+                  </li>
               </ul>
           {% else %}
                <ul class="nav navbar-nav pull-right">
@@ -103,7 +105,6 @@
                               </div>
                         </form>
                     </div>
-
                 </li>
                </ul>
 
@@ -116,29 +117,23 @@
  {% block content %}
  {%  endblock  %}
 
-
-
 {#  here starts first footer#}
         <div id="first_footer" class="row-fluid">
            <div class="myclas">  sssssssss </div>
         </div>
-
-
 {#        here starts last footer#}
        <div id="second_footer" class="row-fluid">
            <div class="myclas">  Copyright, YogaSoft 2017 </div>
        </div>
-
-
-
    </div>
-
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                      crossorigin="anonymous"></script>
       <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
       <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
       <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
-
+      <script type="text/javascript" src="{% static "js/jquery-2.1.1.min.js" %}"></script>
 
   </body>
 </html>

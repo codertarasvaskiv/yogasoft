@@ -8,9 +8,9 @@ urlpatterns = [
     url(r'^$', views.MainPage.as_view(), name="main_page"),
 
     # just testing need to delete later Taras
-    url(r'^test', views.Test.as_view(), name="test"),
+    url(r'^test/$', views.Test.as_view(), name="test"),
     url(r'^logout/$', views.user_logout, name='logout'),
-    url(r'^index$', views.IndexPage.as_view(), name="index_page"),
+    url(r'^index/$', views.IndexPage.as_view(), name="index_page"),
     url(r'^access_required/$', views.AccessRequired.as_view(), name='access_required_page'),
     url(r'start_project/$', views.StartProjectView.as_view(), name="start_project"),
     url(r'testimonials/$', views.Testimonials.as_view(), name="testimonials"),
@@ -21,4 +21,7 @@ urlpatterns = [
     url(r'^blog/(?P<pk>\d+)/$', views.BlogDetailView.as_view(), name='blog_detail_view'),
     url(r'^blog/$', views.BlogListView.as_view(), name='blog_list_view'),
     url(r'^blog/tag/(?P<tag>[a-zA-Z0-9]+)/$', views.BlogListView.as_view(), name='blog_list_view_tag'),
+    url(r'^site_admin/$', views.SiteAdmin.as_view(), name='site_admin'),
+    url(r'^site_admin/admin_users/$', views.AdminUsers.as_view(), name='admin_users'),
+    url(r'^site_admin/edit_admin_user/(?P<user_id>[0-9]+)/$', views.EditAdminUser.as_view(), name='edit_admin_user'),
 ]
