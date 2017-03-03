@@ -115,3 +115,9 @@ class CommentSecondLevel(models.Model):
 
     def __str__(self):  # just for debug, remove later
         return self.message
+
+
+class ContactUsModel(models.Model):
+    author_name = models.CharField(max_length=100)
+    author_email = models.EmailField()
+    message = models.TextField()

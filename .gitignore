@@ -1,4 +1,5 @@
 *./idea
 *.pyc
 *.xml
+*.iml
 db.sqlite3
