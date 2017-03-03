@@ -211,7 +211,7 @@ class Test(TemplateView):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('#')
 
 
 def user_login(request):
