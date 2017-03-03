@@ -72,7 +72,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',  # For social auth
                 'social_django.context_processors.login_redirect',  # For social auth
-                # taras added 28.02.2017 to facebook login
             ],
         },
     },

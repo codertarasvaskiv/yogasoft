@@ -235,8 +235,8 @@ class ContactUsView(FormView):
         return redirect("app:index_page")
 
 
-
 def user_login(request):
+    print('o'*100)
     context = RequestContext(request)
     if request.method == 'POST':
         username = request.POST['username']
@@ -245,14 +245,14 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return render(request, '#', {}, context)
+                return render(request, 'app/index.html', {}, context)
             else:
-                return render(request, '#', {}, context)
+                return render(request, 'app/index.html', {}, context)
         else:
             print("Invalid login details: {}, {}".format(username, password))
-            return render(request, '#', {})
+            return render(request, 'app/index.html', {})
     else:
-        return render(request, '#', {}, context)
+        return render(request, '', {}, context)
 
 
 class PortfolioListView(ListView):

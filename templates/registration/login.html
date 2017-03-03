@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-fluid">
+    <div>
+    <br>
+    If you see this page, that means you've entered wrong password or login.
+        <br>
+    If you don't have an account you can register.
+    </div><br>
+    Rigester via:
+    <p style="margin: 0.4em;"><a href="{% url "social:begin" "google-oauth2" %}">Google+</a></p>
+    <p style="margin: 0.4em;"><a href="{% url 'social:begin' 'facebook' %}">Facebook</a></p>
+    </div>
+
+{% endblock %}
