@@ -1,9 +1,12 @@
 from django.template import Library
+from app.models import Tag
 
 register = Library()
 
 
-@register.inclusion_tag('base.html')
+@register.inclusion_tag('app/tagcloud.html')
 def popular_tags():
-    tags = Tag.objects.all()[10]
-    return {'tags': tags}
+
+    context = list(Tag.objects.all())
+
+    return {'tags': context}

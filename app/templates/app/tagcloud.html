@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<ul>
+    {% for i in tags %}
+        <li><a href="{% url 'app:blog_list_view_tag' tag=i %}">{{ i }}</a></li>
+    {% endfor %}
+</ul>
