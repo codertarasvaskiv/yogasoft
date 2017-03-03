@@ -20,7 +20,7 @@
 
 	    <link href="{% static 'assets/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
 		<!--[if IE 7]>
-			<link href="{% static 'css/font-awesome-ie7.min.css' %}" rel="stylesheet">
+			<link href="{% static 'assets/css/font-awesome-ie7.min.css' %}" rel="stylesheet">
 		<![endif]-->
 
 		<!--[if lt IE 9]>
@@ -29,22 +29,18 @@
 
 
 
-{#      навіщо цей javascript #}
   </head>
 
   <body>
-
-
   <div class="container theme-showcase" role="main">
 
-        <div class="container-fluid">
-             <address class="pull-right">
+        <div id="addressdiv" class="container-fluid">
+             <address id="address" class="pull-right">
 
-            <strong>YogaSoft Agency, Inc.</strong><br>
-                 <span class="glyphicon glyphicon-envelope"></span>
+            <strong class="littlespace">YogaSoft Agency, Inc.</strong><br>
+                 <span class="glyphicon glyphicon-envelope littlespace"></span>
               yagosoft@gmail.com<br>
                  <form  role="search">
-
                     <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                     </div>
@@ -69,7 +65,7 @@
               <ul class="nav navbar-nav">
                   <li><a href="{% url 'app:index_page' %}">Home</a></li>
                   <li><a href="{% url 'app:blog_list_view' %}">Blog</a></li>
-                  <li><a href="{% url 'app:main_page' %}">Portfolio</a></li>
+                  <li><a href="{% url 'app:portfolio' %}">Portfolio</a></li>
                   <li><a href="#">Testimonials</a></li>
                   <li><a href="{% url 'app:contact_us' %}">Contact us</a></li>
                   <li class="dropdown">
@@ -84,7 +80,8 @@
           {% else %}
                <ul class="nav navbar-nav navbar-right ">
                        <li  class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <b>Login</b> <span class="caret"></span></a>
                             <ul id="login-dp" class="dropdown-menu">
                         <li>
                              <div class="row">
@@ -103,10 +100,8 @@
                                                              <a id="sizeofa" href="">Forget the password ?</a>
                                                              <a id="sizeofa" href="">Create account</a>
                                                          </div>
-
-                                                        <div class="form-group inline">
-                                                            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                                        </div>
+                                                        <div class="form-group inline" id="sign_in">
+                                                            <button type="submit" class="btn btn-primary btn-block">Sign in</button></div>
                                                      </div>
                                                 </div>
                                          </form>
@@ -115,14 +110,16 @@
                                          <form class="form" role="form" method="post"
                                                action="{% url 'social:begin' 'facebook' %}" accept-charset="UTF-8" id="login-nav">
                                              {% csrf_token %}
-                                             <button type="submit" class="btn btn-primary btn-block">Facebook</button>
+                                             <button type="submit" class="btn btn-primary btn-block">
+                                                 <span class="glyphicon icon-facebook"></span> Facebook</button>
                                              </form>
                                             </div>
                                              <div class="inline2">
                                                  <form class="form" role="form" method="post"
                                                        action="{% url "social:begin" "google-oauth2" %}" accept-charset="UTF-8" id="login-nav">
                                              {% csrf_token %}
-                                             <button type="submit" class="btn btn-primary btn-block">Google</button>
+                                             <button type="submit" class="btn btn-primary btn-block">
+                                                 <span class="glyphicon icon-google-plus-sign"></span> Google</button>
                                              </form>
                                              </div>
                                         </div>
@@ -142,10 +139,10 @@
  {%  endblock  %}
 
 
-
 {#  here starts first footer#}
         <div id="first_footer" class="row-fluid">
-           <div class="myclas">  sssssssss </div>
+            <div class="col-lg-4 classfirstfooter">Menu Menu Menu Menu Menu</div>
+            <div class="classfirstfooter" >Tag Cloud</div>
         </div>
 
 

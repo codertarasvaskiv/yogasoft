@@ -245,3 +245,20 @@ def user_login(request):
             return render(request, '#', {})
     else:
         return render(request, '#', {}, context)
+
+
+class PortfolioListView(ListView):
+    """02.03.2017 Taras  this list returns all Portfolio projects of our agency """
+    template_name = 'app/portfolio.html'
+    # paginate_by = 4
+
+    def get_queryset(self):
+        return PortfolioContent.objects.all()
+
+
+class PortfolioDetailView(DetailView):
+    """02.03.2017 Taras this is detail portfolio view of concrete project"""
+    model = PortfolioContent
+    template_name = 'app/portfolio_detail.html'
+
+
