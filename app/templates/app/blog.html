@@ -13,30 +13,54 @@
     <br>
     <p>{{ object.text }}</p>
     <br><br><br>
-
+    <div class="container">
     {% for i in comments.items %}
-        <p>{{ i.0.author_name }} {{ i.0.time }}<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button>
-        <br><p>{{ i.0.message }}</p>
-        <hr>
-        <div id="sec_com{{ i.0.pk }}" class="collapse">
-        <form id="sec_com{{ i.0.pk }}" method="post" action="{% url "app:add_second_level_comment" pk=object.pk comm_pk=i.0.pk %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input  class="btn waves-effect waves-light" type="submit" value="Add comment">
-        </form>
-            <hr>
-        </div>
-        {% for q in i.1 %}
-        <p>&emsp;&emsp;{{ q.author_name }} {{ q.time }}</p>
-            <br><p>&emsp;&emsp;{{ q.message }}</p>
-            <hr>
-        {% endfor %}
-    {% endfor %}
+    <div class="media">
 
+        <div class="media-left">
+            <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width:45px">
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{ i.0.author_name }} <small><i>Posted on {{ i.0.time }} </i></small><button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button></h4>
+            <p>{{ i.0.message }}</p>
+            <div id="sec_com{{ i.0.pk }}" class="collapse">
+                <form id="sec_com{{ i.0.pk }}" method="post" action="{% url "app:add_second_level_comment" pk=object.pk comm_pk=i.0.pk %}">
+                    {% csrf_token %}
+                    {% if not user.is_authenticated %}
+                        {{ form.as_p }}
+                    {% else %}
+                        <label>Message: </label>{{ form.message }}
+                    {% endif %}
+                    <input  class="btn waves-effect waves-light" type="submit" value="Add comment">
+                </form>
+                <hr>
+            </div>
+            <!-- Nested media object -->
+            {% for q in i.1 %}
+                <div class="media">
+                    <div class="media-left">
+                        <img src="https://www.w3schools.com/bootstrap/img_avatar2.png" class="media-object" style="width:45px">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{ q.author_name }} <small><i>Posted on {{ q.time }}</i></small></h4>
+                        <p>{{ q.message }}</p>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+        <hr>
+    {% endfor %}
     <form method="post" action="{% url "app:add_comment" pk=object.pk %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% if not user.is_authenticated %}
+            {{ form.as_p }}
+        {% else %}
+            <label>Message: </label>{{ form.message }}
+        {% endif %}
         <input  class="btn waves-effect waves-light" type="submit" value="Add comment">
     </form>
-    <hr>
+    </div>
+
 {% endblock %}

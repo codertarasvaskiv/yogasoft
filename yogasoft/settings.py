@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app',
     'bootstrap3',
     'social_django',  # Lib for social networks auth
+    'app.templatetags',
 ]
 
 MIDDLEWARE = [
