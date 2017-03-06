@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
+from django.http import HttpResponseRedirect, request
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 from os.path import join, abspath
@@ -172,6 +173,8 @@ def AddComment(request, pk):
         q = Comment(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.blog = BlogPost.objects.get(pk=pk)
+    if request.user.is_staff():
+        q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
 
@@ -185,6 +188,8 @@ def add_second_comment(request, pk, comm_pk):
         q = CommentSecondLevel(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.father_comment = Comment.objects.get(pk=comm_pk)
+    if request.user.is_staff():
+        q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
 
@@ -245,17 +250,8 @@ class PortfolioDetailView(DetailView):
     template_name = 'app/portfolio_detail.html'
 
 
-# class RegistrationView(FormView):
-#     template_name = "registration/registration_form.html"
-#     form_class = YogaUserForm
-#     success_url = "/"
-#
-#     def form_valid(self, form):
-#         form.save()
-#         return super(RegistrationView, self).form_valid(form)
 
-
-def register(request):
+def register(request): # 06.03.2017 Taras need to edit later
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':

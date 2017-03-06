@@ -4,7 +4,7 @@
 {% block content %}
 
 {#    here is a slider#}
-	<div class="well np">
+	<div class="well np hidden-xm hidden-xs">
 		<div id="myCarousel" class="carousel slide homCar">
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -51,10 +51,10 @@
 
     <div class="container-fluid divparent">
             <div class="buttonsdiv">
-                <input  class="btn waves-effect waves-light buttons btn-lg" type="button" value="View Portfolio">
+                <input  class="btn btn-info buttons btn-lg" type="button" value="View Portfolio" onclick="window.location.href='{% url 'app:portfolio' %}'">
             </div>
             <div class="buttonsdiv">
-                <input  class="btn waves-effect waves-light buttons btn-lg" type="button" value=" Start Project " data-toggle="modal" data-target="#myModal">
+                <input  class="btn btn-info buttons btn-lg" type="button" value=" Start Project " data-toggle="modal" data-target="#myModal">
             </div>
     </div>
 
@@ -69,10 +69,19 @@
                 <form method="post" enctype="multipart/form-data" action="#">
                 <div class="modal-body">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    {% if user.is_authenticated %}
+                    <p><label for="id_first_name">First name:</label> <input class="form-control" id="id_first_name" maxlength="20" name="first_name" type="text" required value="{{ request.user.first_name }}"/></p>
+                    <p><label for="id_last_name">Last name:</label> <input class="form-control" id="id_last_name" maxlength="20" name="last_name" type="text" required value="{{ request.user.last_name }}"/></p>
+                    <p><label for="id_email">Email:</label> <input class="form-control" id="id_email" maxlength="254" name="email" type="text" required value="{{ user.email }}"/></p>
+                    <p><label for="id_query">Query:</label> <textarea class="form-control" cols="40" id="id_query" name="query" rows="5" required>
+                    </textarea></p>
+                    <p><label for="id_file">File:</label> <input id="id_file" name="file" type="file" multiple required /></p>
+                    {% else %}
+                        {{ form.as_p }}
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Send</button>
+                    <button type="submit" class="btn btn-info">Send</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
                 </form>

@@ -13,15 +13,22 @@
     <form method="post" action="#">
 
         {% csrf_token %}
-        {{ form.as_p }}
+        {% if user.is_authenticated %}
+        <p><label>Author name:</label><input class="form-control" id="id_author_name" maxlength="100" name="author_name" type="text" required value="{{ user.username }}"/></p>
+        <p><label>Author email:</label><input class="form-control" id="id_author_email" maxlength="254" name="author_email" type="text" required value="{{ user.email }}"/></p>
+        <p><label>Message:</label> <textarea class="form-control" cols="40" id="id_message" name="message" rows="7" required>
+        </textarea></p>
+        {% else %}
+        {{ form }}
+        {% endif %}
         <button type="submit" class="btn btn-success">Send</button>
     </form></div>
 
             <div class="col-sm-4">
                 <h4>Our map</h4>
                 <hr>
-
-    <iframe width=100% height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?zoom=12&center=49.5535%2C25.5948&key=AIzaSyAEPZRJTKRXcEhSY3FqX3PiSOlSZex2ny4" allowfullscreen></iframe></div>
+                <iframe width=100% height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJdc6CS602MEcR6FSx7UekhMQ&key=AIzaSyAEPZRJTKRXcEhSY3FqX3PiSOlSZex2ny4" allowfullscreen></iframe>
+    </div>
     </div>
     <hr width=97% style="float: left">
 

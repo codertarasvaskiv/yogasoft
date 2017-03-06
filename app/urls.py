@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'app'
 urlpatterns = [
-    url(r'^$', views.MainPage.as_view(), name="main_page"),
+    url(r'^$', views.IndexPage.as_view(), name="main_page"),
 
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^registration$', views.register, name="registration"),
