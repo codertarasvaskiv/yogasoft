@@ -5,7 +5,7 @@ from . import views
 
 app_name = 'app'
 urlpatterns = [
-    url(r'^$', views.MainPage.as_view(), name="main_page"),
+    url(r'^$', views.IndexPage.as_view(), name="main_page"),
 
     url(r'^portfolio$', views.PortfolioListView.as_view(), name="portfolio"),
     url(r'^portfolio/(?P<pk>\d+)', views.PortfolioDetailView.as_view(), name="portfolio_detail"),
