@@ -2,17 +2,18 @@ from django.conf.urls import url
 from . import views
 
 
-
 app_name = 'app'
 urlpatterns = [
     url(r'^$', views.MainPage.as_view(), name="main_page"),
 
+    url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^registration$', views.register, name="registration"),
+
+
+
     url(r'^portfolio$', views.PortfolioListView.as_view(), name="portfolio"),
     url(r'^portfolio/(?P<pk>\d+)', views.PortfolioDetailView.as_view(), name="portfolio_detail"),
 
-
-    url(r'^login', views.user_login, name='login', kwargs={'template_name': 'app/login.html'}, ),
-    url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^index$', views.IndexPage.as_view(), name="index_page"),
     url(r'^access_required/$', views.AccessRequired.as_view(), name='access_required_page'),
     url(r'start_project/$', views.StartProjectView.as_view(), name="start_project"),

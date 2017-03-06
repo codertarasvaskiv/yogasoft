@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+        <h5 class="center">Registration</h5>
+
+        {% if registered %}
+            <strong>thank you for registering!</strong>
+        {% else %}
+
+
+             <form  class="" method="post" action="{% url 'app:registration' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <input  class="btn waves-effect waves-light" type="submit" value="Register">
+
+            </form>
+
+        {% endif %}
+
+
+
+
+{% endblock %}

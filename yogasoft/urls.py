@@ -5,13 +5,9 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    #url('^accounts/', include('django.contrib.auth.urls')),
-
-    url(r'^password_reset', auth_views.password_reset,
-        {'template_name': '../templates/registration/password_reset.html'}, name="password_reset"),
-    url(r'^resetpassword/passwordsent/$', auth_views.password_reset_done, name='password_reset_done'),
+    #url(r'^activate/(?P<key>.+)$', activation, name='activation'),
+    url('^accounts/', include('django.contrib.auth.urls')),
     url('', include('social_django.urls', namespace='social')),
-    url(r'^login$', auth_views.login, name='login'),
     url(r'^admin/', admin.site.urls),
     url(r'^app/', include("app.urls")),
     url(r'^', include("app.urls")),

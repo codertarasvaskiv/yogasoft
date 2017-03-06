@@ -5,12 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
+from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 from os.path import join, abspath
-from django.shortcuts import redirect, render
-from django.template import RequestContext
-from django.conf import settings
+from django.shortcuts import redirect, render, render_to_response
 from datetime import date
 from os import mkdir
 from .forms import *
@@ -24,10 +23,6 @@ TESTIMONIALS_ON_ADMIN_PAGE = 8
 # @method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')  # Decorator use example
 class MainPage(TemplateView):
     template_name = 'base.html'
-
-
-class LoginPage(TemplateView):
-    template_name = 'login_page.html'
 
 
 class AccessRequired(TemplateView):
@@ -235,26 +230,6 @@ class ContactUsView(FormView):
         return redirect("app:index_page")
 
 
-def user_login(request):
-    print('o'*100)
-    context = RequestContext(request)
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return render(request, 'app/index.html', {}, context)
-            else:
-                return render(request, 'app/index.html', {}, context)
-        else:
-            print("Invalid login details: {}, {}".format(username, password))
-            return render(request, 'app/index.html', {})
-    else:
-        return render(request, '', {}, context)
-
-
 class PortfolioListView(ListView):
     """02.03.2017 Taras  this list returns all Portfolio projects of our agency """
     template_name = 'app/portfolio.html'
@@ -270,3 +245,34 @@ class PortfolioDetailView(DetailView):
     template_name = 'app/portfolio_detail.html'
 
 
+# class RegistrationView(FormView):
+#     template_name = "registration/registration_form.html"
+#     form_class = YogaUserForm
+#     success_url = "/"
+#
+#     def form_valid(self, form):
+#         form.save()
+#         return super(RegistrationView, self).form_valid(form)
+
+
+def register(request):
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        yoga_form = YogaUserForm(data=request.POST)
+
+        if user_form.is_valid() and yoga_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            profile = yoga_form.save(commit=False)
+            profile.user = user
+            registered = True
+        else:
+            print(user_form.errors, yoga_form.errors)
+    else:
+        user_form = UserForm()
+        yoga_form = YogaUserForm()
+    return render(request, 'registration/registration_form.html',
+                              {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
