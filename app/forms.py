@@ -1,5 +1,6 @@
 from django import forms
-from .models import Project, Comment, CommentSecondLevel, ContactUsModel
+from .models import Project, Comment, CommentSecondLevel, ContactUsModel, UserYoga
+from django.contrib.auth.models import User
 
 
 class StartProjectForm(forms.ModelForm):
@@ -53,3 +54,21 @@ class ContactUsForm(forms.ModelForm):
             'author_email': forms.TextInput(attrs={'class': 'form-control'}),
             'message': forms.Textarea(attrs={'class': 'form-control', 'rows': '7'}),
         }
+
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password',)
+
+
+class YogaUserForm(forms.ModelForm):
+    """A form for creating new users. Includes all the required
+    fields, plus a repeated password."""
+
+    class Meta:
+        model = UserYoga
+        fields = ('extra_data',)
+

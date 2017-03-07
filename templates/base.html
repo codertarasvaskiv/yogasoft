@@ -62,11 +62,9 @@
                   <li><a href="{% url 'app:portfolio' %}">Portfolio</a></li>
                   <li><a href="{% url 'app:testimonials' %}">Testimonials</a></li>
                   <li><a href="{% url 'app:contact_us' %}">Contact us</a></li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle=""></a>
-                  </li>
               </ul>
            {% if request.user.is_authenticated %}
+
               <ul class="nav navbar-nav pull-right">
                   <li>  {% if user.useryoga.is_admin or user.is_superuser %}
                         <li><a href="{% url "app:site_admin" %}">Administration</a></li>
@@ -84,22 +82,22 @@
                         <li>
                              <div class="row">
                                     <div class="col-md-12">
-                                         <form class="form" role="form" method="post" action="/login" accept-charset="UTF-8" id="login-nav">
+                                         <form class="form" role="form" method="post" action="{% url 'login' %}" accept-charset="UTF-8" id="login-nav">
                                              {% csrf_token %}
-                                                <div class="form-group">
-                                                     <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                                     <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required="">
+                                                <div class="form-group"><label class="sr-only" for="exampleInputEmail2">Login</label>
+                                                     <input type="text" name="username"  class="form-control" placeholder="Login" required="">
                                                 </div>
                                                 <div class="form-group">
                                                      <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                                     <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required="">
+                                                     <input type="password" name="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required="">
                                                      <div class="help-block text-right">
-                                                         <div class="inline">
-                                                             <a id="sizeofa" href="">Forget the password ?</a>
-                                                             <a id="sizeofa" href="">Create account</a>
-                                                         </div>
-                                                        <div class="form-group inline" id="sign_in">
+                                                         <div class="form-group inline" id="sign_in">
                                                             <button type="submit" class="btn btn-primary btn-block">Sign in</button></div>
+                                                         <div class="createaccountforgetpass">
+                                                             <a id="sizeofa" href="{% url 'password_reset' %}">Lost password ?</a>
+                                                             <a id="sizeofa" href="{% url 'app:registration' %}">Create account</a>
+                                                         </div>
+
                                                      </div>
                                                 </div>
                                          </form>
@@ -138,10 +136,26 @@
 
 {#  here starts first footer#}
         <div id="first_footer" class="row-fluid">
-            <div class="col-lg-4 classfirstfooter">Menu Menu Menu Menu Menu</div>
-            <div class="classfirstfooter" ><div class="myclas">  <div class="tagcloud">
+            <div class="col-lg-3 classfirstfooter">
+                <div class="myclas2">
+                   <a href="{% url 'app:index_page' %}">Home</a>
+                </div>
+                <div class="myclas2">
+                   <a href="{% url 'app:blog_list_view' %}">Blog</a>
+                </div>
+                <div class="myclas2">
+                   <a href="{% url 'app:portfolio' %}">Portfolio</a>
+                </div>
+            </div>
+            <div class="col-lg-3 classfirstfooter" >
+                <div class="myclas">
+                    Tag cloud
+                    <br>
+                    <div class="tagcloud">
                 {% popular_tags %}
-            </div></div></div>
+                    </div>
+                </div>
+            </div>
         </div>
 {#        here starts last footer#}
        <div id="second_footer" class="row-fluid">

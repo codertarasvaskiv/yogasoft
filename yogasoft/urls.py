@@ -5,10 +5,9 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    #url('oauth', include('social.apps.django_app.urls', namespace='social')),
+    #url(r'^activate/(?P<key>.+)$', activation, name='activation'),
+    url('^accounts/', include('django.contrib.auth.urls')),
     url('', include('social_django.urls', namespace='social')),
-    url(r'^login$', auth_views.login, name='login'),
-    #url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^app/', include("app.urls")),
     url(r'^', include("app.urls")),

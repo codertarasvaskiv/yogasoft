@@ -10,9 +10,9 @@
             <div class="container-fluid divparentportfolio">
             {% for item in portfoliocontent_list %}
 
-                <div class="portfoliodiv">
+                <div class="portfoliodiv col-lg-6">
                     <div><a href="{% url 'app:portfolio_detail' item.id %}">
-                        <img class="image" href="{% url 'app:portfolio_detail' item.id %}"
+                        <img class="img-responsive" href="{% url 'app:portfolio_detail' item.id %}"
                              src={{ item.imagecontentclass_set.all.0.image.url }}></a></div>
                     <div><a href="{% url 'app:portfolio_detail' item.id %}">{{ item.name }}</a></div>
                 </div>

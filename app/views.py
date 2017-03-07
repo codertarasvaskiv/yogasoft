@@ -7,13 +7,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
+from django.template import RequestContext
+from django.http import HttpResponseRedirect, request
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 from django.db.models import Q
 from os.path import join, abspath
-from django.shortcuts import redirect, render
-from django.template import RequestContext
-from django.conf import settings
+from django.shortcuts import redirect, render, render_to_response
 from datetime import date
 from os import mkdir
 from .forms import *
@@ -180,6 +180,8 @@ def AddComment(request, pk):
         q = Comment(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.blog = BlogPost.objects.get(pk=pk)
+    if request.user.is_staff():
+        q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
 
@@ -193,6 +195,8 @@ def add_second_comment(request, pk, comm_pk):
         q = CommentSecondLevel(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.father_comment = Comment.objects.get(pk=comm_pk)
+    if request.user.is_staff():
+        q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
 
@@ -215,7 +219,7 @@ class BlogListView(ListView):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('#')
+    return HttpResponseRedirect('/')
 
 
 class ContactUsView(FormView):
@@ -396,3 +400,25 @@ class PortfolioDetailView(DetailView):
     model = PortfolioContent
     template_name = 'app/portfolio_detail.html'
 
+
+def register(request): # 06.03.2017 Taras need to edit later
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        yoga_form = YogaUserForm(data=request.POST)
+
+        if user_form.is_valid() and yoga_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            profile = yoga_form.save(commit=False)
+            profile.user = user
+            registered = True
+        else:
+            print(user_form.errors, yoga_form.errors)
+    else:
+        user_form = UserForm()
+        yoga_form = YogaUserForm()
+    return render(request, 'registration/registration_form.html',
+                              {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
