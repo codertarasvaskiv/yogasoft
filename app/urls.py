@@ -27,4 +27,8 @@ urlpatterns = [
     url(r'^blog/tag/(?P<tag>[a-zA-Z0-9]+)/$', views.BlogListView.as_view(), name='blog_list_view_tag'),
     url(r'^contact_us/$', views.ContactUsView.as_view(), name='contact_us'),
 
+
+
+    url(r'^search_list/(?P<info>.*)$', views.SearchListAsView.as_view(), name='search'),
+
 ]

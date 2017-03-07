@@ -39,8 +39,9 @@
                  <span class="glyphicon glyphicon-envelope littlespace"></span>
               yagosoft@gmail.com<br>
                  <form  role="search">
+                     {% csrf_token %}
                     <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input id="search" type="text" class="form-control" placeholder="Search">
                     </div>
               </form>
         </address>
@@ -128,24 +129,32 @@
       </div>
     </nav>
 
- {% block content %}
- {%  endblock  %}
+        <div id="ajax">
+     {% block content %}
+     {%  endblock  %}
+        </div>
 
 
 {#  here starts first footer#}
         <div id="first_footer" class="row-fluid">
-            <div class="col-lg-3 classfirstfooter">
+            <div class="col-lg-3 col-md-3 col-sm-3 classfirstfooter">
                 <div class="myclas2">
-                   <a href="{% url 'app:index_page' %}">Home</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:index_page' %}">Home</a>
                 </div>
                 <div class="myclas2">
-                   <a href="{% url 'app:blog_list_view' %}">Blog</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:blog_list_view' %}">Blog</a>
                 </div>
                 <div class="myclas2">
-                   <a href="{% url 'app:portfolio' %}">Portfolio</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:portfolio' %}">Portfolio</a>
+                </div>
+                <div class="myclas2">
+                   <a class="colorhrefsfooter" href="#">Testimonials</a>
+                </div>
+                <div class="myclas2">
+                   <a class="colorhrefsfooter" href="{% url 'app:contact_us' %}">Contact us</a>
                 </div>
             </div>
-            <div class="col-lg-3 classfirstfooter" >
+            <div class="col-lg-3 col-md-3 col-sm-3  classfirstfooter" >
                 <div class="myclas">
                     Tag cloud
                     <br>

@@ -250,7 +250,7 @@ class PortfolioDetailView(DetailView):
     template_name = 'app/portfolio_detail.html'
 
 
-
+# Taras did this peace of code
 def register(request): # 06.03.2017 Taras need to edit later
     context = RequestContext(request)
     registered = False
@@ -272,3 +272,21 @@ def register(request): # 06.03.2017 Taras need to edit later
         yoga_form = YogaUserForm()
     return render(request, 'registration/registration_form.html',
                               {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
+
+
+class SearchListAsView(ListView):
+    template_name = 'app/ajax_list_view.html'
+    model = BlogPost
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchListAsView, self).get_context_data(**kwargs)
+        print(Tag.objects.filter(name__contains=self.kwargs['info']))
+        context.update({
+            'tag_list': Tag.objects.filter(name__contains=self.kwargs['info']),
+        })
+        return context
+
+    def get_queryset(self):
+        return BlogPost.objects.filter(name=self.kwargs['info'])
+
+
