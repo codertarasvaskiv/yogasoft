@@ -173,7 +173,7 @@ def AddComment(request, pk):
         q = Comment(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.blog = BlogPost.objects.get(pk=pk)
-    if request.user.is_staff():
+    if request.user.is_staff:
         q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
@@ -188,7 +188,7 @@ def add_second_comment(request, pk, comm_pk):
         q = CommentSecondLevel(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.father_comment = Comment.objects.get(pk=comm_pk)
-    if request.user.is_staff():
+    if request.user.is_staff:
         q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)

@@ -2,15 +2,12 @@
 {% load static %}
 {% block content %}
 
-
-    <div class="row-fluid">
-    <h3>Our Portfolio </h3>
-
+    <div class="container">
+        <h3>Our Portfolio </h3>
+        <div class="row-fluid">
         {% if portfoliocontent_list %}
-            <div class="container-fluid divparentportfolio">
             {% for item in portfoliocontent_list %}
-
-                <div class="portfoliodiv col-lg-6">
+                <div class="col-md-6 col-sm-6">
                     <div><a href="{% url 'app:portfolio_detail' item.id %}">
                         <img class="img-responsive" href="{% url 'app:portfolio_detail' item.id %}"
                              src={{ item.imagecontentclass_set.all.0.image.url }}></a></div>
@@ -18,19 +15,17 @@
                 </div>
                 {% if forloop.counter|divisibleby:2 %}
                     </div>
-                     <div class="container-fluid divparentportfolio">
+                    <div class="row-fluid">
                 {% endif %}
                 {% if forloop.last %}
                     </div>
                 {% endif %}
             {% endfor %}
 
-
-		    {% else %}
-                <div class="row-fluid">
-                <strong>There is no objects inside portfolio.</strong>
-                </div>
-		    {% endif %}
+        {% else %}
+            <strong>There is no objects inside portfolio.</strong>
+            </div>
+		{% endif %}
      </div>
-        {%  endblock  %}
 
+{%  endblock  %}
