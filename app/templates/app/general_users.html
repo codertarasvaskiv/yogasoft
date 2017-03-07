@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <ol>
+        {% for user_obj in users %}
+                <li>{{ user_obj.username }} - {{ user_obj.first_name }} - {{ user_obj.last_name }} -
+                    <a href="{% url 'app:edit_admin_user' user_obj.id %}">Edit user</a></li>
+        {% endfor %}
+    </ol>
+    <hr>
+    <h5>Add user</h5>
+    <form action="{% url 'app:admin_users'%}" method="POST" onsubmit="return confirm('Save user?')">
+    {% csrf_token %}
+    <table>
+    <tr>
+        <td>Username</td>
+        <td><input type="text" name="username" maxlength="30" required></td>
+    </tr>
+     <tr>
+        <td>Password</td>
+        <td><input type="password" name="password" maxlength="30" minlength="4" required></td>
+    </tr>
+    <tr>
+        <td><input type="submit" value="Save user" name="save"></td>
+    </tr>
+    </table>
+</form>
+{% endblock %}
