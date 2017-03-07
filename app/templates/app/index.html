@@ -1,21 +1,17 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
 {% block content %}
 
 {#    here is a slider#}
 	<div class="well np">
 		<div id="myCarousel" class="carousel slide homCar">
-
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                 <li data-target="#myCarousel" data-slide-to="1"></li>
                 <li data-target="#myCarousel" data-slide-to="2"></li>
                 <li data-target="#myCarousel" data-slide-to="3"></li>
             </ol>
-
-
             <div class="carousel-inner">
 			  <div class="item">
                 <img style="width:100%" src="{% static "images/Screenshot_1.png" %}" alt="First">
@@ -55,17 +51,15 @@
 
     <div class="container-fluid divparent">
             <div class="buttonsdiv">
-                <input  class="btn waves-effect waves-light buttons" type="submit" value="View Portfolio">
+                <input  class="btn waves-effect waves-light buttons btn-lg" type="button" value="View Portfolio">
             </div>
-
             <div class="buttonsdiv">
-                <input  class="btn waves-effect waves-light buttons" type="button" value="Start Project" data-toggle="modal" data-target="#myModal">
+                <input  class="btn waves-effect waves-light buttons btn-lg" type="button" value=" Start Project " data-toggle="modal" data-target="#myModal">
             </div>
     </div>
 
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,12 +77,11 @@
                 </div>
                 </form>
             </div>
-
         </div>
     </div>
     <br>
     <div class="container-fluid divparent">
-    <img src="{% static "images/tech.png" %}" alt="Technologies">
+        <img class="image" src="{% static "images/tech.png" %}" alt="Technologies">
     </div>
     <br>
 

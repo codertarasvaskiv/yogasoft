@@ -1,5 +1,6 @@
 
 from django.views.generic import TemplateView, ListView, DetailView, FormView
+from django.contrib.auth.models import User
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -17,6 +18,7 @@ from datetime import date
 from os import mkdir
 from .forms import *
 from .models import *
+
 
 TESTIMONIALS_ON_PAGE = 8
 TESTIMONIALS_ON_ADMIN_PAGE = 8
@@ -45,7 +47,6 @@ class IndexPage(FormView):
     success_url = '/'
 
     def post(self, request, *args, **kwargs):
-        print("post inside project")
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         files = request.FILES.getlist('file')
@@ -162,6 +163,9 @@ class BlogDetailView(DetailView):
         for i in comments:
             if i.is_moderated:
                 context['comments'][i] = list(CommentSecondLevel.objects.filter(father_comment=i))
+                for j in context['comments'][i]:
+                    if not j.is_moderated:
+                        context['comments'][i].pop(context['comments'][i].index(j))
         context['form'] = CommentForm()
         context.pop('blogpost')
 
@@ -170,9 +174,10 @@ class BlogDetailView(DetailView):
 
 def AddComment(request, pk):
     data = request.POST
-    q = Comment()
-    q.author_email = data['author_email']
-    q.author_name = data['author_name']
+    if request.user.is_authenticated():
+        q = Comment(author_email=request.user.email, author_name=request.user)
+    else:
+        q = Comment(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.blog = BlogPost.objects.get(pk=pk)
     q.save(q)
@@ -181,9 +186,11 @@ def AddComment(request, pk):
 
 def add_second_comment(request, pk, comm_pk):
     data = request.POST
-    q = CommentSecondLevel()
-    q.author_email = data['author_email']
-    q.author_name = data['author_name']
+    print(request.user)
+    if request.user.is_authenticated():
+        q = CommentSecondLevel(author_email=request.user.email, author_name=request.user)
+    else:
+        q = CommentSecondLevel(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.father_comment = Comment.objects.get(pk=comm_pk)
     q.save(q)
@@ -205,15 +212,25 @@ class BlogListView(ListView):
             return BlogPost.objects.all()
 
 
-# just testing need to delete later Taras
-class Test(TemplateView):
-    template_name = 'app/test.html'
-
-
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('#')
+
+
+class ContactUsView(FormView):
+    template_name = 'app/contact_us.html'
+    form_class = ContactUsForm
+    success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        q = ContactUsModel()
+        q.author_email = data['author_email']
+        q.author_name = data['author_name']
+        q.message = data['message']
+        q.save(q)
+        return redirect("app:index_page")
 
 
 def user_login(request):
@@ -363,3 +380,19 @@ class GeneralUsers(ListView):
             useryoga.save()
             return HttpResponseRedirect(reverse('app:edit_admin_user', args=(new_user.id,)))
         return HttpResponseRedirect(reverse('app:admin_users'))
+
+
+class PortfolioListView(ListView):
+    """02.03.2017 Taras  this list returns all Portfolio projects of our agency """
+    template_name = 'app/portfolio.html'
+    # paginate_by = 4
+
+    def get_queryset(self):
+        return PortfolioContent.objects.all()
+
+
+class PortfolioDetailView(DetailView):
+    """02.03.2017 Taras this is detail portfolio view of concrete project"""
+    model = PortfolioContent
+    template_name = 'app/portfolio_detail.html'
+

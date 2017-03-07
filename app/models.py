@@ -61,6 +61,9 @@ class PortfolioContent(models.Model):
     link = models.CharField(max_length=250, blank=True)
     client = models.CharField(max_length=250, blank=True)
 
+    def __str__(self):
+        return str(self.name)
+
 
 class ImageContentClass(models.Model):
     image = models.ImageField(upload_to='content_images')
@@ -116,3 +119,9 @@ class CommentSecondLevel(models.Model):
 
     def __str__(self):  # just for debug, remove later
         return self.message
+
+
+class ContactUsModel(models.Model):
+    author_name = models.CharField(max_length=100)
+    author_email = models.EmailField()
+    message = models.TextField()

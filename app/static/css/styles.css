@@ -1,3 +1,7 @@
+.btn {
+    border-radius: 0 !important;
+}
+
 #overlay {
             visibility: hidden;
             position: absolute;
@@ -20,7 +24,8 @@
 #first_footer {
 
     background-color: #3a3a3a;
-    height: 40px;
+    height: 150px;
+
 }
 
 #second_footer {
@@ -36,8 +41,12 @@
 }
 
 .myclas{
-    font-size: initial;
+    font-size: medium;
     color: honeydew;
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 1%;
 
 }
 
@@ -56,4 +65,131 @@
 .divparent{
     display: flex;
     justify-content: space-between;
+}
+.divparentportfolio{
+    display: flex;
+    justify-content: space-between;
+}
+#login-dp{
+    background-color: #333;
+    width: 220px;
+}
+.navbar-nav>li>.dropdown-menu {
+    margin-top: 3px !important;
+}
+
+.form-group{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+}
+.inline{
+    display: inline-block;
+
+}
+.inline2{
+    display: inline-block;
+   margin-left:5%;
+
+}
+.dropdown-menu{
+    min-width: 200px !important;
+}
+
+#sizeofa{
+    font-size: 10px;
+    display: block;
+    text-align: left;
+}
+
+.divparent2{
+    display: flex;
+}
+
+.tagcloud ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.tagcloud ul li {
+    display: inline-block;
+    margin: 0 .3em .3em 0;
+    padding: 0;
+}
+.tagcloud ul li a {
+    display: inline-block;
+    max-width: 100px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 1em;
+    background-color: #3498db;
+    border: 1px solid #aaa;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #333;
+    font-size: 13px;
+    text-decoration: none;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+.tagcloud ul li a:hover {
+    background-color: #fff;
+    border: 1px solid #fff;
+}
+
+.classfirstfooter {
+    font-size: initial;
+    color: honeydew;
+    display: inline-block;
+}
+#firstmenudiv{
+
+}
+.image{
+    max-height:100%; max-width:100%;
+}
+#addressdiv{
+    padding-right: 0px;
+}
+.littlespace{
+padding-left: 6px;
+}
+#address{
+    margin-bottom: 0px;
+}
+#sign_in{
+    padding-right: 20px;
+}
+
+.portfoliodiv{
+    display: inline-block;
+}
+
+.paddingleft{
+    padding-left: 30px;
+}
+.paddingright{
+    padding-right: 30px;
+}
+
+@media screen and (min-width: 1400px) {
+    .container {
+        width: 1370px !important;
+    }
+}
+@media screen and (min-width: 1600px) {
+    .container {
+        width: 1570px !important;
+    }
+}
+@media screen and (min-width: 1700px) {
+    .container {
+        width: 1670px !important;
+    }
+}
+@media screen and (min-width: 1800px) {
+    .container {
+        width: 1770px !important;
+    }
 }
