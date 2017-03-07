@@ -28,8 +28,6 @@
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-
-
   </head>
   <body>
    <div class="container theme-showcase" role="main">
@@ -63,15 +61,20 @@
                   <li><a href="{% url 'app:index_page' %}">Home</a></li>
                   <li><a href="{% url 'app:blog_list_view' %}">Blog</a></li>
                   <li><a href="{% url 'app:portfolio' %}">Portfolio</a></li>
-                  <li><a href="#">Testimonials</a></li>
+                  <li><a href="{% url 'app:testimonials' %}">Testimonials</a></li>
                   <li><a href="{% url 'app:contact_us' %}">Contact us</a></li>
               </ul>
            {% if request.user.is_authenticated %}
-              <ul class="nav navbar-nav navbar-right">
-                  <li> <li><a href="/logout">Logout {{ user.username }}</a></li></li>
 
+              <ul class="nav navbar-nav pull-right">
+                  <li>  {% if user.useryoga.is_admin or user.is_superuser %}
+                        <li><a href="{% url "app:site_admin" %}">Administration</a></li>
+                        {% endif %}
+                        <li><a href="/logout">Logout {{ user.username }}</a></li>
+                  </li>
               </ul>
           {% else %}
+
                <ul class="nav navbar-nav navbar-right ">
                        <li  class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -134,7 +137,6 @@
      {%  endblock  %}
         </div>
 
-
 {#  here starts first footer#}
         <div id="first_footer" class="row-fluid">
             <div class="col-lg-3 col-md-3 col-sm-3 classfirstfooter">
@@ -164,21 +166,25 @@
                 </div>
             </div>
         </div>
-
-
 {#        here starts last footer#}
        <div id="second_footer" class="row-fluid">
            <div class="myclas">  Copyright, YogaSoft 2017 </div>
        </div>
    </div>
 
+     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                      crossorigin="anonymous"></script>
+      <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
+      <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
+      <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+      <script type="text/javascript" src="{% static "js/jquery-2.1.1.min.js" %}"></script> -->
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
-
-
 
 </body>
 </html>
