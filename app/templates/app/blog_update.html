@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="#" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input class="btn waves-effect waves-light" type="submit" value="Save" />
+                </form>
+                <hr>
+                <a href="{% url 'app:delete_blog_post' pk=object.id %}">Delete post</a>
+            </div>
+        </div>
+    </div>
+    <br>
+{% endblock %}

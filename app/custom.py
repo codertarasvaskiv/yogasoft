@@ -33,10 +33,12 @@ def user_permissions(user):  # Returns user permissions list
     return user.user_permissions.values_list('codename', flat=True)
 
 
-def in_group_decorator(group_list,  optional_redirect=None):  # Checks if user is logined and in specified group
-    def decorator(func):                                      # accepts list
+def in_group_decorator(group_list,  optional_redirect=None, superuser_allowed=True):  # Checks if user is logined and in specified group
+    def decorator(func):                                                                # accepts list
         def inner(request, *args, **kwargs):
             if request.user.is_authenticated():
+                if request.user.is_superuser and superuser_allowed:
+                    return func(request, *args, **kwargs)
                 user_groups = request.user.groups.values_list('name', flat=True)
                 for group in group_list:
                     if group in user_groups:
@@ -52,10 +54,12 @@ def in_group_decorator(group_list,  optional_redirect=None):  # Checks if user i
     return decorator
 
 
-def user_can_decorator(permission_list,  optional_redirect=None):  # Checks if user is logined and has permissions
-    def decorator(func):                                           # accepts list
+def user_can_decorator(permission_list,  optional_redirect=None, superuser_allowed=True):  # Checks if user is logined and has permissions
+    def decorator(func):                                                                    # accepts list
         def inner(request, *args, **kwargs):
             if request.user.is_authenticated():
+                if request.user.is_superuser and superuser_allowed:
+                    return func(request, *args, **kwargs)
                 user_permissions = request.user.user_permissions.values_list('codename', flat=True)
                 for permission in permission_list:
                     if permission in user_permissions:

@@ -6,9 +6,13 @@ from django.db.models.signals import post_save
 class CustomPermission(models.Model):  # Abstract model to add custom permissions
     class Meta:
         permissions = (
-            ("custom_permission_1", "Custom permission_1"),
-            ("custom_permission_2", "Custom permission_2"),
-            ("custom_permission_3", "Custom permission_3"),
+            ("blog_admin", "Blog administration"),
+            ("portfolio_admin", "Portfolio administration"),
+            ("testimonials_admin", "Testimonials administration"),
+            ("projects_admin", "Projects administration"),
+            ("user_messages", "Permission to see customer messages"),
+            ("admin_users", "Admin users administration"),
+            ("general_users", "General users administration"),
         )
 
 
@@ -19,6 +23,9 @@ class Project(models.Model):
     email = models.EmailField()
     query = models.TextField()
     file = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.email + str(self.when)
 
 
 class Tag(models.Model):

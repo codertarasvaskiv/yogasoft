@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <p><strong>Name and surname:</strong> {{ object.first_name }} {{ object.last_name }}</p>
+    <p><strong>Email:</strong> {{ object.email }}</p>
+    <p><strong>Query:</strong> {{ object.query }}</p>
+    <h5>Files</h5>
+    {% if files.0 != 'There is no files' %}
+        {% for i in files %}
+            <a href="{% url 'app:project_file_download' pk=object.id file=i %}">{{ i }}</a><br>
+        {% endfor %}
+        <hr>
+        <a href="{% url "app:project_files_download" pk=object.id %}">Download all files</a>
+    {% else %}
+        {{ files.0 }}
+    {% endif %}
+    <hr>
+
+    <a href="{% url "app:project_delete" pk=object.id %}">delete project</a>
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block container %}
+{% block content %}
 
     {% if page_obj.has_previous %}
     <a href="{% url 'app:testimonials_admin' %}?mod={{ request.GET.mod }}&page={{ page_obj.previous_page_number }}">попередня</a>
@@ -18,7 +18,7 @@
             <form action="{% url 'app:testimonials_admin' tstm.id %}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm('Ви впевнені?')">
                 {% csrf_token %}
             <li>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.message }} - {{ tstm.date}}
-            <input type="submit" value="Підтвердити" name="moderated"><input type="submit" value="Видалити" name="delete"></li>
+            {% if not tstm.is_moderated %}<input type="submit" value="Підтвердити" name="moderated">{% endif %}<input type="submit" value="Видалити" name="delete"></li>
             </form>
         {% endfor %}
     </ol>

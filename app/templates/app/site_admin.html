@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <a href="{% url 'app:site_admin' %}">Portfolio administration</a><br>
+    <a href="{% url 'app:admin_blog_posts' %}">Blog administration</a><br>
+    <a href="{% url 'app:testimonials_admin' %}">Testimonials administration</a><br>
+    <a href="{% url 'app:site_admin' %}">Feedback administration</a><br>
+    <a href="{% url 'app:admin_users' %}">Administrators</a><br>
+    <a href="{% url 'app:site_admin' %}">Users</a><br>
+    <a href="{% url 'app:projects_list' %}">Projects</a><br>
+{% endblock %}

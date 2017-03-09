@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project, Comment, CommentSecondLevel, ContactUsModel, UserYoga
+from .models import Project, Comment, CommentSecondLevel, ContactUsModel, UserYoga, BlogPost
 from django.contrib.auth.models import User
 
 
@@ -72,3 +72,15 @@ class YogaUserForm(forms.ModelForm):
         model = UserYoga
         fields = ('extra_data',)
 
+
+class CreateBlogForm(forms.ModelForm):
+
+    class Meta:
+        model = BlogPost
+        exclude = ["author", "date"]
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': '7'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'file': forms.FileInput(attrs={'class': 'upload'}),
+        }
