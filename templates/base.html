@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+{% load i18n %}
 {% load popular_tags %}
 
   <head>
@@ -58,11 +59,11 @@
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                  <li><a href="{% url 'app:index_page' %}">Home</a></li>
-                  <li><a href="{% url 'app:blog_list_view' %}">Blog</a></li>
-                  <li><a href="{% url 'app:portfolio' %}">Portfolio</a></li>
-                  <li><a href="{% url 'app:testimonials' %}">Testimonials</a></li>
-                  <li><a href="{% url 'app:contact_us' %}">Contact us</a></li>
+                  <li><a href="{% url 'app:index_page' %}">{% trans "Home" %}</a></li>
+                  <li><a href="{% url 'app:blog_list_view' %}">{% trans "Blog" %}</a></li>
+                  <li><a href="{% url 'app:portfolio' %}">{% trans "Portfolio" %}</a></li>
+                  <li><a href="{% url 'app:testimonials' %}">{% trans "Testimonials" %}</a></li>
+                  <li><a href="{% url 'app:contact_us' %}">{% trans "Contact us" %}</a></li>
               </ul>
            {% if request.user.is_authenticated %}
 
@@ -169,6 +170,11 @@
 {#        here starts last footer#}
        <div id="second_footer" class="row-fluid">
            <div class="myclas">  Copyright, YogaSoft 2017 </div>
+           <div class="myclas pull-right">
+               <a href="{% url 'app:change_lang' 'en' request.path %}">en</a>
+               <a href="{% url 'app:change_lang' 'uk' request.path %}">uk</a>
+           </div>
+
        </div>
    </div>
 

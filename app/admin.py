@@ -7,7 +7,7 @@ class ProjectsView(admin.ModelAdmin):
 
 
 class BlogsView(admin.ModelAdmin):
-    list_display = ['author', 'name']
+    list_display = ['author', 'name', 'text']
 
 
 class TagView(admin.ModelAdmin):

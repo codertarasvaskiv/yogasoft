@@ -171,6 +171,9 @@
 .image{
     max-height:100%; max-width:100%;
 }
+.imageblogclass{
+   max-height: 250px;
+}
 
 #addressdiv{
     padding-right: 0px;
