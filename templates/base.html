@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+{% load i18n %}
 {% load popular_tags %}
 
   <head>
@@ -36,9 +37,11 @@
             <strong class="littlespace">YogaSoft Agency, Inc.</strong><br>
                  <span class="glyphicon glyphicon-envelope littlespace"></span>
               yagosoft@gmail.com<br>
-                 <form>
-                    <div class="form-group" role="search">
-                        <input type="text" class="form-control" placeholder="Search" id="search">
+
+                 <form  role="search">
+                     {% csrf_token %}
+                    <div class="form-group">
+                    <input id="search" type="text" class="form-control" placeholder="Search">
                     </div>
               </form>
         </address>
@@ -57,11 +60,11 @@
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                  <li><a href="{% url 'app:index_page' %}">Home</a></li>
-                  <li><a href="{% url 'app:blog_list_view' %}">Blog</a></li>
-                  <li><a href="{% url 'app:portfolio' %}">Portfolio</a></li>
-                  <li><a href="{% url 'app:testimonials' %}">Testimonials</a></li>
-                  <li><a href="{% url 'app:contact_us' %}">Contact us</a></li>
+                  <li><a href="{% url 'app:index_page' %}">{% trans "Home" %}</a></li>
+                  <li><a href="{% url 'app:blog_list_view' %}">{% trans "Blog" %}</a></li>
+                  <li><a href="{% url 'app:portfolio' %}">{% trans "Portfolio" %}</a></li>
+                  <li><a href="{% url 'app:testimonials' %}">{% trans "Testimonials" %}</a></li>
+                  <li><a href="{% url 'app:contact_us' %}">{% trans "Contact us" %}</a></li>
               </ul>
            {% if request.user.is_authenticated %}
 
@@ -131,23 +134,31 @@
       </div>
     </nav>
 
- {% block content %}
- {%  endblock  %}
+        <div id="ajax">
+     {% block content %}
+     {%  endblock  %}
+        </div>
 
 {#  here starts first footer#}
         <div id="first_footer" class="row-fluid">
-            <div class="col-lg-3 classfirstfooter">
+            <div class="col-lg-3 col-md-3 col-sm-3 classfirstfooter">
                 <div class="myclas2">
-                   <a href="{% url 'app:index_page' %}">Home</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:index_page' %}">Home</a>
                 </div>
                 <div class="myclas2">
-                   <a href="{% url 'app:blog_list_view' %}">Blog</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:blog_list_view' %}">Blog</a>
                 </div>
                 <div class="myclas2">
-                   <a href="{% url 'app:portfolio' %}">Portfolio</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:portfolio' %}">Portfolio</a>
+                </div>
+                <div class="myclas2">
+                   <a class="colorhrefsfooter" href="#">Testimonials</a>
+                </div>
+                <div class="myclas2">
+                   <a class="colorhrefsfooter" href="{% url 'app:contact_us' %}">Contact us</a>
                 </div>
             </div>
-            <div class="col-lg-3 classfirstfooter" >
+            <div class="col-lg-3 col-md-3 col-sm-3  classfirstfooter" >
                 <div class="myclas">
                     Tag cloud
                     <br>
@@ -160,6 +171,11 @@
 {#        here starts last footer#}
        <div id="second_footer" class="row-fluid">
            <div class="myclas">  Copyright, YogaSoft 2017 </div>
+           <div class="myclas pull-right">
+               <a href="{% url 'app:change_lang' 'en' request.path %}">en</a>
+               <a href="{% url 'app:change_lang' 'uk' request.path %}">uk</a>
+           </div>
+
        </div>
    </div>
 

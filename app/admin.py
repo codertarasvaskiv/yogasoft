@@ -7,7 +7,7 @@ class ProjectsView(admin.ModelAdmin):
 
 
 class BlogsView(admin.ModelAdmin):
-    list_display = ['author', 'name']
+    list_display = ['author', 'name', 'text']
 
 
 class TagView(admin.ModelAdmin):
@@ -25,6 +25,11 @@ class PortfolioContentView(admin.ModelAdmin):
 class ImageContentView(admin.ModelAdmin):
     list_display = ['content', 'image']
 
+class UserYogaView(admin.ModelAdmin):
+    list_display = ['username', 'first_name', 'last_name', 'email',]
+
+class TechnologyView(admin.ModelAdmin):
+    list_display = ['name', 'description', 'image']
 
 
 # Register your models here.
@@ -38,4 +43,5 @@ admin.site.register(models.BlogPost, BlogsView)
 admin.site.register(models.Project, ProjectsView)
 admin.site.register(models.ContactUsModel)
 admin.site.register(models.Testimonial)
+admin.site.register(models.Technology, TechnologyView)
 admin.site.register(models.UserYoga)

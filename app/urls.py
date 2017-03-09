@@ -37,4 +37,9 @@ urlpatterns = [
         name='project_file_download'),
     url(r'^contact_us/$', views.ContactUsView.as_view(), name='contact_us'),
 
+
+
+    url(r'^search_list/(?P<info>.*)$', views.SearchListAsView.as_view(), name='search'),
+    url(r'^change_lang/(?P<lang>.*)/(?P<path>.*)$', views.ChangeLanguage.as_view(), name='change_lang'),
+
 ]

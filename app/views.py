@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
+=======
+from django.views.generic import TemplateView, ListView, DetailView, FormView
+>>>>>>> fabd6b4f5f7090a503720716f9929bc73543b582
 from django.contrib.auth.models import User
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
+from django.utils.translation import activate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.http import StreamingHttpResponse
 from django.template import RequestContext
@@ -426,8 +432,7 @@ def register(request):  # 06.03.2017 Taras need to edit later
     else:
         user_form = UserForm()
         yoga_form = YogaUserForm()
-    return render(request, 'registration/registration_form.html',
-                  {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
+    return render(request, 'registration/registration_form.html', {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
 
 
 class AdminBlogList(ListView):
@@ -543,3 +548,35 @@ class ProjectDelete(DeleteView):
             pass
         self.object.delete()
         return HttpResponseRedirect(success_url)
+
+#need to show ajax job, for search
+class SearchListAsView(ListView):
+    template_name = 'app/ajax_list_view.html'
+    model = BlogPost
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchListAsView, self).get_context_data(**kwargs)
+        # here we can add some additional context
+        context.update({
+            'tag_list': None,
+        })
+        return context
+
+    def get_queryset(self):
+        return BlogPost.objects.filter(Q(name__contains=self.kwargs['info']) | Q(text__contains=self.kwargs['info']) |
+                                      Q(tags__in=Tag.objects.filter(name__contains=self.kwargs['info'])))
+
+
+class ChangeLanguage(TemplateView):
+    template_name = ''
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchListAsView, self).get_context_data(**kwargs)
+        # here we can add some additional context
+        context.update({
+            'tag_list': None,
+        })
+        self.template_name = self.kwargs['path']
+        activate(self.kwargs['lang'])
+
+        return context

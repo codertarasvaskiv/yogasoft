@@ -2,12 +2,14 @@
 {% load static %}
 {% block content %}
 
-    <div class="container">
-        <h3>Our Portfolio </h3>
-        <div class="row-fluid">
+    <div class="row-fluid">
+    <div class="container-fluid divparent"><h1>Our Portfolio </h1></div>
+
         {% if portfoliocontent_list %}
+            <div class="container-fluid bg-3 divparentportfolio">
             {% for item in portfoliocontent_list %}
-                <div class="col-md-6 col-sm-6">
+
+                <div class="portfoliodiv col-sm-4">
                     <div><a href="{% url 'app:portfolio_detail' item.id %}">
                         <img class="img-responsive" href="{% url 'app:portfolio_detail' item.id %}"
                              src={{ item.imagecontentclass_set.all.0.image.url }}></a></div>
