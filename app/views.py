@@ -19,6 +19,7 @@ from datetime import date
 from os import mkdir
 from .forms import *
 from .models import *
+import re
 
 
 TESTIMONIALS_ON_PAGE = 8
@@ -447,12 +448,22 @@ class ChangeLanguage(TemplateView):
     template_name = ''
 
     def get_context_data(self, **kwargs):
-        context = super(SearchListAsView, self).get_context_data(**kwargs)
+        context = super(ChangeLanguage, self).get_context_data(**kwargs)
         # here we can add some additional context
         context.update({
             'tag_list': None,
         })
         self.template_name = self.kwargs['path']
         activate(self.kwargs['lang'])
+
+        L = [[[1, 2, 3], [4, 5]], 6, 7]
+
+        def Flatten(L):
+            a = str(L)
+            b, crap = re.subn(r'[\[,\]]', ' ', a)
+            c = b.split()
+            d = [int(x) for x in c]
+            return d
+        print(Flatten(L))
 
         return context
