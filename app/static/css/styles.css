@@ -199,6 +199,13 @@ padding-left: 6px;
 .paddingright{
     padding-right: 30px;
 }
+.inlineblock{
+    display: inline-block;
+}
+.inputCss{
+    background-color: #0f0f0f;
+}
+
 
 @media screen and (min-width: 1400px) {
     .container {

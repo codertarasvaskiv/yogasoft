@@ -2,6 +2,7 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView, C
 from django.contrib.auth.models import User
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
 from django.utils.translation import activate
+from django.utils import translation
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
@@ -565,15 +566,27 @@ class SearchListAsView(ListView):
 
 
 class ChangeLanguage(TemplateView):
-    template_name = ''
+    template_name = 'app/index.html'
 
     def get_context_data(self, **kwargs):
-        context = super(SearchListAsView, self).get_context_data(**kwargs)
-        # here we can add some additional context
-        context.update({
-            'tag_list': None,
-        })
-        self.template_name = self.kwargs['path']
-        activate(self.kwargs['lang'])
+        context = super(ChangeLanguage, self).get_context_data(**kwargs)
+        if self.kwargs['lang'] == 'uk':
+            activate('uk')
+            request.session[translation.LANGUAGE_SESSION_KEY] = 'uk'
+        if self.kwargs['lang'] == 'en':
+            activate('en')
+            request.session[translation.LANGUAGE_SESSION_KEY] = 'en'
+        return context
+
+
+def change_language(request, lang=''):
+
+    print(lang)
+    activate('uk')
+    request.session[translation.LANGUAGE_SESSION_KEY] = 'uk'
+    #parser.test()
+    return render(request, 'app/index.html', {'output': None})
 
         return context
+=======
+>>>>>>> refs/remotes/origin/master
