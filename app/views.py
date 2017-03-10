@@ -1,7 +1,7 @@
 
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.models import User
-from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
+from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator, args_builder
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
@@ -16,12 +16,15 @@ from os.path import join, abspath
 from django.shortcuts import redirect, render, render_to_response
 from datetime import date
 from os import mkdir
+from operator import __and__
+from functools import reduce
 from .forms import *
 from .models import *
 
 
 TESTIMONIALS_ON_PAGE = 8
 TESTIMONIALS_ON_ADMIN_PAGE = 8
+USERS_ON_PAGE = 25
 
 
 # @method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')  # Decorator use example
@@ -94,6 +97,7 @@ class Testimonials(ListView):
         return HttpResponseRedirect(reverse('app:testimonials'))
 
 
+@method_decorator(user_can_decorator(['testimonials_admin']), name='dispatch')
 class TestimonialsAdmin(ListView):
     model = Testimonial
     template_name = "app/testimonials_admin.html"
@@ -362,28 +366,131 @@ class EditAdminUser(TemplateView):
 
 
 @method_decorator(user_can_decorator(['general_users']), name='dispatch')
-class GeneralUsers(ListView):
+class GeneralUsers(ListView):  # View and fast create general user
     model = User
     template_name = "app/general_users.html"
     context_object_name = "users"
+    paginate_by = USERS_ON_PAGE
+
+    def __init__(self):
+        super().__init__()
+        self.login_used = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['login_used'] = self.login_used
+        if len(context['users']) <= 0:
+            context['no_found'] = True
+        self.login_used = False
+        return context
 
     def get_queryset(self):
-        return User.objects.filter(useryoga__is_admin=False)
+        order_by = self.request.GET.get('order_by', 'username')
+        order_desc = self.request.GET.get('order_desc', 'false')
+        auth_by_sn = self.request.GET.get('auth_by_sn', 'any')
+        search_q = self.request.GET.get('search', None)
+        is_active = self.request.GET.get('is_active', 'true')
+        q_builder = [Q(useryoga__is_admin=False)]
+        if order_by == 'first_name':
+            order_by = '{0}first_name'.format('-' if order_desc == 'true' else '')
+        elif order_by == 'last_name':
+            order_by = '{0}last_name'.format('-' if order_desc == 'true' else '')
+        else:
+            order_by = '{0}username'.format('-' if order_desc == 'true' else '')
 
-    def post(self, request):
+        if search_q:
+            try:
+                search_q = int(search_q)
+                q_builder.append(Q(pk=search_q))
+            except ValueError:
+                q_builder.append((Q(username=search_q) | Q(first_name=search_q) | Q(last_name=search_q)))
+
+        if auth_by_sn == 'true':
+            q_builder.append(Q(useryoga__auth_by_sn=True))
+        elif auth_by_sn == 'false':
+            q_builder.append(Q(useryoga__auth_by_sn=False))
+
+        if is_active == 'false':
+            q_builder.append(Q(is_active=False))
+        elif is_active == 'true':
+            q_builder.append(Q(is_active=True))
+
+        return User.objects.filter(reduce(__and__, q_builder)).order_by(order_by)
+
+    def post(self, request):  # Create new general user
         if 'save' in request.POST:
             new_user = request.POST['username']
+            print(User.objects.filter(username=new_user))
             if len(User.objects.filter(username=new_user)) > 0:  # Check if username is already used
-                return HttpResponseRedirect(reverse('app:admin_users'))
+                self.login_used = True
+                return self.get(self, request)
             new_user = User(username=new_user)
             new_user.set_password(request.POST['password'])
             new_user.save()
             useryoga = UserYoga.objects.get(user=new_user)
-            useryoga.is_admin = True
+            useryoga.is_admin = False
             useryoga.auth_by_sn = False
             useryoga.save()
-            return HttpResponseRedirect(reverse('app:edit_admin_user', args=(new_user.id,)))
-        return HttpResponseRedirect(reverse('app:admin_users'))
+            return HttpResponseRedirect(reverse('app:edit_general_user', args=(new_user.id,)))
+        elif 'search' in request.POST:
+            search_q = request.POST['search_q']
+            return HttpResponseRedirect(reverse('app:general_users')+args_builder(request, ['order_by', 'order_desc'])
+                                        + '&search={0}'.format(search_q))
+        elif 'reset' in request.POST:
+            return HttpResponseRedirect(reverse('app:general_users') + args_builder(request, ['order_by', 'order_desc']))
+        return HttpResponseRedirect(reverse('app:general_users'))
+
+
+@method_decorator(user_can_decorator(['general_users']), name='dispatch')
+class EditGeneralUser(TemplateView):  # Edit general user
+    model = User
+    template_name = "app/edit_general_user.html"
+    context_object_name = "user_obj"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.login_used = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            user_obj = User.objects.get(pk=self.kwargs['user_id'])
+            context['user_obj'] = user_obj
+            context['user_exist'] = True
+            context['login_used'] = self.login_used
+            self.login_used = False
+        except User.DoesNotExist:
+            context['user_exist'] = False
+        return context
+
+    def post(self, request, user_id=None):
+        try:
+            user_obj = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return HttpResponseRedirect(reverse('app:general_users'))
+
+        if 'change_pass' in request.POST:
+            new_pass = request.POST['password']
+            user_obj.set_password(new_pass)
+            return HttpResponseRedirect(reverse('app:general_users'))
+
+        elif 'save' in request.POST:
+            new_username = request.POST['username']
+            if len(User.objects.filter(~Q(pk=user_id), Q(username=new_username))) > 0:  # Check if login is already used
+                self.login_used = True
+                return self.get(request)
+            user_obj.username = request.POST['username']
+            user_obj.first_name = request.POST['first_name']
+            user_obj.last_name = request.POST['last_name']
+            user_obj.email = request.POST['email']
+            if "is_active" in request.POST:
+                user_obj.is_active = True
+            else:
+                user_obj.is_active = False
+            user_obj.save()
+            return HttpResponseRedirect(reverse('app:general_users'))
+        else:
+            return HttpResponseRedirect(reverse('app:general_users'))
 
 
 class PortfolioListView(ListView):

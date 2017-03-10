@@ -1,17 +1,27 @@
 {% extends 'base.html' %}
+{% load popular_tags %}
 
 {% block content %}
 
-    {% if page_obj.has_previous %}
-    <a href="{% url 'app:testimonials_admin' %}?mod={{ request.GET.mod }}&page={{ page_obj.previous_page_number }}">попередня</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <a href="{% url 'app:testimonials_admin' %}?mod={{ request.GET.mod }}&page={{ page_obj.next_page_number }}">наступна</a>
-    {% endif %}
-    <p></p>
-    <a href="{% url 'app:testimonials_admin' %}?mod=all&page=1">усі</a>
-    <a href="{% url 'app:testimonials_admin' %}?mod=true&page=1">підтверджені</a>
-    <a href="{% url 'app:testimonials_admin' %}?mod=false&page=1">непідтверджені</a>
+    <p>
+        <a href="{% url 'app:testimonials_admin' %}?mod=all&page=1">All</a>&nbsp|&nbsp
+        <a href="{% url 'app:testimonials_admin' %}?mod=true&page=1">Approved</a>&nbsp|&nbsp
+        <a href="{% url 'app:testimonials_admin' %}?mod=false&page=1">Not approved</a>
+    </p>
+
+    <p>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
+        {% if page_obj.has_previous %}
+            <a href="{% url 'app:testimonials_admin' %}{% q_transform request page=page_obj.previous_page_number %}">Previous</a>
+        {% else %}
+            <span style="color: grey">Previous</span>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="{% url 'app:testimonials_admin' %}{% q_transform request page=page_obj.next_page_number %}">Next</a>
+        {% else %}
+            <span style="color: grey">Next</span>
+        {% endif %}
+    </p>
 
     <ol>
         {% for tstm in testimonials %}

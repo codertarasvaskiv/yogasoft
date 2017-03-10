@@ -73,3 +73,14 @@ def user_can_decorator(permission_list,  optional_redirect=None, superuser_allow
                 return HttpResponseRedirect(reverse(LOGIN_PAGE))
         return inner
     return decorator
+
+
+def args_builder(reques, args_list):
+    args_string = '?'
+    for arg in args_list:
+        arg_data = reques.GET.get(arg, False)
+        if arg_data:
+            args_string += '{0}={1}&'.format(arg, arg_data)
+    return args_string
+
+

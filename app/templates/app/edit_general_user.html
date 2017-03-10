@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user_exist %}
+        <form action="{% url 'app:edit_general_user' user_obj.id %}" method="POST" onsubmit="return confirm('Save changes?')">
+        {% csrf_token %}
+            {% if login_used %}
+                <h3 style="color: red">Login is already used</h3>
+            {% endif %}
+            <table>
+                <tr>
+                    <td>Login:</td>
+                    <td><input type="text" name="username" maxlength="30" value="{{ user_obj.username }}" required></td>
+                </tr>
+                <tr>
+                    <td>First name:</td>
+                    <td><input type="text" name="first_name" maxlength="30" value="{{ user_obj.first_name }}"></td>
+                </tr>
+                <tr>
+                    <td>Last name:</td>
+                     <td><input type="text" name="last_name" maxlength="30" value="{{ user_obj.last_name }}"></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                     <td><input type="email" name="email" maxlength="30" value="{{ user_obj.email }}"></td>
+                </tr>
+                <tr>
+                    <td>Is active:</td>
+                    <td><input type="checkbox" name="is_active" {% if user_obj.is_active %} checked {% endif %}></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Save" name="save"></td>
+                </tr>
+            </table>
+        </form>
+        <hr>
+        <form action="{% url 'app:edit_general_user' user_obj.id %}" method="POST" onsubmit="return confirm('Save password?')">
+        {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" name="password" maxlength="30" minlength="4" required></td>
+                    <td><input type="submit" value="Change password" name="change_pass"></td>
+                </tr>
+            </table>
+        </form>
+    {% else %}
+        <h1>User does not exist or wrong user id <a href="{% url 'app:general_users' %}">back</a></h1>
+    {% endif %}
+    <hr>
+
+{% endblock %}

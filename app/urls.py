@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^site_admin/$', views.SiteAdmin.as_view(), name='site_admin'),
     url(r'^site_admin/admin_users/$', views.AdminUsers.as_view(), name='admin_users'),
     url(r'^site_admin/edit_admin_user/(?P<user_id>[0-9]+)/$', views.EditAdminUser.as_view(), name='edit_admin_user'),
+    url(r'^site_admin/general_users/$', views.GeneralUsers.as_view(), name='general_users'),
+    url(r'^site_admin/edit_general_user/(?P<user_id>[0-9]+)/$', views.EditGeneralUser.as_view(), name='edit_general_user'),
     url(r'^contact_us/$', views.ContactUsView.as_view(), name='contact_us'),
 
 ]

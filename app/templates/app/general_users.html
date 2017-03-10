@@ -1,15 +1,66 @@
 {% extends 'base.html' %}
+{% load popular_tags %}
 
 {% block content %}
+    <p>
+        <form action="{% url 'app:general_users'%}" method="POST" style="float: left">
+        {% csrf_token %}
+            <input type="text" name="search_q" maxlength="30" required>
+            <input type="submit" name="search" value="Search">
+        </form>
+        <form action="{% url 'app:general_users'%}" method="POST">
+        {% csrf_token %}
+        <input type="submit" name="reset" value="Reset">
+        </form>
+    </p>
+    <p>Filter by activity:
+        <a href="{% url 'app:general_users' %}{% q_transform request is_active='true' %}">Active users</a>&nbsp|&nbsp
+        <a href="{% url 'app:general_users' %}{% q_transform request is_active='false'%}">Inactive users</a>&nbsp|&nbsp
+        <a href="{% url 'app:general_users' %}{% q_transform request is_active='all'%}">All users</a>
+    </p>
+
+    <p>Filter registered by social networks:
+        <a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='true' %}">By social network</a>&nbsp|&nbsp
+        <a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='false' %}">By login/password</a>&nbsp|&nbsp
+        <a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='all' %}">All users</a>&nbsp|&nbsp
+    </p>
+
+    <p>Order by:
+        <a href="{% url 'app:general_users' %}{% q_transform request order_by='username' %}">Username</a>&nbsp|&nbsp
+        <a href="{% url 'app:general_users' %}{% q_transform request order_by='first_name' %}">First name</a>&nbsp|&nbsp
+        <a href="{% url 'app:general_users' %}{% q_transform request order_by='last_name' %}">Last name</a>&nbsp&nbsp
+        <a href="{% url 'app:general_users' %}{% q_transform request order_desc='false' %}">Ascending</a>&nbsp|&nbsp
+        <a href="{% url 'app:general_users' %}{% q_transform request order_desc='true' %}">Descending</a>
+    </p>
+
+    <p>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
+        {% if page_obj.has_previous %}
+            <a href="{% url 'app:general_users' %}{% q_transform request page=page_obj.previous_page_number %}">Previous</a>
+        {% else %}
+            <span style="color: grey">Previous</span>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="{% url 'app:general_users' %}{% q_transform request page=page_obj.next_page_number %}">Next</a>
+        {% else %}
+            <span style="color: grey">Next</span>
+        {% endif %}
+    </p>
+    {% if no_found %}
+        <h3 style="color: red">No users found</h3>
+    {% endif %}
+    {% if login_used %}
+        <h3 style="color: red">Login is already used</h3>
+     {% endif %}
     <ol>
         {% for user_obj in users %}
                 <li>{{ user_obj.username }} - {{ user_obj.first_name }} - {{ user_obj.last_name }} -
-                    <a href="{% url 'app:edit_admin_user' user_obj.id %}">Edit user</a></li>
+                    <a href="{% url 'app:edit_general_user' user_obj.pk%}">Edit user</a></li>
         {% endfor %}
     </ol>
     <hr>
     <h5>Add user</h5>
-    <form action="{% url 'app:admin_users'%}" method="POST" onsubmit="return confirm('Save user?')">
+    <form action="{% url 'app:general_users'%}" method="POST" onsubmit="return confirm('Save user?')">
     {% csrf_token %}
     <table>
     <tr>
