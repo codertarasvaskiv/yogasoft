@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
-=======
-from django.views.generic import TemplateView, ListView, DetailView, FormView
->>>>>>> fabd6b4f5f7090a503720716f9929bc73543b582
 from django.contrib.auth.models import User
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
 from django.utils.translation import activate
@@ -548,6 +544,7 @@ class ProjectDelete(DeleteView):
             pass
         self.object.delete()
         return HttpResponseRedirect(success_url)
+
 
 #need to show ajax job, for search
 class SearchListAsView(ListView):
