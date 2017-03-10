@@ -2,6 +2,7 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.models import User
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
 from django.utils.translation import activate
+from django.utils import translation
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
@@ -444,26 +445,3 @@ class SearchListAsView(ListView):
                                       Q(tags__in=Tag.objects.filter(name__contains=self.kwargs['info'])))
 
 
-class ChangeLanguage(TemplateView):
-    template_name = ''
-
-    def get_context_data(self, **kwargs):
-        context = super(ChangeLanguage, self).get_context_data(**kwargs)
-        # here we can add some additional context
-        context.update({
-            'tag_list': None,
-        })
-        self.template_name = self.kwargs['path']
-        activate(self.kwargs['lang'])
-
-        L = [[[1, 2, 3], [4, 5]], 6, 7]
-
-        def Flatten(L):
-            a = str(L)
-            b, crap = re.subn(r'[\[,\]]', ' ', a)
-            c = b.split()
-            d = [int(x) for x in c]
-            return d
-        print(Flatten(L))
-
-        return context
