@@ -40,7 +40,7 @@
                  <form  role="search">
                      {% csrf_token %}
                     <div class="form-group">
-                    <input id="search" type="text" class="form-control" placeholder="Search">
+                    <input id="search" type="text" class="form-control" placeholder="{% trans "Search" %}">
                     </div>
               </form>
         </address>
@@ -69,9 +69,9 @@
 
               <ul class="nav navbar-nav pull-right">
                   <li>  {% if user.useryoga.is_admin or user.is_superuser %}
-                        <li><a href="{% url "app:site_admin" %}">Administration</a></li>
+                        <li><a href="{% url "app:site_admin" %}">{% trans "Administration" %}</a></li>
                         {% endif %}
-                        <li><a href="/logout">Logout {{ user.username }}</a></li>
+                        <li><a href="/logout">{% trans "Logout" %} {{ user.username }}</a></li>
                   </li>
               </ul>
           {% else %}
@@ -79,7 +79,7 @@
                <ul class="nav navbar-nav navbar-right ">
                        <li  class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <b>Login</b> <span class="caret"></span></a>
+                                <b>{% trans "Login" %}</b> <span class="caret"></span></a>
                             <ul id="login-dp" class="dropdown-menu">
                         <li>
                              <div class="row">
@@ -87,17 +87,17 @@
                                          <form class="form" role="form" method="post" action="{% url 'login' %}" accept-charset="UTF-8" id="login-nav">
                                              {% csrf_token %}
                                                 <div class="form-group"><label class="sr-only" for="exampleInputEmail2">Login</label>
-                                                     <input type="text" name="username"  class="form-control" placeholder="Login" required="">
+                                                     <input type="text" name="username"  class="form-control" placeholder="{% trans "Login" %}" required="">
                                                 </div>
                                                 <div class="form-group">
-                                                     <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                                     <label class="sr-only" for="exampleInputPassword2">{% trans "Password" %}</label>
                                                      <input type="password" name="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required="">
                                                      <div class="help-block text-right">
                                                          <div class="form-group inline" id="sign_in">
-                                                            <button type="submit" class="btn btn-primary btn-block">Sign in</button></div>
+                                                            <button type="submit" class="btn btn-primary btn-block">{% trans "Sign in" %}</button></div>
                                                          <div class="createaccountforgetpass">
-                                                             <a id="sizeofa" href="{% url 'password_reset' %}">Lost password ?</a>
-                                                             <a id="sizeofa" href="{% url 'app:registration' %}">Create account</a>
+                                                             <a id="sizeofa" href="{% url 'password_reset' %}">{% trans "Lost password ?" %}</a>
+                                                             <a id="sizeofa" href="{% url 'app:registration' %}">{% trans "Create account" %}</a>
                                                          </div>
 
                                                      </div>
@@ -142,24 +142,24 @@
         <div id="first_footer" class="row-fluid">
             <div class="col-lg-3 col-md-3 col-sm-3 classfirstfooter">
                 <div class="myclas2">
-                   <a class="colorhrefsfooter" href="{% url 'app:index_page' %}">Home</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:index_page' %}">{% trans "Home" %}</a>
                 </div>
                 <div class="myclas2">
-                   <a class="colorhrefsfooter" href="{% url 'app:blog_list_view' %}">Blog</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:blog_list_view' %}">{% trans "Blog" %}</a>
                 </div>
                 <div class="myclas2">
-                   <a class="colorhrefsfooter" href="{% url 'app:portfolio' %}">Portfolio</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:portfolio' %}">{% trans "Portfolio" %}</a>
                 </div>
                 <div class="myclas2">
-                   <a class="colorhrefsfooter" href="#">Testimonials</a>
+                   <a class="colorhrefsfooter" href="#">{% trans "Testimonials" %}</a>
                 </div>
                 <div class="myclas2">
-                   <a class="colorhrefsfooter" href="{% url 'app:contact_us' %}">Contact us</a>
+                   <a class="colorhrefsfooter" href="{% url 'app:contact_us' %}">{% trans "Contact us" %}</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3  classfirstfooter" >
                 <div class="myclas">
-                    Tag cloud
+                    {% trans "Tag cloud" %}
                     <br>
                     <div class="tagcloud">
                 {% popular_tags %}
@@ -169,23 +169,23 @@
         </div>
 {#        here starts last footer#}
        <div id="second_footer" class="row-fluid">
-           <div class="myclas">  Copyright, YogaSoft 2017 </div>
+           <div class="myclas"> {% trans "Copyright, YogaSoft 2017" %}  </div>
            <div class="myclas pull-right">
-               <a href="{% url 'app:change_lang' 'en' request.path %}">en</a>
-               <a href="{% url 'app:change_lang' 'uk' request.path %}">uk</a>
+               <div class="inlineblock">
+               <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                    <input class="inputCss" name="language" type="submit" value="en" />
+                </form></div>
+               <div class="inlineblock">
+                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                    <input class="inputCss" name="language" type="submit" value="uk" />
+                </form></div>
+           </div>
            </div>
 
        </div>
    </div>
-
-     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-                      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-                      crossorigin="anonymous"></script>
-      <script type="text/javascript" src="{% static "js/dropdown.js" %}"></script>
-      <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
-      <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
-      <script type="text/javascript" src="{% static "js/jquery-2.1.1.min.js" %}"></script> -->
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
