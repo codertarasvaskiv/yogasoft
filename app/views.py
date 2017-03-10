@@ -1,17 +1,18 @@
-
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.models import User
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator, args_builder
+from django.utils.translation import activate
+from django.utils import translation
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, request
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
-from django.db.models import Q
 from os.path import join, abspath
 from django.shortcuts import redirect, render, render_to_response
 from datetime import date
@@ -20,6 +21,7 @@ from operator import __and__
 from functools import reduce
 from .forms import *
 from .models import *
+import re
 
 
 TESTIMONIALS_ON_PAGE = 8
@@ -529,3 +531,23 @@ def register(request): # 06.03.2017 Taras need to edit later
         yoga_form = YogaUserForm()
     return render(request, 'registration/registration_form.html',
                               {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
+
+
+#need to show ajax job, for search
+class SearchListAsView(ListView):
+    template_name = 'app/ajax_list_view.html'
+    model = BlogPost
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchListAsView, self).get_context_data(**kwargs)
+        # here we can add some additional context
+        context.update({
+            'tag_list': None,
+        })
+        return context
+
+    def get_queryset(self):
+        return BlogPost.objects.filter(Q(name__contains=self.kwargs['info']) | Q(text__contains=self.kwargs['info']) |
+                                      Q(tags__in=Tag.objects.filter(name__contains=self.kwargs['info'])))
+
+

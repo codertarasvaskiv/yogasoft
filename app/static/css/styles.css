@@ -24,8 +24,19 @@
 #first_footer {
 
     background-color: #3a3a3a;
-    height: 150px;
-
+    min-height: 200px;
+    height: auto;
+     overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+.fitparent{
+    background:green;
+    height: 100%;
+    width: 50%;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 #second_footer {
@@ -52,8 +63,11 @@
     display: block;
     height: 30px;
     width: fit-content;
-    background-color: #8c8c8c;
     margin-bottom: 10px;
+}
+
+.colorhrefsfooter{
+    color: honeydew;
 }
 
 .buttons{
@@ -92,10 +106,7 @@
     padding-right: 5px;
     padding-top: 10px;
 }
-.inline{
 
-
-}
 .inline2{
     display: inline-block;
    margin-left:5%;
@@ -160,6 +171,10 @@
 .image{
     max-height:100%; max-width:100%;
 }
+.imageblogclass{
+   max-height: 250px;
+}
+
 #addressdiv{
     padding-right: 0px;
 }
@@ -184,6 +199,13 @@ padding-left: 6px;
 .paddingright{
     padding-right: 30px;
 }
+.inlineblock{
+    display: inline-block;
+}
+.inputCss{
+    background-color: #0f0f0f;
+}
+
 
 @media screen and (min-width: 1400px) {
     .container {

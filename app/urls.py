@@ -28,4 +28,9 @@ urlpatterns = [
     url(r'^site_admin/edit_general_user/(?P<user_id>[0-9]+)/$', views.EditGeneralUser.as_view(), name='edit_general_user'),
     url(r'^contact_us/$', views.ContactUsView.as_view(), name='contact_us'),
 
+
+
+    url(r'^search_list/(?P<info>.*)$', views.SearchListAsView.as_view(), name='search'),
+
+
 ]
