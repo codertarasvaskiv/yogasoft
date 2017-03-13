@@ -85,18 +85,38 @@ class Testimonials(ListView):
     paginate_by = TESTIMONIALS_ON_PAGE
     context_object_name = "testimonials"
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.left_tstm = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.session.get('user_tstm_id', False):
+            context['user_tstm_id'] = int(self.request.session['user_tstm_id'])
+        if self.left_tstm:
+            context['left_tstm'] = True
+            self.left_tstm = False
+        return context
+
     def get_queryset(self):
+        if self.request.session.get('user_tstm_id', False):
+            tstm_id = int(self.request.session['user_tstm_id'])
+            return Testimonial.objects.filter(Q(is_moderated=True) | Q(id=tstm_id)).order_by('-date')
         return Testimonial.objects.filter(is_moderated=True).order_by('-date')
 
     def post(self, request):
         if 'save' in request.POST:
+            if request.session.get('user_tstm_id', False):
+                self.left_tstm = True
+                return self.get(request)
             author_name = request.POST['author_name']
             author_email = request.POST['author_email']
             message = request.POST['message']
             new_tstm = Testimonial(author_name=author_name, author_email=author_email, message=message)
             new_tstm.save()
-            return HttpResponseRedirect(reverse('app:testimonials'))
-        return HttpResponseRedirect(reverse('app:testimonials'))
+            request.session['user_tstm_id'] = new_tstm.id
+            return self.get(request)
+        return self.get(request)
 
 
 @method_decorator(user_can_decorator(['testimonials_admin']), name='dispatch')
@@ -392,7 +412,7 @@ class GeneralUsers(ListView):  # View and fast create general user
         auth_by_sn = self.request.GET.get('auth_by_sn', 'any')
         search_q = self.request.GET.get('search', None)
         is_active = self.request.GET.get('is_active', 'true')
-        q_builder = [Q(useryoga__is_admin=False)]
+        q_builder = [Q(useryoga__is_admin=False), Q(is_superuser=False)]
         if order_by == 'first_name':
             order_by = '{0}first_name'.format('-' if order_desc == 'true' else '')
         elif order_by == 'last_name':

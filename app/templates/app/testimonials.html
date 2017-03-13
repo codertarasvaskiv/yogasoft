@@ -17,9 +17,15 @@
         {% endif %}
     </p>
 
+    {% if left_tstm %}
+        <h3 style="color: red">You have already left testimonial</h3>
+    {% endif %}
+
     <ol>
         {% for tstm in testimonials %}
-            <li>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.message }} - {{ tstm.date}}</li>
+            <li>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.message }} - {{ tstm.date}}
+            {% if tstm.id == user_tstm_id and tstm.is_moderated == False %}Will be visible after moderation.{% endif %}
+            </li>
         {% endfor %}
     </ol>
 

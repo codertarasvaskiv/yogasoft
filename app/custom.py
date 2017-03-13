@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-LOGIN_PAGE = 'app:login_page'  # Where to redirect if user is not login
+LOGIN_PAGE = 'app:index_page'  # Where to redirect if user is not login
 ACCESS_REQUIRED_PAGE = 'app:access_required_page'  # Where to redirect if user is not permitted to access this  page
 APP_NAME = "app"  # Application name
 
@@ -82,5 +82,3 @@ def args_builder(reques, args_list):
         if arg_data:
             args_string += '{0}={1}&'.format(arg, arg_data)
     return args_string
-
-
