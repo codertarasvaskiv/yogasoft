@@ -427,8 +427,12 @@ def register(request): # 06.03.2017 Taras need to edit later
                               {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
 
 
-#need to show ajax job, for search
+
 class SearchListAsView(ListView):
+    """ this class is responsible for search
+
+    It searchs blog posts on info that user inputs, It uses Ajax queries
+    """
     template_name = 'app/ajax_list_view.html'
     model = BlogPost
 
@@ -441,7 +445,6 @@ class SearchListAsView(ListView):
         return context
 
     def get_queryset(self):
-        return BlogPost.objects.filter(Q(name__contains=self.kwargs['info']) | Q(text__contains=self.kwargs['info']) |
-                                      Q(tags__in=Tag.objects.filter(name__contains=self.kwargs['info'])))
+        return BlogPost.objects.filter(Q(name__contains=self.kwargs['info']) | Q(text__contains=self.kwargs['info']))
 
 

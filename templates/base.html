@@ -33,19 +33,35 @@
   <body>
    <div class="container theme-showcase" role="main">
         <div id="addressdiv" class="container-fluid">
-             <address id="address" class="pull-right">
-            <strong class="littlespace">YogaSoft Agency, Inc.</strong><br>
-                 <span class="glyphicon glyphicon-envelope littlespace"></span>
-              yagosoft@gmail.com<br>
-                 <form  role="search">
-                     {% csrf_token %}
-                    <div class="form-group">
-                    <input id="search" type="text" class="form-control" placeholder="{% trans "Search" %}">
-                    </div>
-              </form>
-        </address>
+             <div id="address" class="pull-right">
+                <div class="inneradress">
+                       <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}" />
+                            <input class="inputCss" name="language" type="submit" value="en" />
+                        </form>
+                </div>
+                       <div class="inneradress">
+                            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                <input class="inputCss" name="language" type="submit" value="uk" />
+                            </form>
+                       </div>
+            </div>
+            <div class="myclas pull-right">
+                <strong class="littlespace">YogaSoft Agency, Inc.</strong><br>
+                     <span class="glyphicon glyphicon-envelope littlespace"></span>
+                  yagosoft@gmail.com<br>
+                     <form  role="search">
+                         {% csrf_token %}
+                        <div class="form-group">
+                        <input id="search" type="text" class="form-control" placeholder="{% trans "Search" %}">
+                        </div>
+                  </form>
+                </div>
+
         </div>
-     <nav class="navbar navbar-inverse ">
+
+        <nav class="navbar navbar-inverse ">
       <div class="container-fluid">
           <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -67,7 +83,7 @@
               </ul>
            {% if request.user.is_authenticated %}
 
-              <ul class="nav navbar-nav pull-right">
+              <ul class="nav navbar-nav navbar-right">
                   <li>  {% if user.useryoga.is_admin or user.is_superuser %}
                         <li><a href="{% url "app:site_admin" %}">{% trans "Administration" %}</a></li>
                         {% endif %}
@@ -134,57 +150,47 @@
     </nav>
 
         <div id="ajax">
-     {% block content %}
-     {%  endblock  %}
+         {% block content %}
+         {%  endblock  %}
         </div>
-
-{#  here starts first footer#}
-        <div id="first_footer" class="row-fluid">
-            <div class="col-lg-3 col-md-3 col-sm-3 classfirstfooter">
-                <div class="myclas2">
-                   <a class="colorhrefsfooter" href="{% url 'app:index_page' %}">{% trans "Home" %}</a>
+        <div id="mainfooter">
+        {#  here starts first footer#}
+            <div id="first_footer" class="row-fluid">
+                <div class="col-lg-3 col-md-3 col-sm-3 classfirstfooter">
+                    <div class="myclas2">
+                       <a class="colorhrefsfooter" href="{% url 'app:index_page' %}">{% trans "Home" %}</a>
+                    </div>
+                    <div class="myclas2">
+                       <a class="colorhrefsfooter" href="{% url 'app:blog_list_view' %}">{% trans "Blog" %}</a>
+                    </div>
+                    <div class="myclas2">
+                       <a class="colorhrefsfooter" href="{% url 'app:portfolio' %}">{% trans "Portfolio" %}</a>
+                    </div>
+                    <div class="myclas2">
+                       <a class="colorhrefsfooter" href="#">{% trans "Testimonials" %}</a>
+                    </div>
+                    <div class="myclas2">
+                       <a class="colorhrefsfooter" href="{% url 'app:contact_us' %}">{% trans "Contact us" %}</a>
+                    </div>
                 </div>
-                <div class="myclas2">
-                   <a class="colorhrefsfooter" href="{% url 'app:blog_list_view' %}">{% trans "Blog" %}</a>
-                </div>
-                <div class="myclas2">
-                   <a class="colorhrefsfooter" href="{% url 'app:portfolio' %}">{% trans "Portfolio" %}</a>
-                </div>
-                <div class="myclas2">
-                   <a class="colorhrefsfooter" href="#">{% trans "Testimonials" %}</a>
-                </div>
-                <div class="myclas2">
-                   <a class="colorhrefsfooter" href="{% url 'app:contact_us' %}">{% trans "Contact us" %}</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3  classfirstfooter" >
-                <div class="myclas">
-                    {% trans "Tag cloud" %}
-                    <br>
-                    <div class="tagcloud">
-                {% popular_tags %}
+                <div class="col-lg-3 col-md-3 col-sm-3  classfirstfooter" >
+                    <div class="myclas">
+                        {% trans "Tag cloud" %}
+                        <br>
+                        <div class="tagcloud">
+                    {% popular_tags %}
+                        </div>
                     </div>
                 </div>
             </div>
+    {#        here starts last footer#}
+           <div id="second_footer" class="row-fluid">
+               <div class="myclasfooter"> {% trans "Copyright, YogaSoft 2017" %}  </div>
+           </div>
         </div>
-{#        here starts last footer#}
-       <div id="second_footer" class="row-fluid">
-           <div class="myclas"> {% trans "Copyright, YogaSoft 2017" %}  </div>
-           <div class="myclas pull-right">
-               <div class="inlineblock">
-               <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                    <input name="next" type="hidden" value="{{ redirect_to }}" />
-                    <input class="inputCss" name="language" type="submit" value="en" />
-                </form></div>
-               <div class="inlineblock">
-                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                    <input name="next" type="hidden" value="{{ redirect_to }}" />
-                    <input class="inputCss" name="language" type="submit" value="uk" />
-                </form></div>
-           </div>
-           </div>
-       </div>
+
    </div>
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
