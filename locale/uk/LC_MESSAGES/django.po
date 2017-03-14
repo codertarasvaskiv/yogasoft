@@ -25,7 +25,7 @@ msgstr "Пошук"
 
 #: templates/base.html:62 templates/base.html:145
 msgid "Home"
-msgstr "Домашня сторінка"
+msgstr "Головна"
 
 #: templates/base.html:63 templates/base.html:148
 msgid "Blog"

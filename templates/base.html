@@ -27,7 +27,7 @@
 
   </head>
   <body>
-   <div class="container theme-showcase" role="main">
+   <div class="container theme-showcase maxheight" role="main">
         <div id="addressdiv" class="container-fluid">
              <div id="address" class="pull-right">
                 <div class="inneradress">
@@ -43,7 +43,7 @@
                             </form>
                        </div>
             </div>
-            <div class="myclas pull-right">
+            <div class="logoclas pull-right">
                 <strong class="littlespace">YogaSoft Agency, Inc.</strong><br>
                      <span class="glyphicon glyphicon-envelope littlespace"></span>
                   yagosoft@gmail.com<br>
@@ -149,42 +149,42 @@
          {% block content %}
          {%  endblock  %}
         </div>
-        <div id="mainfooter">
-        {#  here starts first footer#}
-            <div id="first_footer" class="row-fluid">
-                <div class="col-lg-3 col-md-3 col-sm-3 classfirstfooter">
-                    <div class="myclas2">
-                       <a class="colorhrefsfooter" href="{% url 'app:index_page' %}">{% trans "Home" %}</a>
+   </div>
+
+        <div class="container">
+            {#  here starts first footer#}
+                <div id="first_footer" class="row-fluid">
+                    <div class="col-lg-3 col-md-3 col-sm-3 classfirstfooter">
+                        <div class="myclas2">
+                           <a class="colorhrefsfooter" href="{% url 'app:index_page' %}">{% trans "Home" %}</a>
+                        </div>
+                        <div class="myclas2">
+                           <a class="colorhrefsfooter" href="{% url 'app:blog_list_view' %}">{% trans "Blog" %}</a>
+                        </div>
+                        <div class="myclas2">
+                           <a class="colorhrefsfooter" href="{% url 'app:portfolio' %}">{% trans "Portfolio" %}</a>
+                        </div>
+                        <div class="myclas2">
+                           <a class="colorhrefsfooter" href="#">{% trans "Testimonials" %}</a>
+                        </div>
+                        <div class="myclas2">
+                           <a class="colorhrefsfooter" href="{% url 'app:contact_us' %}">{% trans "Contact us" %}</a>
+                        </div>
                     </div>
-                    <div class="myclas2">
-                       <a class="colorhrefsfooter" href="{% url 'app:blog_list_view' %}">{% trans "Blog" %}</a>
-                    </div>
-                    <div class="myclas2">
-                       <a class="colorhrefsfooter" href="{% url 'app:portfolio' %}">{% trans "Portfolio" %}</a>
-                    </div>
-                    <div class="myclas2">
-                       <a class="colorhrefsfooter" href="#">{% trans "Testimonials" %}</a>
-                    </div>
-                    <div class="myclas2">
-                       <a class="colorhrefsfooter" href="{% url 'app:contact_us' %}">{% trans "Contact us" %}</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3  classfirstfooter" >
-                    <div class="myclas">
-                        {% trans "Tag cloud" %}
-                        <br>
-                        <div class="tagcloud">
-                    {% popular_tags %}
+                    <div class="col-lg-3 col-md-3 col-sm-3  classfirstfooter" >
+                        <div class="myclas">
+                            {% trans "Tag cloud" %}
+                            <br>
+                            <div class="tagcloud">
+                        {% popular_tags %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-    {#        here starts last footer#}
-           <div id="second_footer" class="row-fluid">
-               <div class="myclasfooter"> {% trans "Copyright, YogaSoft 2017" %}  </div>
-           </div>
-        </div>
-
+        {#        here starts last footer#}
+               <div id="second_footer" class="row-fluid">
+                   <div class="myclasfooter">Copyright, YogaSoft 2017 </div>
+               </div>
    </div>
 
 

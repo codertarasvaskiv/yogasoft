@@ -46,8 +46,6 @@ urlpatterns = [
     url(r'^site_admin/comments/delete/(?P<pk>\d+)/$', views.delete_comment, name='comment_admin_delete'),
     url(r'^site_admin/comments/delete_sec/(?P<pk>\d+)/$', views.delete_sec_comment, name='comment_admin_delete_sec'),
     url(r'^site_admin/comments/$', views.CommentsAdmin.as_view(), name='comment_admin'),
-
     url(r'^search_list/(?P<info>.*)$', views.SearchListAsView.as_view(), name='search'),
-
 
 ]

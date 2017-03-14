@@ -2,4 +2,4 @@
 *.pyc
 *.xml
 *.iml
-db.sqlite3
+*.sqlite3
