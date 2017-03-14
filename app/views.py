@@ -448,3 +448,5 @@ class SearchListAsView(ListView):
         return BlogPost.objects.filter(Q(name__contains=self.kwargs['info']) | Q(text__contains=self.kwargs['info']))
 
 
+class Test(TemplateView):
+    template_name = 'app/test.html'

@@ -28,7 +28,10 @@ urlpatterns = [
 
 
 
+
     url(r'^search_list/(?P<info>.*)$', views.SearchListAsView.as_view(), name='search'),
+
+    url(r'^test/$', views.Test.as_view(), name='test'),
 
 
 ]
