@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+    {% trans "Project" %}
+{% endblock %}
+{% block content %}
+    <p><strong>{% trans "Name and surname:" %}</strong> {{ object.first_name }} {{ object.last_name }}</p>
+    <p><strong>{% trans "Email:" %}</strong> {{ object.email }}</p>
+    <p><strong>{% trans "Query:" %}</strong> {{ object.query }}</p>
+    <h5>Files</h5>
+    {% if files.0 != 'There is no files' %}
+        {% for i in files %}
+            <a href="{% url 'app:project_file_download' pk=object.id file=i %}">{{ i }}</a><br>
+        {% endfor %}
+        <hr>
+        <a href="{% url "app:project_files_download" pk=object.id %}">{% trans "Download all files" %}</a>
+    {% else %}
+        {{ files.0 }}
+    {% endif %}
+    <hr>
+    <a href="{% url "app:close_project" pk=object.id %}">{% trans "Close project" %}</a><hr>
+    <a href="{% url "app:project_delete" pk=object.id %}">{% trans "Delete project" %}</a><hr>
+
+{% endblock %}

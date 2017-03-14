@@ -1,7 +1,6 @@
-
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
-    <h1 aria-busy="true"> Access required!</h1>
-    <h2><a href="{{request.META.HTTP_REFERER}}">Back</a></h2>
+    <h1 aria-busy="true">{% trans "Access required!" %}</h1>
+    <h2><a href="{{request.META.HTTP_REFERER}}">{% trans "Back" %}</a></h2>
 {% endblock %}

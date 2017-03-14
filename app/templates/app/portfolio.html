@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load i18n %}{% load static %}{% block title %}
+    {% trans "Portfolio" %}
+{% endblock %}
 {% block content %}
-
     <div class="container-fluid divparent"><h1>Our Portfolio </h1></div>
-
-
 
         <div class="row">
 
@@ -20,39 +19,20 @@
                         </h3>
                         <p>{{ item.description }}</p>
                     </div>
-                {% if forloop.counter|divisibleby:2 %}
-                     </div>
-                        <div class="row">
-                {% endif %}
-                    {% if forloop.last %}
+                    {% if forloop.counter|divisibleby:2 %}
                         </div>
+                        <div class="row">
                     {% endif %}
+                {% if forloop.last %}
+                    </div>
+                {% endif %}
                 {% endfor %}
-
 
             {% else %}
                 <strong>There is no objects inside portfolio.</strong>
                 </div>
             {% endif %}
 
-
-        <!-- /.row -->
-
-
-
-
-
-
-
+    <!-- /.row -->
 
 {%  endblock  %}
-
-
-{#{% extends 'base.html' %}#}
-{#{% load static %}#}
-{#{% block content %}#}
-{##}
-{##}
-
-{#        {%  endblock  %}#}
-
