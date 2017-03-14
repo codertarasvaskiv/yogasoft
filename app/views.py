@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 from os.path import join, abspath
 from django.shortcuts import redirect, render, render_to_response
-from datetime import date
+from datetime import date, datetime
 from os import mkdir
 from operator import __and__
 from functools import reduce
@@ -23,10 +23,10 @@ from .forms import *
 from .models import *
 import re
 
-
 TESTIMONIALS_ON_PAGE = 8
 TESTIMONIALS_ON_ADMIN_PAGE = 8
 USERS_ON_PAGE = 25
+CONTACT_US_ON_PAGE = 10
 
 
 # @method_decorator(user_can_decorator(['custom_permission_1']), name='dispatch')  # Decorator use example
@@ -253,14 +253,64 @@ class ContactUsView(FormView):
     form_class = ContactUsForm
     success_url = '/'
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.contact_us_limit = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.contact_us_limit:
+            context['cu_limit'] = True
+            self.contact_us_limit = False
+        return context
+
     def post(self, request, *args, **kwargs):
-        data = request.POST
-        q = ContactUsModel()
-        q.author_email = data['author_email']
-        q.author_name = data['author_name']
-        q.message = data['message']
-        q.save(q)
-        return redirect("app:index_page")
+        if 'send' in request.POST:
+            if request.session.get('cu_left_count', False):
+                cu_left_count = int(request.session.get('cu_left_count'))
+                if datetime.strptime(request.session['cu_last_date'], '%d/%m/%Y').date() != date.today():
+                    cu_left_count = 0
+                if cu_left_count >= 5:
+                    self.contact_us_limit = True
+                    return self.get(request)
+                else:
+                    request.session['cu_left_count'] = cu_left_count + 1
+                    request.session['cu_last_date'] = datetime.now().strftime('%d/%m/%Y')
+            else:
+                request.session['cu_left_count'] = 1
+                request.session['cu_last_date'] = datetime.now().strftime('%d/%m/%Y')
+            data = request.POST
+            q = ContactUsModel()
+            q.author_email = data['author_email']
+            q.author_name = data['author_name']
+            q.message = data['message']
+            q.save(q)
+            return redirect('app:contact_us_success')
+        else:
+            return HttpResponseRedirect(reverse('app:index_page'))
+
+
+class ContactUsSuccess(TemplateView):
+    template_name = 'app/contact_us_success.html'
+
+
+@method_decorator(user_can_decorator(['user_messages']), name='dispatch')
+class ContactUsAdmin(ListView):
+    template_name = 'app/contact_us_admin.html'
+    paginate_by = CONTACT_US_ON_PAGE
+    model = ContactUsModel
+    context_object_name = 'cu_requests'
+
+    def post(self, request, cu_id=None):
+        if 'delete' in request.POST:
+            try:
+                cu_obj = ContactUsModel.objects.get(id=cu_id)
+            except ContactUsModel.DoesNotExist:
+                return self.get(request)
+            cu_obj.delete()
+            return self.get(request)
+        else:
+            return self.get(request)
 
 
 def user_login(request):

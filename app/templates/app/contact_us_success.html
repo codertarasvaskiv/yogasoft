@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+{% load i18n %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                <h4 style="color: green">{% trans "We've received you'r request and will contact you as soon as possible." %}</h4>
+            </div>
+        <div class="col-sm-4">
+            <h4>{% trans "Our map" %}</h4>
+            <hr>
+            <iframe width=100% height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJdc6CS602MEcR6FSx7UekhMQ&key=AIzaSyAEPZRJTKRXcEhSY3FqX3PiSOlSZex2ny4" allowfullscreen></iframe>
+        </div>
+    </div>
+    <hr width=97% style="float: left">
+
+    </div>
+
+{% endblock %}

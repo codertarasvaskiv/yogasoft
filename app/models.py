@@ -125,3 +125,4 @@ class ContactUsModel(models.Model):
     author_name = models.CharField(max_length=100)
     author_email = models.EmailField()
     message = models.TextField()
+    datetime = models.DateTimeField(auto_now_add=True)

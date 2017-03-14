@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load popular_tags %}
+{% block content %}
+{% load i18n %}
+
+    <p>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
+        {% if page_obj.has_previous %}
+            <a href="{% url 'app:contact_us_admin' %}{% q_transform request page=page_obj.previous_page_number %}">{% trans "Previous" %}</a>
+        {% else %}
+            <span style="color: grey">{% trans "Previous" %}</span>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="{% url 'app:contact_us_admin' %}{% q_transform request page=page_obj.next_page_number %}">{% trans "Next" %}</a>
+        {% else %}
+            <span style="color: grey">{% trans "Next" %}</span>
+        {% endif %}
+    </p>
+    <table>
+        {% for cu in cu_requests %}
+            <tr>
+                <td>{{ cu.author_name }}</td>
+                <td>{{ cu.datetime }}</td>
+                <td>
+                    <form action="{% url 'app:contact_us_admin' cu.id %}" method="POST" onsubmit="return confirm('Delete request?')">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" name="delete">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">{{ cu.author_email }}</td>
+            </tr>
+            <tr>
+                <td colspan="3">{{ cu.message }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

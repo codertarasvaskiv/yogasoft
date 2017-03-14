@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
-    <p><a href="{% url 'app:site_admin' %}">Portfolio administration</a></p>
-    <p><a href="{% url 'app:site_admin' %}">Blog administration</a></p>
-    <p><a href="{% url 'app:testimonials_admin' %}">Testimonials administration</a></p>
-    <p><a href="{% url 'app:site_admin' %}">Feedback administration</a></p>
-    <p><a href="{% url 'app:admin_users' %}">Administrators</a></p>
-    <p><a href="{% url 'app:general_users' %}">Users</a></p>
+    <p><a href="{% url 'app:site_admin' %}">{% trans "Portfolio administration" %}</a></p>
+    <p><a href="{% url 'app:site_admin' %}">{% trans "Blog administration" %}</a></p>
+    <p><a href="{% url 'app:testimonials_admin' %}">{% trans "Testimonials administration" %}</a></p>
+    <p><a href="{% url 'app:contact_us_admin' %}">{% trans "Feedback administration" %}</a></p>
+    <p><a href="{% url 'app:admin_users' %}">{% trans "Administrators" %}</a></p>
+    <p><a href="{% url 'app:general_users' %}">{% trans "Users" %}</a></p>
 {% endblock %}

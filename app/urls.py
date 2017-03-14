@@ -27,10 +27,8 @@ urlpatterns = [
     url(r'^site_admin/general_users/$', views.GeneralUsers.as_view(), name='general_users'),
     url(r'^site_admin/edit_general_user/(?P<user_id>[0-9]+)/$', views.EditGeneralUser.as_view(), name='edit_general_user'),
     url(r'^contact_us/$', views.ContactUsView.as_view(), name='contact_us'),
-
-
-
+    url(r'^contuct_us_admin/$', views.ContactUsAdmin.as_view(), name='contact_us_admin'),
+    url(r'^contuct_us_admin/(?P<cu_id>[0-9]+)/$', views.ContactUsAdmin.as_view(), name='contact_us_admin'),
+    url(r'^contuct_us_success/$', views.ContactUsSuccess.as_view(), name='contact_us_success'),
     url(r'^search_list/(?P<info>.*)$', views.SearchListAsView.as_view(), name='search'),
-
-
 ]
