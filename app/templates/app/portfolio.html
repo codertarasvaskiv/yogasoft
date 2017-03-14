@@ -1,33 +1,32 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load i18n %}{% load static %}{% block title %}
+    {% trans "Portfolio" %}
+{% endblock %}
 {% block content %}
-
-    <div class="row-fluid">
-    <div class="container-fluid divparent"><h1>Our Portfolio </h1></div>
-
-        {% if portfoliocontent_list %}
-            <div class="container-fluid bg-3 divparentportfolio">
-            {% for item in portfoliocontent_list %}
-
-                <div class="portfoliodiv col-sm-4">
-                    <div><a href="{% url 'app:portfolio_detail' item.id %}">
-                        <img class="img-responsive" href="{% url 'app:portfolio_detail' item.id %}"
-                             src={{ item.imagecontentclass_set.all.0.image.url }}></a></div>
-                    <div><a href="{% url 'app:portfolio_detail' item.id %}">{{ item.name }}</a></div>
-                </div>
-                {% if forloop.counter|divisibleby:2 %}
+    <div class="container">
+        <h3>Our Portfolio </h3>
+        <div class="row-fluid">
+            {% if portfoliocontent_list %}
+                {% for item in portfoliocontent_list %}
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div><a href="{% url 'app:portfolio_detail' item.id %}">
+                            <img class="img-responsive" href="{% url 'app:portfolio_detail' item.id %}"
+                                 src={{ item.imagecontentclass_set.all.0.image.url }}></a></div>
+                        <div><a href="{% url 'app:portfolio_detail' item.id %}">{{ item.name }}</a></div>
                     </div>
-                    <div class="row-fluid">
-                {% endif %}
+                    {% if forloop.counter|divisibleby:2 %}
+                        </div>
+                        <div class="row-fluid">
+                    {% endif %}
                 {% if forloop.last %}
                     </div>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
 
-        {% else %}
-            <strong>There is no objects inside portfolio.</strong>
-            </div>
-		{% endif %}
-     </div>
+            {% else %}
+                <strong>There is no objects inside portfolio.</strong>
+                </div>
+            {% endif %}
+    </div>
 
 {%  endblock  %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block title %}
-    {% trans "Blog post creation" %}
+    {% trans "Change" %} {{ object.name }}
 {% endblock %}
 {% block content %}
     <div class="container">
@@ -10,9 +10,10 @@
                 <form action="#" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <p><label for="id_file">Images:</label> <input id="id_file" name="file" type="file" multiple="" required=""></p>
-                    <input class="btn waves-effect waves-light" type="submit" value="Save" />
+                    <input class="btn waves-effect waves-light" type="submit" value="{% trans "Save" %}" />
                 </form>
+                <hr>
+                <a href="{% url 'app:portfolio_delete' pk=object.id %}">{% trans "Delete portfolio" %}</a>
             </div>
         </div>
     </div>

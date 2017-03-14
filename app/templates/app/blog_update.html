@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans "Change " %}{{ object.name }}
+{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
@@ -9,7 +13,7 @@
                     <input class="btn waves-effect waves-light" type="submit" value="Save" />
                 </form>
                 <hr>
-                <a href="{% url 'app:delete_blog_post' pk=object.id %}">Delete post</a>
+                <a href="{% url 'app:delete_blog_post' pk=object.id %}">{% trans "Delete post" %}</a>
             </div>
         </div>
     </div>

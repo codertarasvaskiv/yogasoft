@@ -23,6 +23,7 @@ class Project(models.Model):
     email = models.EmailField()
     query = models.TextField()
     file = models.CharField(max_length=255)
+    is_opened = models.BooleanField(default=True)
 
     def __str__(self):
         return self.email + str(self.when)
@@ -128,3 +129,4 @@ class ContactUsModel(models.Model):
     author_name = models.CharField(max_length=100)
     author_email = models.EmailField()
     message = models.TextField()
+    is_new = models.BooleanField(default=True)

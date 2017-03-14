@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {{ portfoliocontent.name }}
+{% endblock %}
 {% load static %}
 {% block content %}
-
      <div class="row-fluid">
-
      <div class="container">
      <div class="row paddingleft"><h1>{{ portfoliocontent.name }}</h1></div>
-
-
-
-
      {% if portfoliocontent.imagecontentclass_set.all.1 %}
          <div class="col-md-2">
              <img class="img-responsive img-thumbnail" style="max-width: 88%" src={{ portfoliocontent.imagecontentclass_set.all.1.image.url }}>

@@ -19,11 +19,13 @@ from mimetypes import MimeTypes
 from os.path import join, abspath, getsize, exists
 from django.shortcuts import redirect, render
 from datetime import date
-from os import mkdir, listdir, chdir, getcwd, remove
+from os import mkdir, listdir, chdir, getcwd
 from .forms import *
 from .models import *
 from wsgiref.util import FileWrapper
+from itertools import chain
 import zipfile
+
 
 
 TESTIMONIALS_ON_PAGE = 8
@@ -266,6 +268,15 @@ def user_login(request):
 
 class SiteAdmin(TemplateView):
     template_name = 'app/site_admin.html'
+
+    def get_context_data(self, **kwargs):
+        context = dict()
+        context['new_comments'] = len(Comment.objects.filter(is_moderated=False)) + \
+                              len(CommentSecondLevel.objects.filter(is_moderated=False))
+        context['new_testimonials'] = len(Testimonial.objects.filter(is_moderated=False))
+        context['opened_projects'] = len(Project.objects.filter(is_opened=True))
+        context['new_feedback'] = len(ContactUsModel.objects.filter(is_new=True))
+        return context
 
 
 @method_decorator(user_can_decorator(['admin_users']), name='dispatch')
@@ -547,6 +558,13 @@ class ProjectDelete(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
+def close_project(request, pk):
+    z = Project.objects.get(id=pk)
+    z.is_opened = False
+    z.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
 #need to show ajax job, for search
 class SearchListAsView(ListView):
     template_name = 'app/ajax_list_view.html'
@@ -565,28 +583,90 @@ class SearchListAsView(ListView):
                                       Q(tags__in=Tag.objects.filter(name__contains=self.kwargs['info'])))
 
 
-class ChangeLanguage(TemplateView):
-    template_name = 'app/index.html'
+class CreatePortfolio(CreateView):
+    model = PortfolioContent
+    form_class = CreatePortfolio
+    template_name = "app/create_blog_post.html"
 
-    def get_context_data(self, **kwargs):
-        context = super(ChangeLanguage, self).get_context_data(**kwargs)
-        if self.kwargs['lang'] == 'uk':
-            activate('uk')
-            request.session[translation.LANGUAGE_SESSION_KEY] = 'uk'
-        if self.kwargs['lang'] == 'en':
-            activate('en')
-            request.session[translation.LANGUAGE_SESSION_KEY] = 'en'
-        return context
+    def post(self, request, *args, **kwargs):
+
+        data = request.POST
+        q = PortfolioContent(name=data['name'], description=data['description'], technologies = data['technologies'],
+                             link=data['link'], client=data['client'])
+        q.save()
+        q.tags = []
+        for i in request.POST.getlist('tags'):
+            q.tags.add(Tag.objects.get(id=i))
+        q.save()
+        for i in request.FILES.getlist('file'):
+            img = ImageContentClass(image=i, content=q)
+            img.save()
+        return redirect("/")
 
 
-def change_language(request, lang=''):
+class PortfolioAdminList(ListView):
+    model = PortfolioContent
+    template_name = "app/portfolio_admin_list.html"
 
-    print(lang)
-    activate('uk')
-    request.session[translation.LANGUAGE_SESSION_KEY] = 'uk'
-    #parser.test()
-    return render(request, 'app/index.html', {'output': None})
 
-        return context
-=======
->>>>>>> refs/remotes/origin/master
+class PortfolioDelete(DeleteView):
+    model = PortfolioContent
+    success_url = '/'
+    template_name = "app/confirm_delete.html"
+
+
+class ChangePortfolio(UpdateView):
+    UpdateView.model = PortfolioContent
+    UpdateView.fields = ['name', 'description',  'tags', "technologies", 'link', 'client']
+    UpdateView.template_name = "app/portfolio_update.html"
+    success_url = "/"
+
+
+class CommentsAdmin(ListView):
+    model = Comment
+    template_name = 'app/comments_admin.html'
+    context_object_name = 'comments'
+    paginate_by = 10
+
+    def get_queryset(self):
+        if 'mod' in self.request.GET:
+            view_moderated = self.request.GET['mod']
+            if view_moderated == 'true':
+                return list(chain(Comment.objects.filter(is_moderated=True).order_by('-id'), CommentSecondLevel.objects.filter(is_moderated=True).order_by('-id')))
+            elif view_moderated == 'false':
+                return list(chain(Comment.objects.filter(is_moderated=False).order_by('-id'), CommentSecondLevel.objects.filter(is_moderated=False).order_by('-id')))
+            else:
+                return list(chain(Comment.objects.all().order_by('-id'), CommentSecondLevel.objects.all().order_by('-id')))
+        else:
+            return list(chain(Comment.objects.all().order_by('-id'), CommentSecondLevel.objects.all().order_by('-id')))
+
+
+def moderate_comment(request, pk):
+    q = Comment.objects.get(id=pk)
+    q.is_moderated = True
+    q.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def moderate_sec_comment(request, pk):
+    q = CommentSecondLevel.objects.get(id=pk)
+    q.is_moderated = True
+    q.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def delete_comment(request, pk):
+    q = Comment.objects.get(id=pk)
+    q.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def delete_sec_comment(request, pk):
+    q = CommentSecondLevel.objects.get(id=pk)
+    q.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def lang_context_processor(request):
+    return {'LANG': request.LANGUAGE_CODE}
+

@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',  # For social auth
                 'social_django.context_processors.login_redirect',  # For social auth
+                'django.template.context_processors.i18n', # getting language code
             ],
         },
     },
@@ -140,9 +141,9 @@ LANGUAGES = (
     ('en', 'English'),
 )
 
-LOCALE_PATHS = [
-    BASE_DIR + '/locale',
-]
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 
 # Static files (CSS, JavaScript, Images)
