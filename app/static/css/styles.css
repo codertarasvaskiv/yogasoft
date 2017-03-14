@@ -231,3 +231,12 @@ padding-left: 6px;
 textarea {
     resize: vertical;
 }
+
+.logoclas{
+    font-size: medium;
+    color: black;
+    display: inline-block;
+    padding-left: 0;
+    padding-right: 15px;
+    margin-top: 1%;
+}
