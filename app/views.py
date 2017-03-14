@@ -450,3 +450,5 @@ class SearchListAsView(ListView):
 
 class Test(TemplateView):
     template_name = 'app/test.html'
+class Test2(TemplateView):
+    template_name = 'app/test2.html'
