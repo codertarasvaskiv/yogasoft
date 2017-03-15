@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <a href="{% url "app:create_portfolio" %}">Create portfolio</a>
+        <hr>
+        {% for i in object_list %}
+            <div class="row">
+                <div class="col-md-3 col-lg-3">
+                    <img src="{{ i.imagecontentclass_set.all.0.image.url }}" class="img-responsive">
+                </div>
+                <div class="col-md-9 col-lg-9">
+                    <a href="{% url 'app:portfolio_detail' pk=i.id %}">{{ i.name }}</a>
+                    {{ i.author }} Tags:
+                    {% for tag in i.tags.all %}
+                        <a href="{% url 'app:blog_list_view_tag' tag=tag.name %}">{{ tag }}</a>
+                    {% endfor %}
+                    <br>
+                    <a href="{% url 'app:change_portfolio' pk=i.id %}">Change portfolio</a>
+                    <br>
+                    <a href="{% url 'app:portfolio_delete' pk=i.id %}">Delete portfolio</a>
+                </div>
+                <br>
+
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans "Portfolio creation" %}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="#" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <p><label for="id_file">Images:</label> <input id="id_file" name="file" type="file" multiple="" required=""></p>
+                    <input class="btn waves-effect waves-light" type="submit" value="Save" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+{% endblock %}

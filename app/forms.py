@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project, Comment, CommentSecondLevel, ContactUsModel, UserYoga
+from .models import *
 from django.contrib.auth.models import User
 
 
@@ -9,7 +9,7 @@ class StartProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        exclude = ['when']
+        exclude = ['when', 'is_opened']
         widgets = {
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -72,3 +72,29 @@ class YogaUserForm(forms.ModelForm):
         model = UserYoga
         fields = ('extra_data',)
 
+
+class CreateBlogForm(forms.ModelForm):
+
+    class Meta:
+        model = BlogPost
+        exclude = ["author", "date"]
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': '7'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
+        }
+
+
+class CreatePortfolio(forms.ModelForm):
+
+    class Meta:
+        model = PortfolioContent
+        exclude = []
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': '7'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            "technologies": forms.TextInput(attrs={'class': 'form-control'}),
+            'link': forms.TextInput(attrs={'class': 'form-control'}),
+            'client': forms.TextInput(attrs={'class': 'form-control'}),
+        }

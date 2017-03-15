@@ -1,36 +1,38 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load i18n %}{% load static %}{% block title %}
+    {% trans "Portfolio" %}
+{% endblock %}
 {% block content %}
-
-
-    <div class="row-fluid">
     <div class="container-fluid divparent"><h1>Our Portfolio </h1></div>
 
-        {% if portfoliocontent_list %}
-            <div class="container-fluid bg-3 divparentportfolio">
-            {% for item in portfoliocontent_list %}
+        <div class="row">
 
-                <div class="portfoliodiv col-sm-4">
-                    <div><a href="{% url 'app:portfolio_detail' item.id %}">
-                        <img class="img-responsive" href="{% url 'app:portfolio_detail' item.id %}"
-                             src={{ item.imagecontentclass_set.all.0.image.url }}></a></div>
-                    <div><a href="{% url 'app:portfolio_detail' item.id %}">{{ item.name }}</a></div>
-                </div>
-                {% if forloop.counter|divisibleby:2 %}
+            {% if portfoliocontent_list %}
+
+                {% for item in portfoliocontent_list %}
+                    <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item maxwidth">
+                        <a href="#">
+                            <img class="img-responsive" src={{ item.imagecontentclass_set.all.0.image.url }} alt="">
+                        </a>
+                        <h3>
+                            <a href="#">{{ item.name }}</a>
+                        </h3>
+                        <p>{{ item.description }}</p>
                     </div>
-                     <div class="container-fluid divparentportfolio">
-                {% endif %}
+                    {% if forloop.counter|divisibleby:2 %}
+                        </div>
+                        <div class="row">
+                    {% endif %}
                 {% if forloop.last %}
                     </div>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
 
-
-		    {% else %}
-                <div class="row-fluid">
+            {% else %}
                 <strong>There is no objects inside portfolio.</strong>
                 </div>
-		    {% endif %}
-     </div>
-        {%  endblock  %}
+            {% endif %}
 
+    <!-- /.row -->
+
+{%  endblock  %}

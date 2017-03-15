@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
+{% block title %}
+    {% trans "Site administration" %}
+{% endblock %}
+
 {% block content %}
-    <p><a href="{% url 'app:site_admin' %}">{% trans "Portfolio administration" %}</a></p>
-    <p><a href="{% url 'app:site_admin' %}">{% trans "Blog administration" %}</a></p>
-    <p><a href="{% url 'app:testimonials_admin' %}">{% trans "Testimonials administration" %}</a></p>
-    <p><a href="{% url 'app:contact_us_admin' %}">{% trans "Feedback administration" %}</a></p>
-    <p><a href="{% url 'app:admin_users' %}">{% trans "Administrators" %}</a></p>
-    <p><a href="{% url 'app:general_users' %}">{% trans "Users" %}</a></p>
+    <a href="{% url 'app:portfolio_admin_list' %}">{% trans "Portfolio administration" %}</a><br>
+    <a href="{% url 'app:admin_blog_posts' %}">{% trans "Blog administration" %}</a><br>
+    <a href="{% url 'app:testimonials_admin' %}">{% trans "Testimonials administration " %}<span class="badge">{{ new_testimonials }}</span></a><br>
+    <a href="{% url 'app:contact_us_admin' %}">{% trans "Feedback administration " %}<span class="badge">{{ new_feedback }}</span></a><br>
+    <a href="{% url 'app:admin_users' %}">{% trans "Administrators" %}</a><br>
+    <a href="{% url 'app:general_users' %}">{% trans "Users" %}</a><br>
+    <a href="{% url 'app:projects_list' %}">{% trans "Projects  " %}<span class="badge">{{ opened_projects }}</a><br>
+    <a href="{% url 'app:comment_admin' %}">{% trans "Comments " %}<span class="badge">{{ new_comments }}</span></a><br>
+    <br>
 {% endblock %}

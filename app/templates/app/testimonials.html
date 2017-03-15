@@ -1,56 +1,52 @@
 {% extends 'base.html' %}
 {% load popular_tags %}
+{% load i18n %}
+{% block title %}
+    {% trans "Testimonials" %}
+{% endblock %}
 
 {% block content %}
-
-    <p>
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
-        {% if page_obj.has_previous %}
-            <a href="{% url 'app:testimonials' %}{% q_transform request page=page_obj.previous_page_number %}">Previous</a>
-        {% else %}
-            <span style="color: grey">Previous</span>
+    <div class="container">
+        <h2 style="text-align: center">Our testimonials</h2>
+        <hr>
+        {% if left_tstm %}
+            <h3 style="color: red">{% trans "You have already left testimonial" %}</h3>
         {% endif %}
-        {% if page_obj.has_next %}
-            <a href="{% url 'app:testimonials' %}{% q_transform request page=page_obj.next_page_number %}">Next</a>
-        {% else %}
-            <span style="color: grey">Next</span>
-        {% endif %}
-    </p>
 
-    {% if left_tstm %}
-        <h3 style="color: red">You have already left testimonial</h3>
-    {% endif %}
-
-    <ul>
         {% for tstm in testimonials %}
-            <li>{{ tstm.author_name }} {{ tstm.message }} - {{ tstm.date}}
-                {% if tstm.id == user_tstm_id and tstm.is_moderated == False %}<span style="color: grey">Will be visible after moderation.</span>{% endif %}
-                <hr>
-            </li>
+           <div class="well"> <blockquote style="margin-bottom: 0"><em>{{ tstm.message }}</em>
+               <footer>{{ tstm.author_name }}
+               {% if tstm.id == user_tstm_id and tstm.is_moderated == False %}
+                   <span style="color: grey">({% trans "Will be visible after moderation." %})</span>
+               {% endif %}
+               </footer></blockquote></div>
         {% endfor %}
-    </ul>
-
-    <form action="{% url 'app:testimonials' %}" method="POST" onsubmit="return confirm('Зберегти відгук?')">
-    {% csrf_token %}
-    <table>
-    <tr>
-        <td>Name</td>
-        <td><input type="text" name="author_name" maxlength="30" value="{{ user.first_name }}" required></td>
-    </tr>
-     <tr>
-        <td>Email</td>
-        <td><input type="email" name="author_email" maxlength="30" value="{{ user.email }}" required></td>
-    </tr>
-     <tr>
-        <td>Text</td>
-         <td><textarea name="message" maxlength="400" required></textarea>></td>
-    </tr>
-
-    <tr>
-        <td><input type="submit" value="Зберегти" name="save"></td>
-    </tr>
-    </table>
-</form>
-
-
+        <p>
+            {% trans "Page:" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
+            {% if page_obj.has_previous %}
+                <a href="{% url 'app:testimonials' %}{% q_transform request page=page_obj.previous_page_number %}">{% trans "Previous" %}</a>
+            {% else %}
+                <span style="color: grey">{% trans "Previous" %}</span>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="{% url 'app:testimonials' %}{% q_transform request page=page_obj.next_page_number %}">{% trans "Next" %}</a>
+            {% else %}
+                <span style="color: grey">{% trans "Next" %}</span>
+            {% endif %}
+        </p>
+        <hr>
+        <h3>{% trans "Leave your testimonial" %}</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <form action="{% url 'app:testimonials' %}" method="POST" onsubmit="return confirm({% trans "Save testimonіal?" %})">
+                    {% csrf_token %}
+                    <p><label for="id_author_name">{% trans "Author name:" %}</label><input class="form-control" id="id_author_name" maxlength="100" name="author_name" type="text" value="{{ user.first_name }}" required /></p>
+                    <p><label for="id_author_email">{% trans "Author email:" %}</label><input class="form-control" id="id_author_email" maxlength="254" name="author_email" type="text" value="{{ user.email }}" required /></p>
+                    <p><label for="id_message">{% trans "Message:" %}</label><textarea class="form-control" cols="40" id="id_message" name="message" rows="7" required></textarea></p>
+                    <input type="submit" class="btn btn-success" value="{% trans "Save" %}" name="save">
+                </form>
+            </div>
+        </div>
+        <hr>
+    </div>
 {% endblock %}

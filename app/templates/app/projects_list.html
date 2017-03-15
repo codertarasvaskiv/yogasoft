@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans "Projects administration" %}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% if object_list%}
+            {% for i in object_list %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><a href="{% url 'app:project_view' pk=i.id %}">{{ i.first_name }} {{ i.last_name }} {{ i.email }}</a>
+                        {% if i.is_opened %}
+                            <span class="label label-primary">{% trans "New project!" %}</span>
+                        {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <p>{% trans "There are no projects!" %}</p>
+                    <br>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

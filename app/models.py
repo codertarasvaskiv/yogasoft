@@ -13,6 +13,7 @@ class CustomPermission(models.Model):  # Abstract model to add custom permission
             ("user_messages", "Permission to see customer messages"),
             ("admin_users", "Admin users administration"),
             ("general_users", "General users administration"),
+            ("comments_admin", "Comments administration")
         )
 
 
@@ -23,6 +24,10 @@ class Project(models.Model):
     email = models.EmailField()
     query = models.TextField()
     file = models.CharField(max_length=255)
+    is_opened = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.email + str(self.when)
 
 
 class Tag(models.Model):
@@ -126,3 +131,4 @@ class ContactUsModel(models.Model):
     author_email = models.EmailField()
     message = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
+    is_new = models.BooleanField(default=True)
