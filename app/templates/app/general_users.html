@@ -2,10 +2,15 @@
 {% load popular_tags %}
 {% load i18n %}
 
+{% block title %}
+    {% trans "Users administration" %}
+{% endblock %}
+
 {% block content %}
 
     <div class="container-fluid">
-
+        <h2 style="text-align: center">{% trans "Users administration" %}</h2>
+        <hr>
         <nav class="navbar navbar-default">
           <div class="container-fluid">
 
@@ -127,8 +132,8 @@
         <div class="col-md-4">
             <form action="{% url 'app:general_users'%}" method="POST" onsubmit="return confirm({% trans "Save user?" %})">
                 {% csrf_token %}
-                <p><label for="id_author_name">{% trans "Username:" %}</label><input class="form-control"  maxlength="25" name="username" type="text" required /></p>
-                <p><label for="id_author_email">{% trans "Password:" %}</label><input class="form-control"  minlength="4" maxlength="30" name="password" type="password" required /></p>
+                <p><label>{% trans "Username:" %}</label><input class="form-control"  maxlength="25" name="username" type="text" required /></p>
+                <p><label>{% trans "Password:" %}</label><input class="form-control"  minlength="4" maxlength="30" name="password" type="password" required /></p>
                 <input type="submit" class="btn btn-success" value="{% trans "Save" %}" name="save">
             </form>
         </div>
