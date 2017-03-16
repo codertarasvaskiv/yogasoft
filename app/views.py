@@ -129,6 +129,11 @@ class TestimonialsAdmin(ListView):
     paginate_by = TESTIMONIALS_ON_ADMIN_PAGE
     context_object_name = "testimonials"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mod'] = self.request.GET.get('mod', 'all')
+        return context
+
     def get_queryset(self):
         if 'mod' in self.request.GET:
             view_moderated = self.request.GET['mod']
@@ -463,6 +468,29 @@ class GeneralUsers(ListView):  # View and fast create general user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        order_by = self.request.GET.get('order_by', 'username')
+        if order_by == 'username':
+            context['order_by_tag'] = 'Username'
+        elif order_by == 'first_name':
+            context['order_by_tag'] = 'First name'
+        elif order_by == 'last_name':
+            context['order_by_tag'] = 'Last name'
+        is_active = self.request.GET.get('is_active', 'true')
+        if is_active == 'true':
+            context['activity_tag'] = 'Active users'
+        elif is_active == 'false':
+            context['activity_tag'] = 'Inactive users'
+        elif is_active == 'all':
+            context['activity_tag'] = 'All'
+        register_type = self.request.GET.get('auth_by_sn', 'all')
+        if register_type == 'all':
+            context['register_type_tag'] = 'All'
+        elif register_type == 'true':
+            context['register_type_tag'] = 'By social network'
+        elif register_type == 'false':
+            context['register_type_tag'] = 'By login/password'
+        context['order_desc_cond'] = self.request.GET.get('order_desc', 'false')
+        context['search_q_tag'] = self.request.GET.get('search', False)
         context['login_used'] = self.login_used
         if len(context['users']) <= 0:
             context['no_found'] = True
@@ -472,7 +500,7 @@ class GeneralUsers(ListView):  # View and fast create general user
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'username')
         order_desc = self.request.GET.get('order_desc', 'false')
-        auth_by_sn = self.request.GET.get('auth_by_sn', 'any')
+        auth_by_sn = self.request.GET.get('auth_by_sn', 'all')
         search_q = self.request.GET.get('search', None)
         is_active = self.request.GET.get('is_active', 'true')
         q_builder = [Q(useryoga__is_admin=False), Q(is_superuser=False)]
@@ -488,7 +516,8 @@ class GeneralUsers(ListView):  # View and fast create general user
                 search_q = int(search_q)
                 q_builder.append(Q(pk=search_q))
             except ValueError:
-                q_builder.append((Q(username=search_q) | Q(first_name=search_q) | Q(last_name=search_q)))
+                q_builder.append((Q(username__icontains=search_q) | Q(first_name__icontains=search_q)
+                                  | Q(last_name__icontains=search_q)))
 
         if auth_by_sn == 'true':
             q_builder.append(Q(useryoga__auth_by_sn=True))

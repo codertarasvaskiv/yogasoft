@@ -6,12 +6,34 @@
     {% trans "Testimonials administration" %}
 {% endblock %}
 
+
 {% block content %}
+    <div class="container-fluid">
+    <h2 style="text-align: center">{% trans "Testimonials administration" %}</h2>
+    <hr>
     <p>
-        <a href="{% url 'app:testimonials_admin' %}?mod=all&page=1">{% trans "All" %}</a>&nbsp|&nbsp
-        <a href="{% url 'app:testimonials_admin' %}?mod=true&page=1">{% trans "Moderated" %}</a>&nbsp|&nbsp
-        <a href="{% url 'app:testimonials_admin' %}?mod=false&page=1">{% trans "Not moderated" %}</a>
+        <ul class="pagination custom_pg">
+            <li class="page-item {% if mod == 'all' %}active{% endif %}"><a class="page-link" href="{% url 'app:testimonials_admin' %}?mod=all&page=1">{% trans "All" %}</a></li>
+            <li class="page-item {% if mod == 'true' %}active{% endif %}"><a class="page-link" href="{% url 'app:testimonials_admin' %}?mod=true&page=1">{% trans "Moderated" %}</a></li>
+            <li class="page-item {% if mod == 'false' %}active{% endif %}"><a class="page-link" href="{% url 'app:testimonials_admin' %}?mod=false&page=1">{% trans "Not moderated" %}</a></li>
+        </ul>
     </p>
+    {% for tstm in testimonials %}
+        <form action="{% url 'app:testimonials_admin' tstm.id %}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm({% trans "Confirm action?" %})">
+        {% csrf_token %}
+           <div class="well clearfix"> <blockquote style="margin-bottom: 0"><em>{{ tstm.message }}</em>
+                <footer>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.date}}
+                    <div class="btn-group pull-right" role="group" aria-label="Basic example">
+                        {% if tstm.id == user_tstm_id and tstm.is_moderated == False %}
+                            <span style="color: grey">({% trans "Will be visible after moderation." %})</span>
+                        {% endif %}
+                        {% if not tstm.is_moderated %}<input type="submit" class="btn btn-info" style="margin-right: 10px" value="{% trans "Submit" %}" name="moderated">{% endif %}
+                        <input type="submit" class="btn btn-danger " value="{% trans "Delete" %}" name="delete">
+                    </div>
+                </footer></blockquote>
+           </div>
+        </form>
+    {% endfor %}
     <p>
         {% trans "Page:" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
         {% if page_obj.has_previous %}
@@ -25,36 +47,18 @@
             <span style="color: grey">{% trans "Next" %}</span>
         {% endif %}
     </p>
-
-    <ol>
-        {% for tstm in testimonials %}
-            <form action="{% url 'app:testimonials_admin' tstm.id %}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm('Ви впевнені?')">
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <form action="{% url 'app:testimonials_admin'%}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm({% trans "Save testimonіal?" %})">
                 {% csrf_token %}
-            <li>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.message }} - {{ tstm.date}}
-            {% if not tstm.is_moderated %}<input type="submit" value="{% trans "Submit" %}" name="moderated">{% endif %}<input type="submit" value="{% trans "Delete" %}" name="delete"></li>
+                <p><label for="id_author_name">{% trans "Author name:" %}</label><input class="form-control" id="id_author_name" maxlength="100" name="author_name" type="text" value="{{ user.first_name }}" required /></p>
+                <p><label for="id_author_email">{% trans "Author email:" %}</label><input class="form-control" id="id_author_email" maxlength="254" name="author_email" type="text" value="{{ user.email }}" required /></p>
+                <p><label for="id_message">{% trans "Message:" %}</label><textarea class="form-control" cols="40" id="id_message" name="message" rows="7" required></textarea></p>
+                <input type="submit" class="btn btn-success" value="{% trans "Save" %}" name="save">
             </form>
-        {% endfor %}
-    </ol>
-
-    <form action="{% url 'app:testimonials_admin'%}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm('Зберегти відгук?')">
-    {% csrf_token %}
-    <table>
-    <tr>
-        <td>{% trans "Name" %}</td>
-        <td><input type="text" name="author_name" maxlength="30" required></td>
-    </tr>
-     <tr>
-        <td>{% trans "E-mail" %}</td>
-        <td><input type="email" name="author_email" maxlength="30" required></td>
-    </tr>
-     <tr>
-        <td>{% trans "Text" %}</td>
-         <td><textarea name="message" maxlength="400" required></textarea>></td>
-    </tr>
-    <tr>
-        <td><input type="submit" value="{% trans "Save" %}" name="save"></td>
-    </tr>
-    </table>
-</form>
-
+        </div>
+    </div>
+    <hr>
+    </div>
 {% endblock %}

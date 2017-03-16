@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2 style="text-align: center">Our testimonials</h2>
+    <div class="container-fluid">
+        <h2 style="text-align: center">{% trans "Testimonials" %}</h2>
         <hr>
         {% if left_tstm %}
             <h3 style="color: red">{% trans "You have already left testimonial" %}</h3>
@@ -49,4 +49,5 @@
         </div>
         <hr>
     </div>
+    <hr>
 {% endblock %}

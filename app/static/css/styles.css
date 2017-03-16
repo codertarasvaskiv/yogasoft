@@ -4,7 +4,9 @@ html, body {
 
 body{
 
+
 }
+
 .maxheight{
     min-height: 100%;
     margin-bottom: -240px;
@@ -324,4 +326,36 @@ textarea {
     padding-left: 0;
     padding-right: 15px;
     margin-top: 1%;
+}
+
+
+.custom_pg li a {
+    background: #fafafa;
+    color: black;
+}
+
+.custom_pg li.active a {
+    background-color: #101010;
+    color: lightgray;
+    border-color: #101010;
+}
+
+.custom_pg li a:hover {
+    background: #e8e8e8;
+    color: black;
+}
+
+.custom_pg li.active a:hover {
+    background-color: #101010;
+    color: lightgray;
+    border-color: #101010;
+}
+
+.table_btn {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.navbar-text {
+    margin-right: 0;
 }

@@ -1,38 +1,112 @@
 {% extends 'base.html' %}
 {% load popular_tags %}
+{% load i18n %}
 
 {% block content %}
-    <p>
-        <form action="{% url 'app:general_users'%}" method="POST" style="float: left">
-        {% csrf_token %}
-            <input type="text" name="search_q" maxlength="30" required>
-            <input type="submit" name="search" value="Search">
-        </form>
-        <form action="{% url 'app:general_users'%}" method="POST">
-        {% csrf_token %}
-        <input type="submit" name="reset" value="Reset">
-        </form>
-    </p>
-    <p>Filter by activity:
-        <a href="{% url 'app:general_users' %}{% q_transform request is_active='true' %}">Active users</a>&nbsp|&nbsp
-        <a href="{% url 'app:general_users' %}{% q_transform request is_active='false'%}">Inactive users</a>&nbsp|&nbsp
-        <a href="{% url 'app:general_users' %}{% q_transform request is_active='all'%}">All users</a>
-    </p>
 
-    <p>Filter registered by social networks:
-        <a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='true' %}">By social network</a>&nbsp|&nbsp
-        <a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='false' %}">By login/password</a>&nbsp|&nbsp
-        <a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='all' %}">All users</a>&nbsp|&nbsp
-    </p>
+    <div class="container-fluid">
 
-    <p>Order by:
-        <a href="{% url 'app:general_users' %}{% q_transform request order_by='username' %}">Username</a>&nbsp|&nbsp
-        <a href="{% url 'app:general_users' %}{% q_transform request order_by='first_name' %}">First name</a>&nbsp|&nbsp
-        <a href="{% url 'app:general_users' %}{% q_transform request order_by='last_name' %}">Last name</a>&nbsp&nbsp
-        <a href="{% url 'app:general_users' %}{% q_transform request order_desc='false' %}">Ascending</a>&nbsp|&nbsp
-        <a href="{% url 'app:general_users' %}{% q_transform request order_desc='true' %}">Descending</a>
-    </p>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
 
+            <p class="navbar-text no_margin_right">  <!-- TODO - group elements for mobile view -->
+                {% trans "Register type:" %}
+            </p>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans register_type_tag %}<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='true' %}">{% trans "By social network" %}</a></li>
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='false' %}">{% trans "By login/password" %}</a></li>
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request auth_by_sn='all' %}">{% trans "All" %}</a></li>
+                  </ul>
+                </li>
+            </ul>
+
+            <p class="navbar-text no_margin_right">  <!-- TODO - group elements for mobile view -->
+                {% trans "Activity:" %}
+            </p>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans activity_tag %}<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request is_active='true' %}">{% trans "Active users" %}</a></li>
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request is_active='false'%}">{% trans "Inactive users" %}</a></li>
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request is_active='all'%}">{% trans "All" %}</a></li>
+                  </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="navbar-text">{% trans "Order by:" %}</li>
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans order_by_tag %}<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request order_by='username' %}">{% trans "Username" %}</a></li>
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request order_by='first_name' %}">{% trans "First name" %}</a></li>
+                    <li><a href="{% url 'app:general_users' %}{% q_transform request order_by='last_name' %}">{% trans "Last name" %}</a></li>
+                  </ul>
+                </li>
+
+                <li {% if order_desc_cond == 'false' %}class="active"{% endif %}><a href="{% url 'app:general_users' %}{% q_transform request order_desc='false' %}"><i class="glyphicon glyphicon-sort-by-attributes"></i></a></li>
+
+                <li {% if order_desc_cond == 'true' %}class="active"{% endif %}><a href="{% url 'app:general_users' %}{% q_transform request order_desc='true' %}"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i></a></li>
+
+                <li>
+                    <form class="navbar-form" action="{% url 'app:general_users'%}" method="POST">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder={% trans "Search" %} name="search_q" maxlength="30" required>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit" name="search">
+                                <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+
+                <li>
+                    <form class="navbar-form" action="{% url 'app:general_users'%}" method="POST">
+                        {% csrf_token %}
+                        <input class="btn btn-default" type="submit" name="reset" value="{% trans "Reset" %}">
+                    </form>
+                </li>
+            </ul>
+          </div>
+        </nav>
+
+    {% if no_found %}
+        <h3 style="color: red">No users found</h3>
+    {% endif %}
+    {% if login_used %}
+        <h3 style="color: red">Login is already used</h3>
+     {% endif %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">{% if search_q_tag %}{% trans "Search" %}: <span style="color: #0e90d2">{{ search_q_tag }}</span>{% else %}{% trans "Users list" %}{% endif %}</div>
+        <table class=" table table-responsive">
+            <tr class="row">
+                <td class="col-md-1">{% trans "User ID" %}</td>
+                <td class="col-md-1">{% trans "Username" %}</td>
+                <td class="col-md-1">{% trans "First name" %}</td>
+                <td class="col-md-1 hidden-xs">{% trans "Last name" %}</td>
+                <td class="col-md-2 hidden-xs hidden-sm">{% trans "Email" %}</td>
+                <td class="col-md-6"></td>
+            </tr>
+            {% for user_obj in users %}
+                <tr class="row">
+                    <td class="col-md-1">{{ user_obj.id }}</td>
+                    <td class="col-md-1">{{ user_obj.username }}</td>
+                    <td class="col-md-1">{{ user_obj.first_name }}</td>
+                    <td class="col-md-1 hidden-xs">{{ user_obj.last_name }}</td>
+                    <td class="col-md-2 hidden-xs hidden-sm">{{ user_obj.email }}</td>
+                    <td class="col-md-6"><a class="btn btn-xs btn-info table_btn pull-right" href="{% url 'app:edit_general_user' user_obj.pk%}">{% trans "Edit" %}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
     <p>
         Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
         {% if page_obj.has_previous %}
@@ -46,34 +120,19 @@
             <span style="color: grey">Next</span>
         {% endif %}
     </p>
-    {% if no_found %}
-        <h3 style="color: red">No users found</h3>
-    {% endif %}
-    {% if login_used %}
-        <h3 style="color: red">Login is already used</h3>
-     {% endif %}
-    <ol>
-        {% for user_obj in users %}
-                <li>{{ user_obj.username }} - {{ user_obj.first_name }} - {{ user_obj.last_name }} -
-                    <a href="{% url 'app:edit_general_user' user_obj.pk%}">Edit user</a></li>
-        {% endfor %}
-    </ol>
+
     <hr>
-    <h5>Add user</h5>
-    <form action="{% url 'app:general_users'%}" method="POST" onsubmit="return confirm('Save user?')">
-    {% csrf_token %}
-    <table>
-    <tr>
-        <td>Username</td>
-        <td><input type="text" name="username" maxlength="30" required></td>
-    </tr>
-     <tr>
-        <td>Password</td>
-        <td><input type="password" name="password" maxlength="30" minlength="4" required></td>
-    </tr>
-    <tr>
-        <td><input type="submit" value="Save user" name="save"></td>
-    </tr>
-    </table>
-</form>
+    <h4>{% trans "Add user" %}</h4>
+    <div class="row">
+        <div class="col-md-4">
+            <form action="{% url 'app:general_users'%}" method="POST" onsubmit="return confirm({% trans "Save user?" %})">
+                {% csrf_token %}
+                <p><label for="id_author_name">{% trans "Username:" %}</label><input class="form-control"  maxlength="25" name="username" type="text" required /></p>
+                <p><label for="id_author_email">{% trans "Password:" %}</label><input class="form-control"  minlength="4" maxlength="30" name="password" type="password" required /></p>
+                <input type="submit" class="btn btn-success" value="{% trans "Save" %}" name="save">
+            </form>
+        </div>
+    </div>
+    <hr>
+    </div>
 {% endblock %}
