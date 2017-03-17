@@ -25,7 +25,7 @@
             <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width:45px">
         </div>
         <div class="media-body">
-            <h4 class="media-heading">{{ i.0.author_name }} <small><i>{% trans "" %}Posted on {{ i.0.time }} </i></small><button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button></h4>
+            <h4 class="media-heading">{{ i.0.author_name }} <small><i>{% trans "Posted on" %} {{ i.0.time }} </i></small><button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button></h4>
             <p>{{ i.0.message }}</p>
             <div id="sec_com{{ i.0.pk }}" class="collapse">
                 <form id="sec_com{{ i.0.pk }}" method="post" action="{% url "app:add_second_level_comment" pk=object.pk comm_pk=i.0.pk %}">
