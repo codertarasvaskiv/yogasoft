@@ -1,42 +1,28 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
+{% block title %}
+    {% trans "Testimonials" %}
+{% endblock %}
 {% block content %}
-
-    {% if page_obj.has_previous %}
-    <a href="{% url 'app:testimonials' %}?page={{ page_obj.previous_page_number }}">попередня</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <a href="{% url 'app:testimonials' %}?page={{ page_obj.next_page_number }}">наступна</a>
-    {% endif %}
-
-
-    <ol>
+    <div class="container">
+        {% if page_obj.has_previous %}
+        <a href="{% url 'app:testimonials' %}?page={{ page_obj.previous_page_number }}">{% trans "Next" %}</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="{% url 'app:testimonials' %}?page={{ page_obj.next_page_number }}">{% trans "Previous" %}</a>
+        {% endif %}
         {% for tstm in testimonials %}
-            <li>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.message }} - {{ tstm.date}}</li>
+           <div class="well"> <blockquote style="margin-bottom: 0"><em>{{ tstm.message }}</em><footer>{{ tstm.author_name }}</footer></blockquote></div>
         {% endfor %}
-    </ol>
-
-    <form action="{% url 'app:testimonials' %}" method="POST" onsubmit="return confirm('Зберегти відгук?')">
-    {% csrf_token %}
-    <table>
-    <tr>
-        <td>Імя</td>
-        <td><input type="text" name="author_name" maxlength="30" required></td>
-    </tr>
-     <tr>
-        <td>Імейл</td>
-        <td><input type="email" name="author_email" maxlength="30" required></td>
-    </tr>
-     <tr>
-        <td>Текст</td>
-         <td><textarea name="message" maxlength="400" required></textarea>></td>
-    </tr>
-
-    <tr>
-        <td><input type="submit" value="Зберегти" name="save"></td>
-    </tr>
-    </table>
-</form>
-
-
+        <hr>
+        <h3>{% trans "Leave your testimonial" %}</h3>
+        <form action="{% url 'app:testimonials' %}" method="POST" onsubmit="return confirm('Зберегти відгук?')">
+            {% csrf_token %}
+            <p><label for="id_author_name">{% trans "Author name:" %}</label><input class="form-control" id="id_author_name" maxlength="100" name="author_name" type="text" required /></p>
+            <p><label for="id_author_email">{% trans "Author email:" %}</label><input class="form-control" id="id_author_email" maxlength="254" name="author_email" type="text" required /></p>
+            <p><label for="id_message">{% trans "Message:" %}</label><textarea class="form-control" cols="40" id="id_message" name="message" rows="7" required></textarea></p>
+            <input type="submit" class="btn btn-success" value="{% trans "Save" %}" name="save">
+        </form>
+        <hr>
+    </div>
 {% endblock %}

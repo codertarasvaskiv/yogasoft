@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, ListView, DetailView, FormView
+from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
 from django.utils.translation import activate
@@ -8,19 +8,26 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
 from django.db.models import Q
 from django.utils.decorators import method_decorator
-from django.http import HttpResponseRedirect
+from django.http import StreamingHttpResponse
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, request
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
+from shutil import rmtree
 from django.db.models import Q
-from os.path import join, abspath
-from django.shortcuts import redirect, render, render_to_response
+from mimetypes import MimeTypes
+from os.path import join, abspath, getsize, exists
+from django.shortcuts import redirect, render
 from datetime import date
-from os import mkdir
+from os import mkdir, listdir, chdir, getcwd
 from .forms import *
 from .models import *
+
 import PIL.Image
+from wsgiref.util import FileWrapper
+from itertools import chain
+import zipfile
+
 
 
 TESTIMONIALS_ON_PAGE = 8
@@ -63,6 +70,8 @@ class IndexPage(FormView):
                 pass
             form.cleaned_data['file'] = abspath(pth)
             for f in files:
+                if str(f).endswith('.exe'):
+                    continue
                 with open(join(pth, str(f)), 'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
@@ -125,9 +134,9 @@ class TestimonialsAdmin(ListView):
                 testimonial.is_moderated = True
                 testimonial.save()
             except Testimonial.DoesNotExist:
-                return HttpResponseRedirect(reverse('app:testimonials_admin')+'?mod={0}&page={1}'
+                return HttpResponseRedirect(reverse('app:testimonials_admin') + '?mod={0}&page={1}'
                                             .format(view_moderated, page))
-            return HttpResponseRedirect(reverse('app:testimonials_admin')+'?mod={0}&page={1}'
+            return HttpResponseRedirect(reverse('app:testimonials_admin') + '?mod={0}&page={1}'
                                         .format(view_moderated, page))
 
         elif 'delete' in request.POST:
@@ -135,9 +144,9 @@ class TestimonialsAdmin(ListView):
                 testimonial = Testimonial.objects.get(pk=testimonial_id)
                 testimonial.delete()
             except Testimonial.DoesNotExist:
-                return HttpResponseRedirect(reverse('app:testimonials_admin')+'?mod={0}&page={1}'
+                return HttpResponseRedirect(reverse('app:testimonials_admin') + '?mod={0}&page={1}'
                                             .format(view_moderated, page))
-            return HttpResponseRedirect(reverse('app:testimonials_admin')+'?mod={0}&page={1}'
+            return HttpResponseRedirect(reverse('app:testimonials_admin') + '?mod={0}&page={1}'
                                         .format(view_moderated, page))
 
         elif 'save' in request.POST:
@@ -146,10 +155,10 @@ class TestimonialsAdmin(ListView):
             message = request.POST['message']
             new_tstm = Testimonial(author_name=author_name, author_email=author_email, message=message)
             new_tstm.save()
-            return HttpResponseRedirect(reverse('app:testimonials_admin')+'?mod={0}&page={1}'
+            return HttpResponseRedirect(reverse('app:testimonials_admin') + '?mod={0}&page={1}'
                                         .format(view_moderated, page))
         else:
-            return HttpResponseRedirect(reverse('app:testimonials_admin')+'?mod={0}&page={1}'
+            return HttpResponseRedirect(reverse('app:testimonials_admin') + '?mod={0}&page={1}'
                                         .format(view_moderated, page))
 
 
@@ -185,7 +194,7 @@ def AddComment(request, pk):
         q = Comment(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.blog = BlogPost.objects.get(pk=pk)
-    if request.user.is_staff():
+    if request.user.is_staff:
         q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
@@ -200,7 +209,7 @@ def add_second_comment(request, pk, comm_pk):
         q = CommentSecondLevel(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.father_comment = Comment.objects.get(pk=comm_pk)
-    if request.user.is_staff():
+    if request.user.is_staff:
         q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
@@ -263,6 +272,15 @@ def user_login(request):
 
 class SiteAdmin(TemplateView):
     template_name = 'app/site_admin.html'
+
+    def get_context_data(self, **kwargs):
+        context = dict()
+        context['new_comments'] = len(Comment.objects.filter(is_moderated=False)) + \
+                              len(CommentSecondLevel.objects.filter(is_moderated=False))
+        context['new_testimonials'] = len(Testimonial.objects.filter(is_moderated=False))
+        context['opened_projects'] = len(Project.objects.filter(is_opened=True))
+        context['new_feedback'] = len(ContactUsModel.objects.filter(is_new=True))
+        return context
 
 
 @method_decorator(user_can_decorator(['admin_users']), name='dispatch')
@@ -394,6 +412,7 @@ class GeneralUsers(ListView):
 class PortfolioListView(ListView):
     """02.03.2017 Taras  this list returns all Portfolio projects of our agency """
     template_name = 'app/portfolio.html'
+
     # paginate_by = 4
 
     def get_queryset(self):
@@ -406,7 +425,7 @@ class PortfolioDetailView(DetailView):
     template_name = 'app/portfolio_detail.html'
 
 
-def register(request): # 06.03.2017 Taras need to edit later
+def register(request):  # 06.03.2017 Taras need to edit later
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':
@@ -425,8 +444,129 @@ def register(request): # 06.03.2017 Taras need to edit later
     else:
         user_form = UserForm()
         yoga_form = YogaUserForm()
-    return render(request, 'registration/registration_form.html',
-                              {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
+    return render(request, 'registration/registration_form.html', {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
+
+
+class AdminBlogList(ListView):
+    model = BlogPost
+    template_name = 'app/admin_blog_list.html'
+
+
+class CreateBlogPost(CreateView):
+    model = BlogPost
+    form_class = CreateBlogForm
+    template_name = "app/create_blog_post.html"
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        q = BlogPost(name=data['name'], text=data['text'], author=User.objects.get(username=request.user))
+        q.save()
+        q.tags = []
+        for i in request.POST.getlist('tags'):
+            q.tags.add(Tag.objects.get(id=i))
+        q.save()
+        for i in request.FILES.getlist('file'):
+            img = BlogPostImage(image=i, content=q)
+            img.save()
+        print(request.FILES)
+        return redirect("/")
+
+
+class ChangeBlogPost(UpdateView):
+    UpdateView.model = BlogPost
+    UpdateView.fields = ['text', 'tags']
+    UpdateView.template_name = "app/blog_update.html"
+    success_url = "/"
+
+
+class BlogPostDelete(DeleteView):
+    model = BlogPost
+    success_url = "/"
+    template_name = 'app/confirm_delete.html'
+
+
+class ProjectsListView(ListView):
+    model = Project
+    template_name = "app/projects_list.html"
+
+
+class ProjectDetailView(DetailView):
+    model = Project
+    template_name = "app/project_view.html"
+
+    def get_context_data(self, **kwargs):
+        """
+        Insert the single object into the context dict.
+        """
+        context = {}
+        if self.object:
+            context['object'] = self.object
+            context_object_name = self.get_context_object_name(self.object)
+            if context_object_name:
+                context[context_object_name] = self.object
+            try:
+                context['files'] = [join(str(i)) for i in listdir(self.object.file)]
+            except FileNotFoundError:
+                context['files'] = ['There is no files']
+        context.update(kwargs)
+        return super(ProjectDetailView, self).get_context_data(**context)
+
+
+def project_file_download(request, pk, file):
+    pth = Project.objects.get(id=pk).file
+    back = getcwd()
+    chdir(pth)
+    mime = MimeTypes()
+    resp = StreamingHttpResponse(FileWrapper(open(file, 'rb'), 8192), content_type=mime.guess_type(url=file))
+    resp['Content-Length'] = getsize(file)
+    resp["Content-Disposition"] = "attachment; filename=" + file
+    chdir(back)
+    return resp
+
+
+def project_all_files_download(request, pk):
+    pth = Project.objects.get(id=pk).file
+    back = getcwd()
+    chdir(pth)
+    files = listdir(pth)
+    zip_filename = "".join(("project", str(pk), ".zip"))
+    if not exists(zip_filename):
+        with zipfile.ZipFile(zip_filename, "w") as zf:
+            for i in files:
+                zf.write(str(i))
+
+    resp = StreamingHttpResponse(FileWrapper(open(zip_filename, 'rb'), 8192), content_type="application/zip-file")
+    resp['Content-Length'] = getsize(zip_filename)
+    resp["Content-Disposition"] = "attachment; filename=" + zip_filename
+    chdir(back)
+    return resp
+
+
+class ProjectDelete(DeleteView):
+    model = Project
+    success_url = '/'
+    template_name = "app/confirm_delete.html"
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Calls the delete() method on the fetched object and then
+        redirects to the success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            rmtree(self.object.file)
+        except FileNotFoundError:
+            pass
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+
+def close_project(request, pk):
+    z = Project.objects.get(id=pk)
+    z.is_opened = False
+    z.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 
@@ -448,4 +588,92 @@ class SearchListAsView(ListView):
 
     def get_queryset(self):
         return BlogPost.objects.filter(Q(name__contains=self.kwargs['info']) | Q(text__contains=self.kwargs['info']))
+
+
+class CreatePortfolio(CreateView):
+    model = PortfolioContent
+    form_class = CreatePortfolio
+    template_name = "app/create_blog_post.html"
+
+    def post(self, request, *args, **kwargs):
+
+        data = request.POST
+        q = PortfolioContent(name=data['name'], description=data['description'], technologies = data['technologies'],
+                             link=data['link'], client=data['client'])
+        q.save()
+        q.tags = []
+        for i in request.POST.getlist('tags'):
+            q.tags.add(Tag.objects.get(id=i))
+        q.save()
+        for i in request.FILES.getlist('file'):
+            img = ImageContentClass(image=i, content=q)
+            img.save()
+        return redirect("/")
+
+
+class PortfolioAdminList(ListView):
+    model = PortfolioContent
+    template_name = "app/portfolio_admin_list.html"
+
+
+class PortfolioDelete(DeleteView):
+    model = PortfolioContent
+    success_url = '/'
+    template_name = "app/confirm_delete.html"
+
+
+class ChangePortfolio(UpdateView):
+    UpdateView.model = PortfolioContent
+    UpdateView.fields = ['name', 'description',  'tags', "technologies", 'link', 'client']
+    UpdateView.template_name = "app/portfolio_update.html"
+    success_url = "/"
+
+
+class CommentsAdmin(ListView):
+    model = Comment
+    template_name = 'app/comments_admin.html'
+    context_object_name = 'comments'
+    paginate_by = 10
+
+    def get_queryset(self):
+        if 'mod' in self.request.GET:
+            view_moderated = self.request.GET['mod']
+            if view_moderated == 'true':
+                return list(chain(Comment.objects.filter(is_moderated=True).order_by('-id'), CommentSecondLevel.objects.filter(is_moderated=True).order_by('-id')))
+            elif view_moderated == 'false':
+                return list(chain(Comment.objects.filter(is_moderated=False).order_by('-id'), CommentSecondLevel.objects.filter(is_moderated=False).order_by('-id')))
+            else:
+                return list(chain(Comment.objects.all().order_by('-id'), CommentSecondLevel.objects.all().order_by('-id')))
+        else:
+            return list(chain(Comment.objects.all().order_by('-id'), CommentSecondLevel.objects.all().order_by('-id')))
+
+
+def moderate_comment(request, pk):
+    q = Comment.objects.get(id=pk)
+    q.is_moderated = True
+    q.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def moderate_sec_comment(request, pk):
+    q = CommentSecondLevel.objects.get(id=pk)
+    q.is_moderated = True
+    q.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def delete_comment(request, pk):
+    q = Comment.objects.get(id=pk)
+    q.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def delete_sec_comment(request, pk):
+    q = CommentSecondLevel.objects.get(id=pk)
+    q.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def lang_context_processor(request):
+    return {'LANG': request.LANGUAGE_CODE}
 

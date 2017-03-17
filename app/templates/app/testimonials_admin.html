@@ -1,24 +1,27 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
+{% block title %}
+    {% trans "Testimonials administration" %}
+{% endblock %}
 {% block content %}
 
     {% if page_obj.has_previous %}
-    <a href="{% url 'app:testimonials_admin' %}?mod={{ request.GET.mod }}&page={{ page_obj.previous_page_number }}">попередня</a>
+    <a href="{% url 'app:testimonials_admin' %}?mod={{ request.GET.mod }}&page={{ page_obj.previous_page_number }}">{% trans "Next" %}</a>
     {% endif %}
     {% if page_obj.has_next %}
-    <a href="{% url 'app:testimonials_admin' %}?mod={{ request.GET.mod }}&page={{ page_obj.next_page_number }}">наступна</a>
+    <a href="{% url 'app:testimonials_admin' %}?mod={{ request.GET.mod }}&page={{ page_obj.next_page_number }}">{% trans "Previous" %}</a>
     {% endif %}
     <p></p>
-    <a href="{% url 'app:testimonials_admin' %}?mod=all&page=1">усі</a>
-    <a href="{% url 'app:testimonials_admin' %}?mod=true&page=1">підтверджені</a>
-    <a href="{% url 'app:testimonials_admin' %}?mod=false&page=1">непідтверджені</a>
+    <a href="{% url 'app:testimonials_admin' %}?mod=all&page=1">{% trans "All" %}</a>
+    <a href="{% url 'app:testimonials_admin' %}?mod=true&page=1">{% trans "Moderated" %}</a>
+    <a href="{% url 'app:testimonials_admin' %}?mod=false&page=1">{% trans "Not moderated" %}</a>
 
     <ol>
         {% for tstm in testimonials %}
             <form action="{% url 'app:testimonials_admin' tstm.id %}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm('Ви впевнені?')">
                 {% csrf_token %}
             <li>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.message }} - {{ tstm.date}}
-            {% if not tstm.is_moderated %}<input type="submit" value="Підтвердити" name="moderated">{% endif %}<input type="submit" value="Видалити" name="delete"></li>
+            {% if not tstm.is_moderated %}<input type="submit" value="{% trans "Submit" %}" name="moderated">{% endif %}<input type="submit" value="{% trans "Delete" %}" name="delete"></li>
             </form>
         {% endfor %}
     </ol>
@@ -27,19 +30,19 @@
     {% csrf_token %}
     <table>
     <tr>
-        <td>Імя</td>
+        <td>{% trans "Name" %}</td>
         <td><input type="text" name="author_name" maxlength="30" required></td>
     </tr>
      <tr>
-        <td>Імейл</td>
+        <td>{% trans "E-mail" %}</td>
         <td><input type="email" name="author_email" maxlength="30" required></td>
     </tr>
      <tr>
-        <td>Текст</td>
+        <td>{% trans "Text" %}</td>
          <td><textarea name="message" maxlength="400" required></textarea>></td>
     </tr>
     <tr>
-        <td><input type="submit" value="Зберегти" name="save"></td>
+        <td><input type="submit" value="{% trans "Save" %}" name="save"></td>
     </tr>
     </table>
 </form>

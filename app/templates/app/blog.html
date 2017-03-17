@@ -1,11 +1,15 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+    {{ object.name }}
+{% endblock %}
 {% block content %}
 {% load staticfiles %}
     <img src="{{ object.blogpostimage_set.all.0.image.url }}">
     <br>
     <h3>{{ object.name }}</h3>
     <br>
-    <p>Date: {{ object.date }} Tags:
+    <p>{% trans "Date:" %} {{ object.date }} {% trans "Tags:" %}
     {% for i in tags %}
         <a href="{% url 'app:blog_list_view_tag' tag=i.name %}">{{ i }}</a>
     {% endfor %}</p>
@@ -21,7 +25,7 @@
             <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width:45px">
         </div>
         <div class="media-body">
-            <h4 class="media-heading">{{ i.0.author_name }} <small><i>Posted on {{ i.0.time }} </i></small><button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button></h4>
+            <h4 class="media-heading">{{ i.0.author_name }} <small><i>{% trans "Posted on" %} {{ i.0.time }} </i></small><button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button></h4>
             <p>{{ i.0.message }}</p>
             <div id="sec_com{{ i.0.pk }}" class="collapse">
                 <form id="sec_com{{ i.0.pk }}" method="post" action="{% url "app:add_second_level_comment" pk=object.pk comm_pk=i.0.pk %}">
@@ -29,9 +33,9 @@
                     {% if not user.is_authenticated %}
                         {{ form.as_p }}
                     {% else %}
-                        <label>Message: </label>{{ form.message }}
+                        <label>{% trans "Message:" %} </label>{{ form.message }}
                     {% endif %}
-                    <input  class="btn waves-effect waves-light" type="submit" value="Add comment">
+                    <input  class="btn waves-effect waves-light" type="submit" value="{% trans "Add comment" %}">
                 </form>
                 <hr>
             </div>
