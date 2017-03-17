@@ -20,7 +20,7 @@ from datetime import date
 from os import mkdir
 from .forms import *
 from .models import *
-import re
+import PIL.Image
 
 
 TESTIMONIALS_ON_PAGE = 8
@@ -166,6 +166,8 @@ class BlogDetailView(DetailView):
         for i in comments:
             if i.is_moderated:
                 context['comments'][i] = list(CommentSecondLevel.objects.filter(father_comment=i))
+                print(CommentSecondLevel.objects.filter(id=1))
+                print('*'*50)
                 for j in context['comments'][i]:
                     if not j.is_moderated:
                         context['comments'][i].pop(context['comments'][i].index(j))
@@ -447,8 +449,3 @@ class SearchListAsView(ListView):
     def get_queryset(self):
         return BlogPost.objects.filter(Q(name__contains=self.kwargs['info']) | Q(text__contains=self.kwargs['info']))
 
-
-class Test(TemplateView):
-    template_name = 'app/test.html'
-class Test2(TemplateView):
-    template_name = 'app/test2.html'
