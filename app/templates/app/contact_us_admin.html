@@ -1,40 +1,38 @@
 {% extends 'base.html' %}
 {% load popular_tags %}
-{% block content %}
 {% load i18n %}
 
-    <p>
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
-        {% if page_obj.has_previous %}
-            <a href="{% url 'app:contact_us_admin' %}{% q_transform request page=page_obj.previous_page_number %}">{% trans "Previous" %}</a>
-        {% else %}
-            <span style="color: grey">{% trans "Previous" %}</span>
-        {% endif %}
-        {% if page_obj.has_next %}
-            <a href="{% url 'app:contact_us_admin' %}{% q_transform request page=page_obj.next_page_number %}">{% trans "Next" %}</a>
-        {% else %}
-            <span style="color: grey">{% trans "Next" %}</span>
-        {% endif %}
-    </p>
-    <table>
-        {% for cu in cu_requests %}
-            <tr>
-                <td>{{ cu.author_name }}</td>
-                <td>{{ cu.datetime }}</td>
-                <td>
-                    <form action="{% url 'app:contact_us_admin' cu.id %}" method="POST" onsubmit="return confirm('Delete request?')">
-                        {% csrf_token %}
-                        <input type="submit" value="Delete" name="delete">
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">{{ cu.author_email }}</td>
-            </tr>
-            <tr>
-                <td colspan="3">{{ cu.message }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+{% block title %}
+    {% trans "Feedback administration" %}
+{% endblock %}
 
+{% block content %}
+    <div class="container-fluid">
+        <h2 style="text-align: center">{% trans "Feedback administration" %}</h2>
+        <hr>
+        {% for cu in cu_requests %}
+            <form action="{% url 'app:contact_us_admin' cu.id %}" method="POST" onsubmit="return confirm('{% trans "Delete feedback?" %}')">
+            {% csrf_token %}
+               <div class="well clearfix"> <blockquote style="margin-bottom: 0"><em>{{ cu.message }}</em>
+                    <footer>{{ cu.author_name }} - {{ cu.author_email }} - {{ cu.datetime}}
+                        <div class="btn-group pull-right" role="group" aria-label="Basic example"><input type="submit" class="btn btn-danger " value="{% trans "Delete" %}" name="delete"></div>
+                    </footer></blockquote>
+               </div>
+            </form>
+        {% endfor %}
+
+        <p>
+            {% trans "Page:" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}&nbsp|&nbsp
+            {% if page_obj.has_previous %}
+                <a href="{% url 'app:contact_us_admin' %}{% q_transform request page=page_obj.previous_page_number %}">{% trans "Previous" %}</a>
+            {% else %}
+                <span style="color: grey">{% trans "Previous" %}</span>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="{% url 'app:contact_us_admin' %}{% q_transform request page=page_obj.next_page_number %}">{% trans "Next" %}</a>
+            {% else %}
+                <span style="color: grey">{% trans "Next" %}</span>
+            {% endif %}
+        </p>
+    </div>
 {% endblock %}

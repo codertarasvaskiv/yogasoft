@@ -1,34 +1,55 @@
 {% extends 'base.html' %}
 {% load i18n %}
+
 {% block title %}
-    {% trans "Users administration" %}
+    {% trans "Administrators" %}
 {% endblock %}
+
 {% block content %}
+
+    <div class="container-fluid">
+        <h2 style="text-align: center">{% trans "Administrators" %}</h2>
+        <hr>
         {% if login_used %}
             <h3 style="color: red">{% trans "Login is already used" %}</h3>
         {% endif %}
-    <ol>
-        {% for user_obj in users %}
-                <li>{{ user_obj.username }} - {{ user_obj.first_name }} - {{ user_obj.last_name }} -
-                    <a href="{% url 'app:edit_admin_user' user_obj.id %}">{% trans "Edit user" %}</a></li>
-        {% endfor %}
-    </ol>
-    <hr>
-    <h5>{% trans "Add user" %}</h5>
-    <form action="{% url 'app:admin_users'%}" method="POST" onsubmit="return confirm('Save user?')">
-    {% csrf_token %}
-    <table>
-    <tr>
-        <td>{% trans "Username" %}</td>
-        <td><input type="text" name="username" maxlength="30" required></td>
-    </tr>
-     <tr>
-        <td>{% trans "Password" %}</td>
-        <td><input type="password" name="password" maxlength="30" minlength="4" required></td>
-    </tr>
-    <tr>
-        <td><input type="submit" value="{% trans "Save user" %}" name="save"></td>
-    </tr>
-    </table>
-</form>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{% if search_q_tag %}{% trans "Search" %}: <span style="color: #0e90d2">{{ search_q_tag }}</span>{% else %}{% trans "Users list" %}{% endif %}</div>
+            <table class=" table table-responsive">
+                <tr class="row">
+                    <td class="col-md-1">{% trans "User ID" %}</td>
+                    <td class="col-md-1">{% trans "Username" %}</td>
+                    <td class="col-md-1">{% trans "First name" %}</td>
+                    <td class="col-md-1 hidden-xs">{% trans "Last name" %}</td>
+                    <td class="col-md-2 hidden-xs hidden-sm">{% trans "Email" %}</td>
+                    <td class="col-md-6"></td>
+                </tr>
+                {% for user_obj in users %}
+                    <tr class="row">
+                        <td class="col-md-1">{{ user_obj.id }}</td>
+                        <td class="col-md-1">{{ user_obj.username }}</td>
+                        <td class="col-md-1">{{ user_obj.first_name }}</td>
+                        <td class="col-md-1 hidden-xs">{{ user_obj.last_name }}</td>
+                        <td class="col-md-2 hidden-xs hidden-sm">{{ user_obj.email }}</td>
+                        <td class="col-md-6"><a class="btn btn-xs btn-info table_btn pull-right" href="{% url 'app:edit_admin_user' user_obj.id%}">{% trans "Edit" %}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <hr>
+        <h4>{% trans "Add new administrator" %}</h4>
+        <div class="row">
+            <div class="col-md-4">
+                <form action="{% url 'app:admin_users'%}" method="POST" onsubmit="return confirm('{% trans "Save user?" %}')">
+                    {% csrf_token %}
+                    <p><label>{% trans "Username:" %}</label><input class="form-control"  maxlength="30" name="username" type="text" required /></p>
+                    <p><label>{% trans "Password:" %}</label><input class="form-control"  minlength="4" maxlength="30" name="password" type="password" required /></p>
+                    <input type="submit" class="btn btn-success" value="{% trans "Save" %}" name="save">
+                </form>
+            </div>
+        </div>
+        <hr>
+    </div>
 {% endblock %}

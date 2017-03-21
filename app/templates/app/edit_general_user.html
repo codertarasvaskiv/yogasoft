@@ -12,7 +12,7 @@
         <hr>
         <div class="row">
             <div class="col-md-4">
-                <form action="{% url 'app:edit_general_user' user_obj.id %}" method="POST" onsubmit="return confirm({% trans "Save user?" %})">
+                <form action="{% url 'app:edit_general_user' user_obj.id %}" method="POST" onsubmit="return confirm('{% trans "Save user?" %}')">
                     {% csrf_token %}
                     {% if login_used %}
                         <h3 style="color: red">Login is already used</h3>  <!-- TODO resize checkbox -->
@@ -31,7 +31,7 @@
         <h4>{% trans "Change password" %}</h4>
         <div class="row">
             <div class="col-md-4">
-                <form action="{% url 'app:edit_general_user' user_obj.id %}" method="POST" onsubmit="return confirm({% trans "Save user?" %})">
+                <form action="{% url 'app:edit_general_user' user_obj.id %}" method="POST" onsubmit="return confirm('{% trans "Save user?" %}')">
                     {% csrf_token %}
                     <p><label>{% trans "Password:" %}</label><input class="form-control"  minlength="4" maxlength="30" name="password" type="password" required /></p>
                     <input type="submit" class="btn btn-success" value="{% trans "Change password" %}" name="change_pass">

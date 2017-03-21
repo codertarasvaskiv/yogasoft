@@ -1,85 +1,91 @@
 {% extends 'base.html' %}
+{% load i18n %}
+
+ {% block title %}
+    {% trans "Edit administrator" %}
+{% endblock %}
 
 {% block content %}
-    {% if user_exist %}
-        <form action="{% url 'app:edit_admin_user' user_obj.id %}" method="POST" onsubmit="return confirm('Save changes?')">
-        {% csrf_token %}
-            {% if login_used %}
-                <h3 style="color: red">Login is already used</h3>
-            {% endif %}
-            <table>
-                <tr>
-                    <td>Login:</td>
-                    <td><input type="text" name="username" maxlength="30" value="{{ user_obj.username }}" required></td>
-                </tr>
-                <tr>
-                    <td>First name:</td>
-                    <td><input type="text" name="first_name" maxlength="30" value="{{ user_obj.first_name }}"></td>
-                </tr>
-                <tr>
-                    <td>Last name:</td>
-                     <td><input type="text" name="last_name" maxlength="30" value="{{ user_obj.last_name }}"></td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                     <td><input type="email" name="email" maxlength="30" value="{{ user_obj.email }}"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Permissions</td>
-                </tr>
-                <tr>
-                    <td>Blog administration:</td>
-                    <td><input type="checkbox" name="blog_admin" {% if blog_admin %} checked {% endif %}></td>
-                </tr>
-                <tr>
-                    <td>Portfolio administration:</td>
-                    <td><input type="checkbox" name="portfolio_admin" {% if portfolio_admin %} checked {% endif %}></td>
-                </tr>
-                <tr>
-                    <td>Testimonials administration</td>
-                    <td><input type="checkbox" name="testimonials_admin" {% if testimonials_admin %} checked {% endif %}></td>
-                </tr>
-                <tr>
-                    <td>Project administration</td>
-                    <td><input type="checkbox" name="projects_admin" {% if projects_admin %} checked {% endif %}></td>
-                </tr>
-                <tr>
-                    <td>Feedback administration&nbsp</td>
-                    <td><input type="checkbox" name="user_messages" {% if user_messages %} checked {% endif %}></td>
-                </tr>
-                <tr>
-                    <td>Comments administration</td>
-                    <td><input type="checkbox" name="comments_admin" {% if general_users %} checked {% endif %}></td>
-                </tr>
-                <tr>
-                    <td>Administrator users</td>
-                    <td><input type="checkbox" name="admin_users" {% if admin_users %} checked {% endif %}></td>
-                </tr>
-                <tr>
-                    <td>General users</td>
-                    <td><input type="checkbox" name="general_users" {% if general_users %} checked {% endif %}></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Save" name="save">&nbsp&nbsp<input type="submit" value="Delete" name="delete"></td>
-                </tr>
-            </table>
-        </form>
+    <div class="container-fluid">
+        {% if user_exist %}
+
+            <h2 style="text-align: center">{% trans "Edit administrator" %}</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <form action="{% url 'app:edit_admin_user' user_obj.id %}" method="POST" onsubmit="return confirm('{% trans "Save user?" %}')">
+                        {% csrf_token %}
+                        {% if login_used %}
+                            <h3 style="color: red">Login is already used</h3>  <!-- TODO resize checkbox -->
+                        {% endif %}
+                        <p><label>{% trans "Username:" %}</label><input class="form-control"  maxlength="30" name="username" type="text" value="{{ user_obj.username }}" required /></p>
+                        <p><label>{% trans "First name:" %}</label><input class="form-control" maxlength="30" name="first_name" type="text" value="{{ user_obj.first_name }}"/></p>
+                        <p><label>{% trans "Last name:" %}</label><input class="form-control" maxlength="30" name="last_name" type="text" value="{{ user_obj.last_name }}"/></p>
+                        <p><label>{% trans "Email:" %}</label><input class="form-control"  maxlength="30" name="email" type="email" value="{{ user_obj.email }}"/></p>
+
+                        <table class="permissions_table">
+                            <tr class="permissions_table">
+                                <td class="permissions_table"><label>{% trans "Blog administration:" %}</label></td>
+                                <td><input class="checkbox checkbox_align" name="blog_admin" type="checkbox" {% if blog_admin %} checked {% endif %}/></td>
+                            </tr>
+                            <tr class="permissions_table">
+                                <td><label>{% trans "Portfolio administration:" %}</label></td>
+                                <td><input class="checkbox checkbox_align" name="portfolio_admin" type="checkbox" {% if portfolio_admin %} checked {% endif %}/></td>
+                            </tr>
+                            <tr class="permissions_table">
+                                <td><label>{% trans "Testimonials administration:" %}</label></td>
+                                <td><input class="checkbox checkbox_align" name="testimonials_admin" type="checkbox" {% if testimonials_admin %} checked {% endif %}/></td>
+                            </tr>
+                            <tr class="permissions_table">
+                                <td><label>{% trans "Project administration:" %}</label></td>
+                                <td><input class="checkbox checkbox_align" name="projects_admin" type="checkbox" {% if projects_admin %} checked {% endif %}/></td>
+                            </tr>
+                            <tr class="permissions_table">
+                                <td><label>{% trans "Feedback administration:" %}</label></td>
+                                <td><input class="checkbox checkbox_align" name="user_messages" type="checkbox" {% if user_messages %} checked {% endif %}/></td>
+                            </tr>
+                            <tr class="permissions_table">
+                                <td><label>{% trans "Comments administration:" %}</label></td>
+                                <td><input class="checkbox checkbox_align" name="comments_admin" type="checkbox" {% if comments_admin %} checked {% endif %}/></td>
+                            </tr>
+                            <tr class="permissions_table">
+                                <td><label>{% trans "Administrator users:" %}</label></td>
+                                <td><input class="checkbox checkbox_align" name="admin_users" type="checkbox" {% if admin_users %} checked {% endif %}/> </td>
+                            </tr>
+                            <tr class="permissions_table">
+                                <td><label>{% trans "General users:" %}</label></td>
+                                <td><input class="checkbox checkbox_align" name="general_users" type="checkbox" {% if general_users %} checked {% endif %}/></td>
+                            </tr>
+                       </table>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                               <input type="submit" class="btn btn-success" value="{% trans "Save" %}" name="save">
+                            </div>
+                            <div class="col-md-6">
+                            <input type="submit" class="btn btn-danger pull-right" value="{% trans "Delete" %}" name="delete">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+
+            <h4>{% trans "Change password" %}</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <form action="{% url 'app:edit_admin_user' user_obj.id %}" method="POST" onsubmit="return confirm('{% trans "Save password?" %}')">
+                        {% csrf_token %}
+                        <p><label>{% trans "Password:" %}</label><input class="form-control"  minlength="4" maxlength="30" name="password" type="password" required /></p>
+                        <input type="submit" class="btn btn-success" value="{% trans "Change password" %}" name="change_pass">
+                    </form>
+                </div>
+            </div>
+
+        {% else %}
+            <h1>User does not exist or wrong user id <a href="{% url 'app:admin_users' %}">back</a></h1>
+        {% endif %}
         <hr>
-        <form action="{% url 'app:edit_admin_user' user_obj.id %}" method="POST" onsubmit="return confirm('Save password?')">
-        {% csrf_token %}
-            <table>
-                <tr>
-                    <td>Password:</td>
-                    <td><input type="password" name="password" maxlength="30" minlength="4" required></td>
-                    <td><input type="submit" value="Change password" name="change_pass"></td>
-                </tr>
-            </table>
-        </form>
-    {% else %}
-        <h1>User does not exist or wrong user id <a href="{% url 'app:admin_users' %}">back</a></h1>
-    {% endif %}
-    <hr>
+    </div>
 
 {% endblock %}

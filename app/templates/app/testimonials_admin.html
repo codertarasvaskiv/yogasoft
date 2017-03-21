@@ -19,7 +19,7 @@
         </ul>
     </p>
     {% for tstm in testimonials %}
-        <form action="{% url 'app:testimonials_admin' tstm.id %}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm({% trans "Confirm action?" %})">
+        <form action="{% url 'app:testimonials_admin' tstm.id %}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm('{% trans "Confirm action?" %}')">
         {% csrf_token %}
            <div class="well clearfix"> <blockquote style="margin-bottom: 0"><em>{{ tstm.message }}</em>
                 <footer>{{ tstm.author_name }} - {{ tstm.author_email }} - {{ tstm.date}}
@@ -50,7 +50,7 @@
     <hr>
     <div class="row">
         <div class="col-md-4">
-            <form action="{% url 'app:testimonials_admin'%}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm({% trans "Save testimonіal?" %})">
+            <form action="{% url 'app:testimonials_admin'%}?mod={{ request.GET.mod }}&page={{ request.GET.page}}" method="POST" onsubmit="return confirm('{% trans "Save testimonіal?" %}')">
                 {% csrf_token %}
                 <p><label for="id_author_name">{% trans "Author name:" %}</label><input class="form-control" id="id_author_name" maxlength="100" name="author_name" type="text" value="{{ user.first_name }}" required /></p>
                 <p><label for="id_author_email">{% trans "Author email:" %}</label><input class="form-control" id="id_author_email" maxlength="254" name="author_email" type="text" value="{{ user.email }}" required /></p>

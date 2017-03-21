@@ -130,7 +130,7 @@
     <h4>{% trans "Add user" %}</h4>
     <div class="row">
         <div class="col-md-4">
-            <form action="{% url 'app:general_users'%}" method="POST" onsubmit="return confirm({% trans "Save user?" %})">
+            <form action="{% url 'app:general_users'%}" method="POST" onsubmit="return confirm('{% trans "Save user?" %}')">
                 {% csrf_token %}
                 <p><label>{% trans "Username:" %}</label><input class="form-control"  maxlength="25" name="username" type="text" required /></p>
                 <p><label>{% trans "Password:" %}</label><input class="form-control"  minlength="4" maxlength="30" name="password" type="password" required /></p>

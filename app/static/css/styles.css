@@ -359,3 +359,20 @@ textarea {
 .navbar-text {
     margin-right: 0;
 }
+
+.checkbox_align{
+    margin-bottom: 5px !important;
+}
+
+tr.permissions_table {
+    height: 30px;
+}
+
+td.permissions_table {
+    min-width: 210px;
+}
+
+table.permissions_table {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
