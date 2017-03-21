@@ -46,7 +46,7 @@
             <div class="logoclas pull-right">
                 <strong class="littlespace">YogaSoft Agency, Inc.</strong><br>
                      <span class="glyphicon glyphicon-envelope littlespace"></span>
-                  yagosoft@gmail.com<br>
+                  yogasoft@gmail.com<br>
                      <form  role="search">
                          {% csrf_token %}
                         <div class="form-group">
@@ -97,7 +97,7 @@
                              <div class="row">
                                     <div class="col-md-12">
                                          <form class="form" role="form" method="post" action="{% url 'login' %}" accept-charset="UTF-8" id="login-nav">
-                                             {% csrf_token %}
+                                                    {% csrf_token %}
                                                 <div class="form-group"><label class="sr-only" for="exampleInputEmail2">Login</label>
                                                      <input type="text" name="username"  class="form-control" placeholder="{% trans "Login" %}" required="">
                                                 </div>
