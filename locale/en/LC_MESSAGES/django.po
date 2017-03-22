@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-09 21:55+0200\n"
+"POT-Creation-Date: 2017-03-17 11:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,62 +17,356 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: templates/base.html:43
-msgid "Search"
-msgstr ""
-
-#: templates/base.html:62 templates/base.html:145
-msgid "Home"
-msgstr "Home"
-
-#: templates/base.html:63 templates/base.html:148
+#: app/templates/app/BlogList.html:4 templates/base.html:75
+#: templates/base.html:162
 msgid "Blog"
 msgstr "Blog"
 
-#: templates/base.html:64 templates/base.html:151
-msgid "Portfolio"
-msgstr "Portfolio"
-
-#: templates/base.html:65 templates/base.html:154
-msgid "Testimonials"
-msgstr "Testimonials"
-
-#: templates/base.html:66 templates/base.html:157
-msgid "Contact us"
-msgstr "Contact us"
-
-#: templates/base.html:72
-msgid "Administration"
+#: app/templates/app/access_required_page.html:4
+msgid "Access required!"
 msgstr ""
 
-#: templates/base.html:74
-msgid "Logout"
-msgstr "Logout"
+#: app/templates/app/access_required_page.html:5
+msgid "Back"
+msgstr ""
 
-#: templates/base.html:82 templates/base.html:90
-msgid "Login"
-msgstr "Login"
+#: app/templates/app/admin_blog_list.html:4
+msgid "Blogs administration"
+msgstr ""
 
-#: templates/base.html:93
+#: app/templates/app/admin_blog_list.html:8
+#, fuzzy
+#| msgid "Create account"
+msgid "Create new post"
+msgstr "Create account"
+
+#: app/templates/app/admin_blog_list.html:17
+msgid "Tags"
+msgstr ""
+
+#: app/templates/app/admin_blog_list.html:24
+msgid "Change post"
+msgstr ""
+
+#: app/templates/app/admin_blog_list.html:26
+#: app/templates/app/blog_update.html:16
+msgid "Delete post"
+msgstr ""
+
+#: app/templates/app/admin_users.html:4
+msgid "Users administration"
+msgstr ""
+
+#: app/templates/app/admin_users.html:8
+msgid "Login is already used"
+msgstr ""
+
+#: app/templates/app/admin_users.html:13
+msgid "Edit user"
+msgstr ""
+
+#: app/templates/app/admin_users.html:17
+msgid "Add user"
+msgstr ""
+
+#: app/templates/app/admin_users.html:22
+msgid "Username"
+msgstr ""
+
+#: app/templates/app/admin_users.html:26 templates/base.html:105
 msgid "Password"
 msgstr "Password"
 
-#: templates/base.html:97
+#: app/templates/app/admin_users.html:30
+msgid "Save user"
+msgstr ""
+
+#: app/templates/app/blog.html:12
+msgid "Date:"
+msgstr ""
+
+#: app/templates/app/blog.html:12
+msgid "Tags:"
+msgstr ""
+
+#: app/templates/app/blog.html:28
+msgid "Posted on"
+msgstr ""
+
+#: app/templates/app/blog.html:36 app/templates/app/contact_us.html:19
+#: app/templates/app/testimonials.html:23
+msgid "Message:"
+msgstr ""
+
+#: app/templates/app/blog.html:38
+msgid "Add comment"
+msgstr ""
+
+#: app/templates/app/blog_update.html:4
+msgid "Change "
+msgstr ""
+
+#: app/templates/app/comments_admin.html:4
+msgid "Comments administration"
+msgstr ""
+
+#: app/templates/app/comments_admin.html:10
+#: app/templates/app/testimonials_admin.html:15
+msgid "All"
+msgstr ""
+
+#: app/templates/app/comments_admin.html:11
+#: app/templates/app/testimonials_admin.html:16
+msgid "Moderated"
+msgstr ""
+
+#: app/templates/app/comments_admin.html:12
+#: app/templates/app/testimonials_admin.html:17
+msgid "Not moderated"
+msgstr ""
+
+#: app/templates/app/comments_admin.html:24
+#: app/templates/app/comments_admin.html:26
+msgid "Moderate"
+msgstr ""
+
+#: app/templates/app/comments_admin.html:30
+#: app/templates/app/comments_admin.html:32
+#: app/templates/app/testimonials_admin.html:24
+msgid "Delete"
+msgstr ""
+
+#: app/templates/app/comments_admin.html:40
+msgid "Previous page"
+msgstr ""
+
+#: app/templates/app/comments_admin.html:44
+msgid "Next page"
+msgstr ""
+
+#: app/templates/app/confirm_delete.html:4
+msgid "Delete confirmation"
+msgstr ""
+
+#: app/templates/app/confirm_delete.html:8
+msgid "Are you sure you want to delete "
+msgstr ""
+
+#: app/templates/app/confirm_delete.html:9
+msgid "Confirm"
+msgstr ""
+
+#: app/templates/app/contact_us.html:4 app/templates/app/contact_us.html:12
+#: templates/base.html:78 templates/base.html:171
+msgid "Contact us"
+msgstr "Contact us"
+
+#: app/templates/app/contact_us.html:13
+msgid ""
+"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium "
+"doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore "
+"veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim "
+"ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia "
+"consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+msgstr ""
+
+#: app/templates/app/contact_us.html:17 app/templates/app/testimonials.html:21
+msgid "Author name:"
+msgstr ""
+
+#: app/templates/app/contact_us.html:18 app/templates/app/testimonials.html:22
+msgid "Author email:"
+msgstr ""
+
+#: app/templates/app/contact_us.html:23
+msgid "Send"
+msgstr ""
+
+#: app/templates/app/create_blog_post.html:4
+msgid "Blog post creation"
+msgstr ""
+
+#: app/templates/app/create_portfolio.html:4
+#, fuzzy
+#| msgid "Portfolio"
+msgid "Portfolio creation"
+msgstr "Portfolio"
+
+#: app/templates/app/portfolio.html:3 templates/base.html:76
+#: templates/base.html:165
+msgid "Portfolio"
+msgstr "Portfolio"
+
+#: app/templates/app/portfolio_update.html:4
+msgid "Change"
+msgstr ""
+
+#: app/templates/app/portfolio_update.html:13
+#: app/templates/app/testimonials.html:24
+#: app/templates/app/testimonials_admin.html:45
+msgid "Save"
+msgstr ""
+
+#: app/templates/app/portfolio_update.html:16
+#, fuzzy
+#| msgid "Portfolio"
+msgid "Delete portfolio"
+msgstr "Portfolio"
+
+#: app/templates/app/project_view.html:4
+msgid "Project"
+msgstr ""
+
+#: app/templates/app/project_view.html:7
+msgid "Name and surname:"
+msgstr ""
+
+#: app/templates/app/project_view.html:8
+msgid "Email:"
+msgstr ""
+
+#: app/templates/app/project_view.html:9
+msgid "Query:"
+msgstr ""
+
+#: app/templates/app/project_view.html:16
+msgid "Download all files"
+msgstr ""
+
+#: app/templates/app/project_view.html:21
+msgid "Close project"
+msgstr ""
+
+#: app/templates/app/project_view.html:22
+msgid "Delete project"
+msgstr ""
+
+#: app/templates/app/projects_list.html:4
+msgid "Projects administration"
+msgstr ""
+
+#: app/templates/app/projects_list.html:14
+msgid "New project!"
+msgstr ""
+
+#: app/templates/app/projects_list.html:24
+msgid "There are no projects!"
+msgstr ""
+
+#: app/templates/app/site_admin.html:4
+msgid "Site administration"
+msgstr ""
+
+#: app/templates/app/site_admin.html:7
+msgid "Portfolio administration"
+msgstr ""
+
+#: app/templates/app/site_admin.html:8
+msgid "Blog administration"
+msgstr ""
+
+#: app/templates/app/site_admin.html:9
+#, fuzzy
+#| msgid "Testimonials"
+msgid "Testimonials administration "
+msgstr "Testimonials"
+
+#: app/templates/app/site_admin.html:10
+msgid "Feedback administration "
+msgstr ""
+
+#: app/templates/app/site_admin.html:11
+msgid "Administrators"
+msgstr ""
+
+#: app/templates/app/site_admin.html:12
+msgid "Users"
+msgstr ""
+
+#: app/templates/app/site_admin.html:13
+msgid "Projects  "
+msgstr ""
+
+#: app/templates/app/site_admin.html:14
+msgid "Comments "
+msgstr ""
+
+#: app/templates/app/testimonials.html:4 templates/base.html:77
+#: templates/base.html:168
+msgid "Testimonials"
+msgstr "Testimonials"
+
+#: app/templates/app/testimonials.html:9
+#: app/templates/app/testimonials_admin.html:9
+msgid "Next"
+msgstr ""
+
+#: app/templates/app/testimonials.html:12
+#: app/templates/app/testimonials_admin.html:12
+msgid "Previous"
+msgstr ""
+
+#: app/templates/app/testimonials.html:18
+msgid "Leave your testimonial"
+msgstr ""
+
+#: app/templates/app/testimonials_admin.html:4
+#, fuzzy
+#| msgid "Testimonials"
+msgid "Testimonials administration"
+msgstr "Testimonials"
+
+#: app/templates/app/testimonials_admin.html:24
+msgid "Submit"
+msgstr ""
+
+#: app/templates/app/testimonials_admin.html:33
+msgid "Name"
+msgstr ""
+
+#: app/templates/app/testimonials_admin.html:37
+msgid "E-mail"
+msgstr ""
+
+#: app/templates/app/testimonials_admin.html:41
+msgid "Text"
+msgstr ""
+
+#: templates/base.html:53
+msgid "Search"
+msgstr ""
+
+#: templates/base.html:74 templates/base.html:159
+msgid "Home"
+msgstr "Home"
+
+#: templates/base.html:84
+msgid "Administration"
+msgstr ""
+
+#: templates/base.html:86
+msgid "Logout"
+msgstr "Logout"
+
+#: templates/base.html:94 templates/base.html:102
+msgid "Login"
+msgstr "Login"
+
+#: templates/base.html:109
 msgid "Sign in"
 msgstr "Sign in"
 
-#: templates/base.html:99
+#: templates/base.html:111
 msgid "Lost password ?"
 msgstr "Lost password ?"
 
-#: templates/base.html:100
+#: templates/base.html:112
 msgid "Create account"
 msgstr "Create account"
 
-#: templates/base.html:162
+#: templates/base.html:176
 msgid "Tag cloud"
 msgstr "Tag cloud"
 
-#: templates/base.html:172
-msgid "Copyright, YogaSoft 2017"
-msgstr "Copyright, YogaSoft 2017"
+#~ msgid "Copyright, YogaSoft 2017"
+#~ msgstr "Copyright, YogaSoft 2017"

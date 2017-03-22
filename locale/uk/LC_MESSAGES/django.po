@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-09 21:55+0200\n"
+"POT-Creation-Date: 2017-03-17 11:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,62 +19,374 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: templates/base.html:43
-msgid "Search"
-msgstr "Пошук"
-
-#: templates/base.html:62 templates/base.html:145
-msgid "Home"
-msgstr "Головна"
-
-#: templates/base.html:63 templates/base.html:148
+#: app/templates/app/BlogList.html:4 templates/base.html:75
+#: templates/base.html:162
 msgid "Blog"
 msgstr "Блог"
 
-#: templates/base.html:64 templates/base.html:151
-msgid "Portfolio"
-msgstr "Портфоліо"
+#: app/templates/app/access_required_page.html:4
+msgid "Access required!"
+msgstr "Необхідні права доступу!"
 
-#: templates/base.html:65 templates/base.html:154
-msgid "Testimonials"
-msgstr "Відгуки"
+#: app/templates/app/access_required_page.html:5
+msgid "Back"
+msgstr "Назад"
 
-#: templates/base.html:66 templates/base.html:157
-msgid "Contact us"
-msgstr "Звяжіться із нами"
+#: app/templates/app/admin_blog_list.html:4
+#, fuzzy
+#| msgid "Administration"
+msgid "Blogs administration"
+msgstr "Адміністрування блогів"
 
-#: templates/base.html:72
-msgid "Administration"
-msgstr "Адміністрування"
+#: app/templates/app/admin_blog_list.html:8
+#, fuzzy
+#| msgid "Create account"
+msgid "Create new post"
+msgstr "Створити пост"
 
-#: templates/base.html:74
-msgid "Logout"
-msgstr "Вихід"
+#: app/templates/app/admin_blog_list.html:17
+msgid "Tags"
+msgstr "Теги"
 
-#: templates/base.html:82 templates/base.html:90
-msgid "Login"
-msgstr "Вхід"
+#: app/templates/app/admin_blog_list.html:24
+msgid "Change post"
+msgstr "Змінити пост"
 
-#: templates/base.html:93
+#: app/templates/app/admin_blog_list.html:26
+#: app/templates/app/blog_update.html:16
+msgid "Delete post"
+msgstr "Видалити пост"
+
+#: app/templates/app/admin_users.html:4
+#, fuzzy
+#| msgid "Administration"
+msgid "Users administration"
+msgstr "Адміністрування користувачів"
+
+#: app/templates/app/admin_users.html:8
+msgid "Login is already used"
+msgstr "Логін вже зайнятий"
+
+#: app/templates/app/admin_users.html:13
+msgid "Edit user"
+msgstr "Змінити користувача"
+
+#: app/templates/app/admin_users.html:17
+msgid "Add user"
+msgstr "Додати користувача"
+
+#: app/templates/app/admin_users.html:22
+msgid "Username"
+msgstr "Логін"
+
+#: app/templates/app/admin_users.html:26 templates/base.html:105
 msgid "Password"
 msgstr "Пароль"
 
-#: templates/base.html:97
+#: app/templates/app/admin_users.html:30
+msgid "Save user"
+msgstr "Зберегти користувача"
+
+#: app/templates/app/blog.html:12
+msgid "Date:"
+msgstr "Дата:"
+
+#: app/templates/app/blog.html:12
+msgid "Tags:"
+msgstr "Теги:"
+
+#: app/templates/app/blog.html:28
+msgid "Posted on"
+msgstr "Написано"
+
+#: app/templates/app/blog.html:36 app/templates/app/contact_us.html:19
+#: app/templates/app/testimonials.html:23
+msgid "Message:"
+msgstr "Повідомлення:"
+
+#: app/templates/app/blog.html:38
+msgid "Add comment"
+msgstr "Додати коментар"
+
+#: app/templates/app/blog_update.html:4
+msgid "Change "
+msgstr "Змінити"
+
+#: app/templates/app/comments_admin.html:4
+#, fuzzy
+#| msgid "Administration"
+msgid "Comments administration"
+msgstr "Адміністрування коментарів"
+
+#: app/templates/app/comments_admin.html:10
+#: app/templates/app/testimonials_admin.html:15
+msgid "All"
+msgstr "Всі"
+
+#: app/templates/app/comments_admin.html:11
+#: app/templates/app/testimonials_admin.html:16
+msgid "Moderated"
+msgstr "Модеровані"
+
+#: app/templates/app/comments_admin.html:12
+#: app/templates/app/testimonials_admin.html:17
+msgid "Not moderated"
+msgstr "Не модеровані"
+
+#: app/templates/app/comments_admin.html:24
+#: app/templates/app/comments_admin.html:26
+msgid "Moderate"
+msgstr "Модерувати"
+
+#: app/templates/app/comments_admin.html:30
+#: app/templates/app/comments_admin.html:32
+#: app/templates/app/testimonials_admin.html:24
+msgid "Delete"
+msgstr "Видалити"
+
+#: app/templates/app/comments_admin.html:40
+msgid "Previous page"
+msgstr "Минула сторінка"
+
+#: app/templates/app/comments_admin.html:44
+msgid "Next page"
+msgstr "Наступна сторінка"
+
+#: app/templates/app/confirm_delete.html:4
+msgid "Delete confirmation"
+msgstr "Підтвердження видалення"
+
+#: app/templates/app/confirm_delete.html:8
+msgid "Are you sure you want to delete "
+msgstr "Ви справді хочете видалити "
+
+#: app/templates/app/confirm_delete.html:9
+msgid "Confirm"
+msgstr "Підтвердити"
+
+#: app/templates/app/contact_us.html:4 app/templates/app/contact_us.html:12
+#: templates/base.html:78 templates/base.html:171
+msgid "Contact us"
+msgstr "Звяжіться із нами"
+
+#: app/templates/app/contact_us.html:13
+msgid ""
+"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium "
+"doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore "
+"veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim "
+"ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia "
+"consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+msgstr ""
+
+#: app/templates/app/contact_us.html:17 app/templates/app/testimonials.html:21
+msgid "Author name:"
+msgstr "Ім'я автора: "
+
+#: app/templates/app/contact_us.html:18 app/templates/app/testimonials.html:22
+msgid "Author email:"
+msgstr "E-mail автора"
+
+#: app/templates/app/contact_us.html:23
+msgid "Send"
+msgstr "Відправити"
+
+#: app/templates/app/create_blog_post.html:4
+msgid "Blog post creation"
+msgstr "Створення поста"
+
+#: app/templates/app/create_portfolio.html:4
+#, fuzzy
+#| msgid "Portfolio"
+msgid "Portfolio creation"
+msgstr "Створення портфоліо"
+
+#: app/templates/app/portfolio.html:3 templates/base.html:76
+#: templates/base.html:165
+msgid "Portfolio"
+msgstr "Портфоліо"
+
+#: app/templates/app/portfolio_update.html:4
+msgid "Change"
+msgstr "Змінити"
+
+#: app/templates/app/portfolio_update.html:13
+#: app/templates/app/testimonials.html:24
+#: app/templates/app/testimonials_admin.html:45
+msgid "Save"
+msgstr "Зберегти"
+
+#: app/templates/app/portfolio_update.html:16
+#, fuzzy
+#| msgid "Portfolio"
+msgid "Delete portfolio"
+msgstr "Видалити портфоліо"
+
+#: app/templates/app/project_view.html:4
+msgid "Project"
+msgstr "Проект"
+
+#: app/templates/app/project_view.html:7
+msgid "Name and surname:"
+msgstr "Ім'я і прізвище:"
+
+#: app/templates/app/project_view.html:8
+msgid "Email:"
+msgstr "Email"
+
+#: app/templates/app/project_view.html:9
+msgid "Query:"
+msgstr "Опис:"
+
+#: app/templates/app/project_view.html:16
+msgid "Download all files"
+msgstr "Завантажити всі файли"
+
+#: app/templates/app/project_view.html:21
+msgid "Close project"
+msgstr "Закрити проект"
+
+#: app/templates/app/project_view.html:22
+msgid "Delete project"
+msgstr "Видалити проект"
+
+#: app/templates/app/projects_list.html:4
+#, fuzzy
+#| msgid "Administration"
+msgid "Projects administration"
+msgstr "Адміністрування проектів"
+
+#: app/templates/app/projects_list.html:14
+msgid "New project!"
+msgstr "Новий проект!"
+
+#: app/templates/app/projects_list.html:24
+msgid "There are no projects!"
+msgstr "Немає проектів!"
+
+#: app/templates/app/site_admin.html:4
+#, fuzzy
+#| msgid "Administration"
+msgid "Site administration"
+msgstr "Адміністрування"
+
+#: app/templates/app/site_admin.html:7
+#, fuzzy
+#| msgid "Administration"
+msgid "Portfolio administration"
+msgstr "Адміністрування портфоліо"
+
+#: app/templates/app/site_admin.html:8
+#, fuzzy
+#| msgid "Administration"
+msgid "Blog administration"
+msgstr "Адміністрування блогів"
+
+#: app/templates/app/site_admin.html:9
+#, fuzzy
+#| msgid "Administration"
+msgid "Testimonials administration "
+msgstr "Адміністрування відгуків"
+
+#: app/templates/app/site_admin.html:10
+#, fuzzy
+#| msgid "Administration"
+msgid "Feedback administration "
+msgstr "Адміністрування зв'язку "
+
+#: app/templates/app/site_admin.html:11
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrators"
+msgstr "Адміністратори"
+
+#: app/templates/app/site_admin.html:12
+msgid "Users"
+msgstr "Користувачі"
+
+#: app/templates/app/site_admin.html:13
+msgid "Projects  "
+msgstr "Проекти "
+
+#: app/templates/app/site_admin.html:14
+msgid "Comments "
+msgstr "Коментарі "
+
+#: app/templates/app/testimonials.html:4 templates/base.html:77
+#: templates/base.html:168
+msgid "Testimonials"
+msgstr "Відгуки"
+
+#: app/templates/app/testimonials.html:9
+#: app/templates/app/testimonials_admin.html:9
+msgid "Next"
+msgstr "Наступна"
+
+#: app/templates/app/testimonials.html:12
+#: app/templates/app/testimonials_admin.html:12
+msgid "Previous"
+msgstr "Попередня"
+
+#: app/templates/app/testimonials.html:18
+msgid "Leave your testimonial"
+msgstr "Залишіть свій відгук"
+
+#: app/templates/app/testimonials_admin.html:4
+#, fuzzy
+#| msgid "Administration"
+msgid "Testimonials administration"
+msgstr "Адміністрування відгуків"
+
+#: app/templates/app/testimonials_admin.html:24
+msgid "Submit"
+msgstr "Підтвердити"
+
+#: app/templates/app/testimonials_admin.html:33
+msgid "Name"
+msgstr "Ім'я"
+
+#: app/templates/app/testimonials_admin.html:37
+msgid "E-mail"
+msgstr "E-mail"
+
+#: app/templates/app/testimonials_admin.html:41
+msgid "Text"
+msgstr "Текст"
+
+#: templates/base.html:53
+msgid "Search"
+msgstr "Пошук"
+
+#: templates/base.html:74 templates/base.html:159
+msgid "Home"
+msgstr "Головна"
+
+#: templates/base.html:84
+msgid "Administration"
+msgstr "Адміністрування"
+
+#: templates/base.html:86
+msgid "Logout"
+msgstr "Вихід"
+
+#: templates/base.html:94 templates/base.html:102
+msgid "Login"
+msgstr "Вхід"
+
+#: templates/base.html:109
 msgid "Sign in"
 msgstr "Увійти"
 
-#: templates/base.html:99
+#: templates/base.html:111
 msgid "Lost password ?"
-msgstr "Загубив пароль ?"
+msgstr "Забули пароль ?"
 
-#: templates/base.html:100
+#: templates/base.html:112
 msgid "Create account"
 msgstr "Створити акаунт"
 
-#: templates/base.html:162
+#: templates/base.html:176
 msgid "Tag cloud"
 msgstr "Хмара тегів"
 
-#: templates/base.html:172
-msgid "Copyright, YogaSoft 2017"
-msgstr "Копірайт, YogaSoft 2017"
+#~ msgid "Copyright, YogaSoft 2017"
+#~ msgstr "Копірайт, YogaSoft 2017"

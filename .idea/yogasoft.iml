@@ -14,7 +14,9 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.6.0 virtualenv at C:\Users\Fil.Vol\djanco_slack_venv" jdkType="Python SDK" />
-   <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Django_Hackerrank" />
+    <orderEntry type="module" module-name="untitled1" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

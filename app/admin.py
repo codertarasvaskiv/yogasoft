@@ -7,7 +7,7 @@ class ProjectsView(admin.ModelAdmin):
 
 
 class BlogsView(admin.ModelAdmin):
-    list_display = ['author', 'name', 'text']
+    list_display = ['author', 'name', 'text', 'nameUA', 'textUA']
 
 
 class TagView(admin.ModelAdmin):
@@ -25,8 +25,10 @@ class PortfolioContentView(admin.ModelAdmin):
 class ImageContentView(admin.ModelAdmin):
     list_display = ['content', 'image']
 
+
 class UserYogaView(admin.ModelAdmin):
-    list_display = ['username', 'first_name', 'last_name', 'email',]
+    list_display = ['username', 'first_name', 'last_name', 'email']
+
 
 class TechnologyView(admin.ModelAdmin):
     list_display = ['name', 'description', 'image']

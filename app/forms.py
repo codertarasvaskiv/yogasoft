@@ -80,7 +80,9 @@ class CreateBlogForm(forms.ModelForm):
         exclude = ["author", "date"]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'nameUA': forms.TextInput(attrs={'class': 'form-control'}),
             'text': forms.Textarea(attrs={'class': 'form-control', 'rows': '7'}),
+            'textUA': forms.Textarea(attrs={'class': 'form-control', 'rows': '7'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }
 
@@ -93,6 +95,8 @@ class CreatePortfolio(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': '7'}),
+            'nameUA': forms.TextInput(attrs={'class': 'form-control'}),
+            'descriptionUA': forms.Textarea(attrs={'class': 'form-control', 'rows': '7'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
             "technologies": forms.TextInput(attrs={'class': 'form-control'}),
             'link': forms.TextInput(attrs={'class': 'form-control'}),

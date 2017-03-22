@@ -6,43 +6,59 @@
 {% load static %}
 {% block content %}
      <div class="row-fluid">
-     <div class="container">
-     <div class="row paddingleft"><h1>{{ portfoliocontent.name }}</h1></div>
-     {% if portfoliocontent.imagecontentclass_set.all.1 %}
-         <div class="col-md-2">
-             <img class="img-responsive img-thumbnail" style="max-width: 88%" src={{ portfoliocontent.imagecontentclass_set.all.1.image.url }}>
-             <img class="img-responsive img-thumbnail" style="max-width: 88%" src={{ portfoliocontent.imagecontentclass_set.all.2.image.url }}>
-             <img class="img-responsive img-thumbnail" style="max-width: 88%" src={{ portfoliocontent.imagecontentclass_set.all.3.image.url }}>
-         </div>
-
-        <div class="col-md-5">
-            <img class="img-responsive img-thumbnail"  src={{ portfoliocontent.imagecontentclass_set.all.0.image.url }}>
-        </div>
-     {% else %}
-         <div class="col-md-7">
-             <img class="img-responsive img-thumbnail"  src={{ portfoliocontent.imagecontentclass_set.all.0.image.url }}>
-         </div>
-     {% endif %}
-
-         <div class="col-md-5">
-         {% if portfoliocontent.client %}
-             <div class="row"><strong>Client: </strong>{{ portfoliocontent.client }}</div>
-         {% endif %}
-             <div class="row"><strong>Tags: </strong>
-                 {% for tag in portfoliocontent.tags.all %}
-                     {{ tag.name }}
-                 {% endfor %}
+         <div class="container">
+             <div class="row paddingleft">
+                 {% if LANGUAGE_CODE == 'en' %}
+                     <h1>{{ portfoliocontent.name }}</h1>
+                 {% else %}
+                     <h1>{{ portfoliocontent.nameUA }}</h1>
+                 {% endif %}
              </div>
-         {% if portfoliocontent.link %}
-             <div class="row"><strong>Visit website: </strong>
-                 <a href="{{ portfoliocontent.link }}">{{ portfoliocontent.link }}</a></div>
-         {% endif %}
-             <hr>
-             <div class="row paddingright">{{ portfoliocontent.description }}</div>
+             {% if portfoliocontent.imagecontentclass_set.all.1 %}
+                 <div class="col-md-2">
+                     <img class="img-responsive img-thumbnail" style="max-width: 88%" src={{ portfoliocontent.imagecontentclass_set.all.1.image.url }}>
+                     <img class="img-responsive img-thumbnail" style="max-width: 88%" src={{ portfoliocontent.imagecontentclass_set.all.2.image.url }}>
+                     <img class="img-responsive img-thumbnail" style="max-width: 88%" src={{ portfoliocontent.imagecontentclass_set.all.3.image.url }}>
+                 </div>
 
-             </div>
+                <div class="col-md-5">
+                    <img class="img-responsive img-thumbnail"  src={{ portfoliocontent.imagecontentclass_set.all.0.image.url }}>
+                </div>
+             {% else %}
+                 <div class="col-md-7">
+                     <img class="img-responsive img-thumbnail"  src={{ portfoliocontent.imagecontentclass_set.all.0.image.url }}>
+                 </div>
+             {% endif %}
+
+                 <div class="col-md-5">
+                 {% if portfoliocontent.client %}
+                     <div class="row"><strong>{% trans "Client: " %}</strong>{{ portfoliocontent.client }}</div>
+                 {% endif %}
+                     <div class="row"><strong>{% trans "Tags: " %}</strong>
+                         {% for tag in portfoliocontent.tags.all %}
+                             {{ tag.name }}
+                         {% endfor %}
+                     </div>
+                 {% if portfoliocontent.technologies %}
+                     <div class="row"><strong>{% trans "Technologies: " %}</strong>
+                             {{ portfoliocontent.technologies }}
+                     </div>
+                 {% endif %}
+                 {% if portfoliocontent.link %}
+                     <div class="row"><strong>{% trans "Visit website: " %}</strong>
+                         <a href="{{ portfoliocontent.link }}">{{ portfoliocontent.link }}</a></div>
+                 {% endif %}
+                     <hr>
+
+                     <div class="row paddingright">{% if LANGUAGE_CODE == 'en' %}
+                         {{ portfoliocontent.description }}
+                     {% else %}
+                         {{ portfoliocontent.descriptionUA }}
+                     {% endif %}</div>
+
+                 </div>
 
 
-        </div>
-        </div>
+         </div>
+     </div>
 {%  endblock  %}
