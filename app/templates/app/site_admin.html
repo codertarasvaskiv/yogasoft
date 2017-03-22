@@ -4,13 +4,23 @@
     {% trans "Site administration" %}
 {% endblock %}
 {% block content %}
-    <a href="{% url 'app:portfolio_admin_list' %}">{% trans "Portfolio administration" %}</a><br>
-    <a href="{% url 'app:admin_blog_posts' %}">{% trans "Blog administration" %}</a><br>
-    <a href="{% url 'app:testimonials_admin' %}">{% trans "Testimonials administration " %}<span class="badge">{{ new_testimonials }}</span></a><br>
-    <a href="{% url 'app:site_admin' %}">{% trans "Feedback administration " %}<span class="badge">{{ new_feedback }}</span></a><br>
-    <a href="{% url 'app:admin_users' %}">{% trans "Administrators" %}</a><br>
-    <a href="{% url 'app:site_admin' %}">{% trans "Users" %}</a><br>
-    <a href="{% url 'app:projects_list' %}">{% trans "Projects  " %}<span class="badge">{{ opened_projects }}</a><br>
-    <a href="{% url 'app:comment_admin' %}">{% trans "Comments " %}<span class="badge">{{ new_comments }}</span></a><br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                <div class="admin_menus text-center">
+                    <ul>
+                        <li><a href="{% url 'app:portfolio_admin_list' %}">{% trans "Portfolio administration" %}</a></li>
+                        <li><a href="{% url 'app:admin_blog_posts' %}">{% trans "Blog administration" %}</a></li>
+                        <li><a href="{% url 'app:testimonials_admin' %}">{% trans "Testimonials administration " %}<span class="badge">{{ new_testimonials }}</span></a></li>
+                        <li><a href="{% url 'app:site_admin' %}">{% trans "Feedback administration " %}<span class="badge">{{ new_feedback }}</span></a></li>
+                        <li><a href="{% url 'app:admin_users' %}">{% trans "Administrators" %}</a></li>
+                        <li><a href="{% url 'app:site_admin' %}">{% trans "Users" %}</a></li>
+                        <li><a href="{% url 'app:projects_list' %}">{% trans "Projects  " %}<span class="badge">{{ opened_projects }}</span></a></li>
+                        <li><a href="{% url 'app:comment_admin' %}">{% trans "Comments " %}<span class="badge">{{ new_comments }}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
 {% endblock %}

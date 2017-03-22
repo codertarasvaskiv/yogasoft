@@ -322,3 +322,32 @@ textarea {
     padding-right: 15px;
     margin-top: 1%;
 }
+
+.admin_menus ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.admin_menus ul li {
+    margin: 0 .3em .3em 0;
+    padding: 0;
+}
+.admin_menus ul li a {
+    display: inline-block;
+    width: 230px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 1em;
+    background-color: #5bc0de;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #333;
+    font-size: 13px;
+    text-decoration: none;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+.admin_menus ul li a:hover {
+    background-color: #fff;
+    border: 1px solid #5bc0de;
+}

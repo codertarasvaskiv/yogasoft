@@ -2,32 +2,56 @@
 {% load i18n %}{% load static %}
 {% block title %}  {% trans "Portfolio" %}{% endblock %}
 {% block content %}
+
+    <!-- /.row -->
     <div class="container-fluid divparent"><h1>Our Portfolio </h1></div>
-        <div class="row">
-            {% if portfoliocontent_list %}
-                {% for item in portfoliocontent_list %}
+    <div class="row">
+        {% if object_list %}
+            {% for item in object_list %}
+                <div class="row">
                     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item maxwidth">
                         <a href="#">
-                            <img class="img-responsive" src={{ item.imagecontentclass_set.all.0.image.url }} alt="">
+                            <img class="img-responsive" src={{ item.0.imagecontentclass_set.all.0.image.url }} alt="">
                         </a>
-                        <div>
-                        <h3>
-                            <a href="#">{{ item.name }}</a>
-                        </h3>
-                        <p>{{ item.description }}</p>
-                        </div>
                     </div>
-                    {% if forloop.counter|divisibleby:2 %}
-                        </div>
-                        <div class="row">
-                    {% endif %}
-                {% if forloop.last %}
+                    <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item maxwidth">
+                        <a href="#">
+                            {% if item.1 %}
+                                <img class="img-responsive" src={{ item.1.imagecontentclass_set.all.0.image.url }} alt="">
+                            {% endif %}
+                        </a>
                     </div>
-                {% endif %}
-                {% endfor %}
-
-            {% else %}
-                <strong>There is no objects inside portfolio.</strong>
                 </div>
-            {% endif %}
+                <div class="row">
+                    <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item maxwidth">
+                        {% if LANGUAGE_CODE == 'en' %}
+                            <h3>{{ item.0.name }}</h3>
+                        {% else %}
+                            <h3>{{ item.0.nameUA }}</h3>
+                        {% endif %}
+                        <a href="{% url "app:portfolio_detail" pk=item.0.id %}">{% trans "More" %}</a>
+                        {% if LANGUAGE_CODE == 'en' %}
+                            <p>{{ item.0.description }}</p>
+                        {% else %}
+                            <p>{{ item.0.descriptionUA }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item maxwidth">
+                        {% if item.1 %}
+                            {% if LANGUAGE_CODE == 'en' %}
+                                <h3>{{ item.1.name }}</h3>
+                            {% else %}
+                                <h3>{{ item.1.nameUA }}</h3>
+                            {% endif %}
+                            <a href="{% url "app:portfolio_detail" pk=item.1.id %}">{% trans "More" %}</a>
+                            {% if LANGUAGE_CODE == 'en' %}
+                                <p>{{ item.1.description }}</p>
+                            {% else %}
+                                <p>{{ item.1.descriptionUA }}</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
 {%  endblock  %}

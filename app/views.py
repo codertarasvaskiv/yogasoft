@@ -1,18 +1,13 @@
 from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.models import User
-from .custom import user_in_group, user_can, in_group_decorator, user_can_decorator
-from django.utils.translation import activate
-from django.utils import translation
+from .custom import user_can_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
-from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.http import StreamingHttpResponse
 from django.template import RequestContext
-from django.http import HttpResponseRedirect, request
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.core.paginator import Paginator
 from shutil import rmtree
 from django.db.models import Q
 from mimetypes import MimeTypes
@@ -27,8 +22,6 @@ import PIL.Image
 from wsgiref.util import FileWrapper
 from itertools import chain
 import zipfile
-
-
 
 TESTIMONIALS_ON_PAGE = 8
 TESTIMONIALS_ON_ADMIN_PAGE = 8
@@ -52,11 +45,13 @@ class StartProjectView(FormView):
 
 
 class IndexPage(FormView):
+    """ View that is responsible for main page """
     template_name = 'app/index.html'
     form_class = StartProjectForm
     success_url = '/'
 
     def post(self, request, *args, **kwargs):
+        """ Post method that handles files, when user starts new project """
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         files = request.FILES.getlist('file')
@@ -87,6 +82,7 @@ class IndexPage(FormView):
 
 
 class Testimonials(ListView):
+    """ View that is responsible for testimonials page """
     model = Testimonial
     template_name = "app/testimonials.html"
     paginate_by = TESTIMONIALS_ON_PAGE
@@ -95,6 +91,7 @@ class Testimonials(ListView):
     def get_queryset(self):
         return Testimonial.objects.filter(is_moderated=True).order_by('-date')
 
+    @staticmethod
     def post(self, request):
         if 'save' in request.POST:
             author_name = request.POST['author_name']
@@ -124,6 +121,7 @@ class TestimonialsAdmin(ListView):
         else:
             return Testimonial.objects.order_by('date')  # If not specified get all.
 
+    @staticmethod
     def post(self, request, testimonial_id=None):
         view_moderated = request.GET.get('mod', 'all')
         page = request.GET.get('page', 1)
@@ -163,10 +161,12 @@ class TestimonialsAdmin(ListView):
 
 
 class BlogDetailView(DetailView):
+    """ View that is responsible for blog page """
     model = BlogPost
     template_name = 'app/blog.html'
 
     def get_context_data(self, **kwargs):
+        """ Method that collects all comments for current blog """
         context = super(BlogDetailView, self).get_context_data(**kwargs)
         blog_post = context['object']
         context['tags'] = blog_post.tags.all()
@@ -182,11 +182,11 @@ class BlogDetailView(DetailView):
                         context['comments'][i].pop(context['comments'][i].index(j))
         context['form'] = CommentForm()
         context.pop('blogpost')
-
         return context
 
 
-def AddComment(request, pk):
+def add_comment(request, pk):
+    """ Function that handles comment adding """
     data = request.POST
     if request.user.is_authenticated():
         q = Comment(author_email=request.user.email, author_name=request.user)
@@ -194,13 +194,14 @@ def AddComment(request, pk):
         q = Comment(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.blog = BlogPost.objects.get(pk=pk)
-    if request.user.is_staff:
+    if request.user.is_staff:  # if admin, no need for other admin to moderate
         q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
 
 
 def add_second_comment(request, pk, comm_pk):
+    """ Function that handles second level comment adding """
     data = request.POST
     print(request.user)
     if request.user.is_authenticated():
@@ -209,13 +210,14 @@ def add_second_comment(request, pk, comm_pk):
         q = CommentSecondLevel(author_email=data['author_email'], author_name=data['author_name'])
     q.message = data['message']
     q.father_comment = Comment.objects.get(pk=comm_pk)
-    if request.user.is_staff:
+    if request.user.is_staff:  # if admin, no need for other admin to moderate
         q.is_moderated = True
     q.save(q)
     return redirect('app:blog_detail_view', pk)
 
 
 class BlogListView(ListView):
+    """ View that is responsible for blog list page """
     model = BlogPost
     template_name = 'app/BlogList.html'
 
@@ -237,9 +239,10 @@ def user_logout(request):
 
 
 class ContactUsView(FormView):
+    """ View that is responsible for feedback page """
     template_name = 'app/contact_us.html'
     form_class = ContactUsForm
-    success_url = '/'
+    success_url = "/"
 
     def post(self, request, *args, **kwargs):
         data = request.POST
@@ -260,14 +263,14 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return render(request, '#', {}, context)
+                return render(request, '/', {}, context)
             else:
-                return render(request, '#', {}, context)
+                return render(request, '/', {}, context)
         else:
             print("Invalid login details: {}, {}".format(username, password))
-            return render(request, '#', {})
+            return render(request, '/', {})
     else:
-        return render(request, '#', {}, context)
+        return render(request, '/', {}, context)
 
 
 class SiteAdmin(TemplateView):
@@ -276,7 +279,7 @@ class SiteAdmin(TemplateView):
     def get_context_data(self, **kwargs):
         context = dict()
         context['new_comments'] = len(Comment.objects.filter(is_moderated=False)) + \
-                              len(CommentSecondLevel.objects.filter(is_moderated=False))
+                                  len(CommentSecondLevel.objects.filter(is_moderated=False))
         context['new_testimonials'] = len(Testimonial.objects.filter(is_moderated=False))
         context['opened_projects'] = len(Project.objects.filter(is_opened=True))
         context['new_feedback'] = len(ContactUsModel.objects.filter(is_new=True))
@@ -393,6 +396,7 @@ class GeneralUsers(ListView):
     def get_queryset(self):
         return User.objects.filter(useryoga__is_admin=False)
 
+    @staticmethod
     def post(self, request):
         if 'save' in request.POST:
             new_user = request.POST['username']
@@ -417,6 +421,15 @@ class PortfolioListView(ListView):
 
     def get_queryset(self):
         return PortfolioContent.objects.all()
+
+    def get_context_data(self, **kwargs):
+        q = super().get_context_data()
+        _list = list(q['object_list'])
+        new_list = list(zip(_list[::2], _list[1::2]))
+        if len(_list) % 2:
+            new_list.append((_list[-1], None))
+        q['object_list'] = new_list
+        return q
 
 
 class PortfolioDetailView(DetailView):
@@ -444,7 +457,8 @@ def register(request):  # 06.03.2017 Taras need to edit later
     else:
         user_form = UserForm()
         yoga_form = YogaUserForm()
-    return render(request, 'registration/registration_form.html', {'user_form': user_form, 'profile_form': yoga_form, 'registered': registered}, context)
+    return render(request, 'registration/registration_form.html', {'user_form': user_form, 'profile_form': yoga_form,
+                                                                   'registered': registered}, context)
 
 
 class AdminBlogList(ListView):
@@ -459,7 +473,8 @@ class CreateBlogPost(CreateView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        q = BlogPost(name=data['name'], text=data['text'], author=User.objects.get(username=request.user))
+        q = BlogPost(name=data['name'], text=data['text'], nameUA=data['nameUA'], textUA=data['textUA'],
+                     author=User.objects.get(username=request.user))
         q.save()
         q.tags = []
         for i in request.POST.getlist('tags'):
@@ -468,14 +483,13 @@ class CreateBlogPost(CreateView):
         for i in request.FILES.getlist('file'):
             img = BlogPostImage(image=i, content=q)
             img.save()
-        print(request.FILES)
         return redirect("/")
 
 
 class ChangeBlogPost(UpdateView):
-    UpdateView.model = BlogPost
-    UpdateView.fields = ['text', 'tags']
-    UpdateView.template_name = "app/blog_update.html"
+    model = BlogPost
+    fields = ['text', 'textUA', 'tags']
+    template_name = "app/blog_update.html"
     success_url = "/"
 
 
@@ -569,7 +583,6 @@ def close_project(request, pk):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
-
 class SearchListAsView(ListView):
     """ this class is responsible for search
 
@@ -593,12 +606,13 @@ class SearchListAsView(ListView):
 class CreatePortfolio(CreateView):
     model = PortfolioContent
     form_class = CreatePortfolio
-    template_name = "app/create_blog_post.html"
+    template_name = "app/create_portfolio.html"
 
     def post(self, request, *args, **kwargs):
 
         data = request.POST
-        q = PortfolioContent(name=data['name'], description=data['description'], technologies = data['technologies'],
+        q = PortfolioContent(name=data['name'], description=data['description'], nameUA=data['nameUA'],
+                             descriptionUA=data['descriptionUA'], technologies=data['technologies'],
                              link=data['link'], client=data['client'])
         q.save()
         q.tags = []
@@ -624,7 +638,7 @@ class PortfolioDelete(DeleteView):
 
 class ChangePortfolio(UpdateView):
     UpdateView.model = PortfolioContent
-    UpdateView.fields = ['name', 'description',  'tags', "technologies", 'link', 'client']
+    UpdateView.fields = ['name', 'nameUA', 'description', 'descriptionUA', 'tags', "technologies", 'link', 'client']
     UpdateView.template_name = "app/portfolio_update.html"
     success_url = "/"
 
@@ -639,11 +653,14 @@ class CommentsAdmin(ListView):
         if 'mod' in self.request.GET:
             view_moderated = self.request.GET['mod']
             if view_moderated == 'true':
-                return list(chain(Comment.objects.filter(is_moderated=True).order_by('-id'), CommentSecondLevel.objects.filter(is_moderated=True).order_by('-id')))
+                return list(chain(Comment.objects.filter(is_moderated=True).order_by('-id'),
+                                  CommentSecondLevel.objects.filter(is_moderated=True).order_by('-id')))
             elif view_moderated == 'false':
-                return list(chain(Comment.objects.filter(is_moderated=False).order_by('-id'), CommentSecondLevel.objects.filter(is_moderated=False).order_by('-id')))
+                return list(chain(Comment.objects.filter(is_moderated=False).order_by('-id'),
+                                  CommentSecondLevel.objects.filter(is_moderated=False).order_by('-id')))
             else:
-                return list(chain(Comment.objects.all().order_by('-id'), CommentSecondLevel.objects.all().order_by('-id')))
+                return list(
+                    chain(Comment.objects.all().order_by('-id'), CommentSecondLevel.objects.all().order_by('-id')))
         else:
             return list(chain(Comment.objects.all().order_by('-id'), CommentSecondLevel.objects.all().order_by('-id')))
 
@@ -672,8 +689,3 @@ def delete_sec_comment(request, pk):
     q = CommentSecondLevel.objects.get(id=pk)
     q.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-
-def lang_context_processor(request):
-    return {'LANG': request.LANGUAGE_CODE}
-

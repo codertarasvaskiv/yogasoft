@@ -59,7 +59,9 @@ post_save.connect(create_profile, sender=User)
 
 class PortfolioContent(models.Model):
     name = models.CharField(unique=True, max_length=250)
+    nameUA = models.CharField(unique=True, max_length=250, default='')
     description = models.TextField()
+    descriptionUA = models.TextField(default='')
     tags = models.ManyToManyField(Tag)
     technologies = models.CharField(max_length=250)
     link = models.CharField(max_length=250, blank=True)
@@ -78,7 +80,9 @@ class BlogPost(models.Model):
     author = models.ForeignKey(User)
     date = models.DateField(auto_now_add=True)
     name = models.CharField(max_length=200)
+    nameUA = models.CharField(max_length=200, default='')
     text = models.TextField()
+    textUA = models.TextField(default='')
     tags = models.ManyToManyField(Tag)
 
     def __str__(self):

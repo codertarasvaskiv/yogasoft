@@ -5,66 +5,113 @@
 {% endblock %}
 {% block content %}
 {% load staticfiles %}
-    <img src="{{ object.blogpostimage_set.all.0.image.url }}">
-    <br>
-    <h3>{{ object.name }}</h3>
-    <br>
-    <p>{% trans "Date:" %} {{ object.date }} {% trans "Tags:" %}
-    {% for i in tags %}
-        <a href="{% url 'app:blog_list_view_tag' tag=i.name %}">{{ i }}</a>
-    {% endfor %}</p>
+    <div class="container-fluid">
+        <div class="row">
+            <img src="{{ object.blogpostimage_set.all.0.image.url }}">
+            <br>
+            {% if LANGUAGE_CODE == 'en' %}
+                <h3>{{ object.name }}</h3>
+            {% else %}
+                <h3>{{ object.nameUA }}</h3>
+            {% endif %}
+            <br>
+            <p>{% trans "Date:" %} {{ object.date }} {% trans "Tags:" %}
+            {% for i in tags %}
+                <a href="{% url 'app:blog_list_view_tag' tag=i.name %}">{{ i }}</a>
+            {% endfor %}</p>
 
-    <br>
-    <p>{{ object.text }}</p>
-    <br><br><br>
-    <div class="container">
-    {% for i in comments.items %}
-    <div class="media">
 
-        <div class="media-left">
-            <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width:45px">
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading">{{ i.0.author_name }} <small><i>{% trans "Posted on" %} {{ i.0.time }} </i></small><button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button></h4>
-            <p>{{ i.0.message }}</p>
-            <div id="sec_com{{ i.0.pk }}" class="collapse">
-                <form id="sec_com{{ i.0.pk }}" method="post" action="{% url "app:add_second_level_comment" pk=object.pk comm_pk=i.0.pk %}">
-                    {% csrf_token %}
-                    {% if not user.is_authenticated %}
-                        {{ form.as_p }}
-                    {% else %}
-                        <label>{% trans "Message:" %} </label>{{ form.message }}
-                    {% endif %}
-                    <input  class="btn waves-effect waves-light" type="submit" value="{% trans "Add comment" %}">
-                </form>
-                <hr>
+            <br>
+            {% if LANGUAGE_CODE == 'en' %}
+                <h3>{{ object.text }}</h3>
+            {% else %}
+                <h3>{{ object.textUA }}</h3>
+            {% endif %}
+            <br><br><br>
+            <div class="container">
+            {% for i in comments.items %}
+
+        <br>
+        <p>{{ object.text }}</p>
+        <br><br><br>
+        <div class="container">
+        {% for i in comments.items %}
+        <div class="media">
+
+            <div class="media-left">
+                <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width:45px">
             </div>
-            <!-- Nested media object -->
-            {% for q in i.1 %}
-                <div class="media">
-                    <div class="media-left">
-                        <img src="https://www.w3schools.com/bootstrap/img_avatar2.png" class="media-object" style="width:45px">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">{{ q.author_name }} <small><i>Posted on {{ q.time }}</i></small></h4>
-                        <p>{{ q.message }}</p>
-
-                    </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{ i.0.author_name }} <small><i>{% trans "Posted on" %} {{ i.0.time }} </i></small><button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button></h4>
+                <p>{{ i.0.message }}</p>
+                <div id="sec_com{{ i.0.pk }}" class="collapse">
+                    <form id="sec_com{{ i.0.pk }}" method="post" action="{% url "app:add_second_level_comment" pk=object.pk comm_pk=i.0.pk %}">
+                        {% csrf_token %}
+                        {% if not user.is_authenticated %}
+                            {{ form.as_p }}
+                        {% else %}
+                            <label>{% trans "Message:" %} </label>{{ form.message }}
+                        {% endif %}
+                        <input  class="btn waves-effect waves-light" type="submit" value="{% trans "Add comment" %}">
+                    </form>
+                    <hr>
                 </div>
-            {% endfor %}
+                <!-- Nested media object -->
+                {% for q in i.1 %}
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width:45px">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{ i.0.author_name }} <small><i>{% trans "Posted on" %} {{ i.0.time }} </i></small><button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#sec_com{{ i.0.pk }}">Reply</button></h4>
+                            <p>{{ i.0.message }}</p>
+                            <div id="sec_com{{ i.0.pk }}" class="collapse">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xm-12">
+                                        <form id="sec_com{{ i.0.pk }}" method="post" action="{% url "app:add_second_level_comment" pk=object.pk comm_pk=i.0.pk %}">
+                                            {% csrf_token %}
+                                            {% if not user.is_authenticated %}
+                                                {{ form.as_p }}
+                                            {% else %}
+                                                <label>{% trans "Message:" %} </label>{{ form.message }}
+                                            {% endif %}
+                                        <br>
+                                            <input  class="btn waves-effect waves-light" type="submit" value="{% trans "Add comment" %}">
+                                        </form>
+                                    <hr>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Nested media object -->
+                            {% for q in i.1 %}
+                                <div class="media">
+                                    <div class="media-left">
+                                        <img src="https://www.w3schools.com/bootstrap/img_avatar2.png" class="media-object" style="width:45px">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{ q.author_name }} <small><i>Posted on {{ q.time }}</i></small></h4>
+                                        <p>{{ q.message }}</p>
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xm-12">
+                        <form method="post" action="{% url "app:add_comment" pk=object.pk %}">
+                            {% csrf_token %}
+                            {% if not user.is_authenticated %}
+                                {{ form.as_p }}
+                            {% else %}
+                                <label>Message: </label>{{ form.message }}
+                            {% endif %}
+                            <input  class="btn waves-effect waves-light" type="submit" value="Add comment">
+                        </form>
+                    </div>
+                <hr>
+                </div>
         </div>
     </div>
-        <hr>
-    {% endfor %}
-    <form method="post" action="{% url "app:add_comment" pk=object.pk %}">
-        {% csrf_token %}
-        {% if not user.is_authenticated %}
-            {{ form.as_p }}
-        {% else %}
-            <label>Message: </label>{{ form.message }}
-        {% endif %}
-        <input  class="btn waves-effect waves-light" type="submit" value="Add comment">
-    </form>
-    </div>
-
 {% endblock %}
