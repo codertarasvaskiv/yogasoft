@@ -368,5 +368,3 @@ msgstr "Create account"
 msgid "Tag cloud"
 msgstr "Tag cloud"
 
-#~ msgid "Copyright, YogaSoft 2017"
-#~ msgstr "Copyright, YogaSoft 2017"

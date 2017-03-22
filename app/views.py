@@ -17,6 +17,8 @@ from datetime import date
 from os import mkdir, listdir, chdir, getcwd
 from .forms import *
 from .models import *
+
+import PIL.Image
 from wsgiref.util import FileWrapper
 from itertools import chain
 import zipfile
@@ -173,6 +175,8 @@ class BlogDetailView(DetailView):
         for i in comments:
             if i.is_moderated:
                 context['comments'][i] = list(CommentSecondLevel.objects.filter(father_comment=i))
+                print(CommentSecondLevel.objects.filter(id=1))
+                print('*'*50)
                 for j in context['comments'][i]:
                     if not j.is_moderated:
                         context['comments'][i].pop(context['comments'][i].index(j))

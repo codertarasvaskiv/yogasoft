@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'social.apps.django_app.default',
     'app',
     'bootstrap3',
     'social_django',  # Lib for social networks auth
@@ -148,6 +147,15 @@ LOCALE_PATHS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+
+# E-Mail settings
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'volodymyrfilsg@gmail.com'
+EMAIL_HOST_PASSWORD = 'Softgroup4625'
+DEFAULT_FROM_EMAIL = 'volodymyrfilsg@gmail.com'
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'  # Redirect page after successful login
 LOGIN_URL = 'login'

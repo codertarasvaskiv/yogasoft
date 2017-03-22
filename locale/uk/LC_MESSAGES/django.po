@@ -32,11 +32,13 @@ msgstr "Необхідні права доступу!"
 msgid "Back"
 msgstr "Назад"
 
+
 #: app/templates/app/admin_blog_list.html:4
 #, fuzzy
 #| msgid "Administration"
 msgid "Blogs administration"
 msgstr "Адміністрування блогів"
+
 
 #: app/templates/app/admin_blog_list.html:8
 #, fuzzy
@@ -52,10 +54,21 @@ msgstr "Теги"
 msgid "Change post"
 msgstr "Змінити пост"
 
+
+#: app/templates/app/admin_blog_list.html:17
+msgid "Tags"
+msgstr ""
+
+#: app/templates/app/admin_blog_list.html:24
+msgid "Change post"
+msgstr ""
+
 #: app/templates/app/admin_blog_list.html:26
 #: app/templates/app/blog_update.html:16
 msgid "Delete post"
 msgstr "Видалити пост"
+
+
 
 #: app/templates/app/admin_users.html:4
 #, fuzzy
@@ -78,6 +91,7 @@ msgstr "Додати користувача"
 #: app/templates/app/admin_users.html:22
 msgid "Username"
 msgstr "Логін"
+
 
 #: app/templates/app/admin_users.html:26 templates/base.html:105
 msgid "Password"
@@ -118,10 +132,12 @@ msgstr "Змінити"
 msgid "Comments administration"
 msgstr "Адміністрування коментарів"
 
+
 #: app/templates/app/comments_admin.html:10
 #: app/templates/app/testimonials_admin.html:15
 msgid "All"
 msgstr "Всі"
+
 
 #: app/templates/app/comments_admin.html:11
 #: app/templates/app/testimonials_admin.html:16
@@ -133,10 +149,12 @@ msgstr "Модеровані"
 msgid "Not moderated"
 msgstr "Не модеровані"
 
+
 #: app/templates/app/comments_admin.html:24
 #: app/templates/app/comments_admin.html:26
 msgid "Moderate"
 msgstr "Модерувати"
+
 
 #: app/templates/app/comments_admin.html:30
 #: app/templates/app/comments_admin.html:32
@@ -163,6 +181,7 @@ msgstr "Ви справді хочете видалити "
 #: app/templates/app/confirm_delete.html:9
 msgid "Confirm"
 msgstr "Підтвердити"
+
 
 #: app/templates/app/contact_us.html:4 app/templates/app/contact_us.html:12
 #: templates/base.html:78 templates/base.html:171
@@ -194,6 +213,7 @@ msgstr "Відправити"
 msgid "Blog post creation"
 msgstr "Створення поста"
 
+
 #: app/templates/app/create_portfolio.html:4
 #, fuzzy
 #| msgid "Portfolio"
@@ -208,6 +228,7 @@ msgstr "Портфоліо"
 #: app/templates/app/portfolio_update.html:4
 msgid "Change"
 msgstr "Змінити"
+
 
 #: app/templates/app/portfolio_update.html:13
 #: app/templates/app/testimonials.html:24
@@ -249,6 +270,7 @@ msgstr "Закрити проект"
 msgid "Delete project"
 msgstr "Видалити проект"
 
+
 #: app/templates/app/projects_list.html:4
 #, fuzzy
 #| msgid "Administration"
@@ -263,6 +285,11 @@ msgstr "Новий проект!"
 msgid "There are no projects!"
 msgstr "Немає проектів!"
 
+
+#: app/templates/app/projects_list.html:14
+msgid "New project!"
+msgstr "Новий проект"
+
 #: app/templates/app/site_admin.html:4
 #, fuzzy
 #| msgid "Administration"
@@ -275,11 +302,13 @@ msgstr "Адміністрування"
 msgid "Portfolio administration"
 msgstr "Адміністрування портфоліо"
 
+
 #: app/templates/app/site_admin.html:8
 #, fuzzy
 #| msgid "Administration"
 msgid "Blog administration"
 msgstr "Адміністрування блогів"
+
 
 #: app/templates/app/site_admin.html:9
 #, fuzzy
@@ -287,11 +316,13 @@ msgstr "Адміністрування блогів"
 msgid "Testimonials administration "
 msgstr "Адміністрування відгуків"
 
+
 #: app/templates/app/site_admin.html:10
 #, fuzzy
 #| msgid "Administration"
 msgid "Feedback administration "
-msgstr "Адміністрування зв'язку "
+msgstr "Адміністрування зворотнього зв'язку "
+
 
 #: app/templates/app/site_admin.html:11
 #, fuzzy
@@ -311,6 +342,19 @@ msgstr "Проекти "
 msgid "Comments "
 msgstr "Коментарі "
 
+
+#: app/templates/app/site_admin.html:12
+msgid "Users"
+msgstr ""
+
+#: app/templates/app/site_admin.html:13
+msgid "Projects  "
+msgstr ""
+
+#: app/templates/app/site_admin.html:14
+msgid "Comments "
+msgstr ""
+
 #: app/templates/app/testimonials.html:4 templates/base.html:77
 #: templates/base.html:168
 msgid "Testimonials"
@@ -320,6 +364,7 @@ msgstr "Відгуки"
 #: app/templates/app/testimonials_admin.html:9
 msgid "Next"
 msgstr "Наступна"
+
 
 #: app/templates/app/testimonials.html:12
 #: app/templates/app/testimonials_admin.html:12
@@ -347,6 +392,33 @@ msgstr "Ім'я"
 #: app/templates/app/testimonials_admin.html:37
 msgid "E-mail"
 msgstr "E-mail"
+
+#: app/templates/app/testimonials_admin.html:41
+msgid "Text"
+msgstr "Текст"
+
+
+#: app/templates/app/testimonials.html:18
+msgid "Leave your testimonial"
+msgstr ""
+
+#: app/templates/app/testimonials_admin.html:4
+#, fuzzy
+#| msgid "Administration"
+msgid "Testimonials administration"
+msgstr "Адміністрування"
+
+#: app/templates/app/testimonials_admin.html:24
+msgid "Submit"
+msgstr ""
+
+#: app/templates/app/testimonials_admin.html:33
+msgid "Name"
+msgstr ""
+
+#: app/templates/app/testimonials_admin.html:37
+msgid "E-mail"
+msgstr ""
 
 #: app/templates/app/testimonials_admin.html:41
 msgid "Text"
@@ -389,4 +461,4 @@ msgid "Tag cloud"
 msgstr "Хмара тегів"
 
 #~ msgid "Copyright, YogaSoft 2017"
-#~ msgstr "Копірайт, YogaSoft 2017"
+
